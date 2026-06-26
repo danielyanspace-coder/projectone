@@ -131,6 +131,16 @@ section{position:relative;z-index:3}
 .marquee-track span{font-family:var(--disp);font-weight:500;font-size:20px;color:rgba(255,255,255,.4);white-space:nowrap;display:inline-flex;align-items:center;gap:48px}
 .marquee-track span::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);opacity:.6}
 @keyframes scrollX{to{transform:translateX(-50%)}}
+@keyframes novaspin{to{transform:rotate(360deg)}}
+.lrot-slow{transform-box:fill-box;transform-origin:center;animation:novaspin 16s linear infinite}
+.lrot-fast{transform-box:view-box;transform-origin:20px 20px;animation:novaspin 7s linear infinite}
+.gic{width:26px;height:26px}
+.trust-card{border:1px solid var(--hair);background:rgba(0,0,0,.4);backdrop-filter:blur(4px);border-radius:16px;padding:20px;text-align:left}
+.trust-who{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}
+.trust-card p{margin-top:12px;font-size:14px;color:rgba(255,255,255,.6)}
+.fcol h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:14px}
+.fcol a{display:block;font-size:14px;color:rgba(255,255,255,.55);padding:5px 0;transition:.2s}.fcol a:hover{color:#fff}
+.soc{display:inline-flex;width:36px;height:36px;border:1px solid var(--hair);border-radius:10px;align-items:center;justify-content:center;color:rgba(255,255,255,.55);transition:.2s}.soc:hover{border-color:var(--blue);color:var(--blue)}
 
 /* process */
 .step{display:flex;gap:18px;align-items:flex-start}
@@ -169,6 +179,8 @@ footer{border-top:1px solid var(--hair);margin-top:80px;padding:48px 0;text-alig
   .mobile-menu{display:flex}
 }
 @media(max-width:520px){.cols-4{grid-template-columns:1fr}}
+@media(max-width:880px){footer .grid{grid-template-columns:1fr 1fr!important;gap:28px!important}}
+@media(max-width:560px){footer .grid{grid-template-columns:1fr!important}}
 /* mobile menu */
 .mobile-menu{position:fixed;inset:64px 0 auto 0;z-index:39;background:rgba(0,0,0,.96);backdrop-filter:blur(18px);
   border-bottom:1px solid var(--hair);transform:translateY(-120%);transition:transform .35s cubic-bezier(.16,1,.3,1);padding:12px 20px 20px}
@@ -181,10 +193,24 @@ footer{border-top:1px solid var(--hair);margin-top:80px;padding:48px 0;text-alig
 <body>
 <div class="cursor-glow" id="cglow"></div>
 
+<!-- shared gradient defs for duotone icons + logo -->
+<svg width="0" height="0" style="position:absolute" aria-hidden><defs>
+  <linearGradient id="nova-mark" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7db4ff"/><stop offset=".55" stop-color="#298DFF"/><stop offset="1" stop-color="#175aa8"/></linearGradient>
+  <radialGradient id="nova-core" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#cfe4ff"/><stop offset="1" stop-color="#298DFF"/></radialGradient>
+  <linearGradient id="gi-fill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7db4ff"/><stop offset="1" stop-color="#298DFF"/></linearGradient>
+  <linearGradient id="gi-stroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a9cdff"/><stop offset="1" stop-color="#4a98ff"/></linearGradient>
+</defs></svg>
+
 <header id="hdr">
   <div class="wrap nav">
     <a href="#" class="logo">
-      <svg class="mark" viewBox="0 0 32 32"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5aa6ff"/><stop offset="1" stop-color="#298DFF"/></linearGradient></defs><path d="M16 2l3.4 9.1L29 14l-9.6 2.9L16 26l-3.4-9.1L3 14l9.6-2.9z" fill="url(#g)"/><circle cx="16" cy="14" r="2.4" fill="#000" opacity=".85"/></svg>
+      <svg class="mark" viewBox="0 0 40 40" style="overflow:visible">
+        <circle cx="20" cy="20" r="16.5" fill="none" stroke="url(#nova-mark)" stroke-width="1" stroke-opacity=".35" stroke-dasharray="3 5" class="lrot-slow"/>
+        <path d="M20 3.5 L23.2 16.8 L36.5 20 L23.2 23.2 L20 36.5 L16.8 23.2 L3.5 20 L16.8 16.8 Z" fill="url(#nova-mark)"/>
+        <path d="M20 9 L21.6 18.4 L31 20 L21.6 21.6 L20 31 L18.4 21.6 L9 20 L18.4 18.4 Z" fill="#0a0b0e" opacity=".25"/>
+        <circle cx="20" cy="20" r="2.6" fill="url(#nova-core)"/>
+        <g class="lrot-fast"><circle cx="36.5" cy="20" r="1.7" fill="#7db4ff"/></g>
+      </svg>
       Nova<span class="dim"> Scout</span>
     </a>
     <nav class="nav-links">
@@ -263,16 +289,30 @@ footer{border-top:1px solid var(--hair);margin-top:80px;padding:48px 0;text-alig
   </div>
 </section>
 
+<!-- ABSTRACT TRUST BAND -->
+<section class="wrap section-pad">
+  <div class="bento reveal" style="position:relative;overflow:hidden;text-align:center;padding:64px 24px;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+    <div class="aura a2" style="width:60%;height:60%;left:50%;top:50%;transform:translate(-50%,-50%);opacity:.5"></div>
+    <span class="pill">Признание, у которого есть вес</span>
+    <h2 style="font-family:var(--disp);font-weight:600;font-size:clamp(28px,5vw,48px);letter-spacing:-.02em;color:#fff;margin-top:22px;max-width:640px;line-height:1.08">Один статус, которому <span class="shine">верит рынок</span></h2>
+    <div class="grid cols-3" style="margin-top:40px;width:100%">
+      <div class="trust-card"><div class="trust-who">Инвесторам</div><p>Сигнал, что проект прошёл независимый отбор практиков — меньше времени на первичный due diligence.</p></div>
+      <div class="trust-card"><div class="trust-who">Партнёрам</div><p>Подтверждаемый статус снимает вопрос «можно ли вам доверять» ещё до первой встречи.</p></div>
+      <div class="trust-card"><div class="trust-who">Клиентам</div><p>Плашка «Резидент Nova» и проверка по ID — быстрый способ убедиться в серьёзности команды.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- PERKS -->
 <section class="wrap section-pad" id="perks">
   <div class="head reveal"><span class="pill">Что даёт резидентство</span><h2>Признание, у которого есть вес</h2><p>Каждое преимущество — следствие принадлежности к Nova, а не купленная услуга.</p></div>
   <div class="grid cols-3 spot-grid" style="margin-top:44px">
-    <div class="bento spot perk span2 reveal"><div class="ic">◇</div><h3>Резидентский ID</h3><p>Уникальный идентификатор в реестре. По нему любой может онлайн удостовериться, что проект — действующий резидент.</p></div>
-    <div class="bento spot perk reveal"><div class="ic">▣</div><h3>Плашка «Резидент Nova»</h3><p>Знак принадлежности к сообществу для сайта и соцсетей.</p></div>
-    <div class="bento spot perk reveal"><div class="ic">✦</div><h3>Сертификат с QR</h3><p>Дизайнерский сертификат в рамке. QR ведёт на верифицированную карточку проекта.</p></div>
-    <div class="bento spot perk span2 reveal"><div class="ic">◉</div><h3>Голос в медиа</h3><p>Рассказываем о резиденте на сайте, в Instagram и на 30–50 трастовых площадках, VC и Дзен.</p></div>
-    <div class="bento spot perk reveal"><div class="ic">⬡</div><h3>Закрытое сообщество</h3><p>Доступ к кругу резидентов, экспертов и новаторов Nova.</p></div>
-    <div class="bento spot perk reveal" style="background:rgba(41,141,255,.07)"><div class="ic" style="background:var(--blue);color:#fff">↗</div><h3>«При поддержке Nova»</h3><p>Со-брендинг, который усиливает доверие к вашему проекту.</p></div>
+    <div class="bento spot perk span2 reveal"><div class="ic"><svg class="gic" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3" fill="url(#gi-fill)" opacity=".22"/><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="url(#gi-stroke)"/><circle cx="8.5" cy="11" r="2.1" stroke="#fff"/><path d="M13 9.5h5M13 12.5h5M5.6 15.4c.5-1.3 1.6-2 2.9-2s2.4.7 2.9 2" stroke="#fff"/></svg></div><h3>Резидентский ID</h3><p>Уникальный идентификатор в реестре. По нему любой может онлайн удостовериться, что проект — действующий резидент.</p></div>
+    <div class="bento spot perk reveal"><div class="ic"><svg class="gic" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l2.4 1.5 2.8-.2.9 2.7 2.2 1.7-.9 2.7.9 2.7-2.2 1.7-.9 2.7-2.8-.2L12 21.5l-2.4-1.5-2.8.2-.9-2.7-2.2-1.7.9-2.7-.9-2.7 2.2-1.7.9-2.7 2.8.2z" fill="url(#gi-fill)" opacity=".22" stroke="url(#gi-stroke)"/><path d="M9 12l2 2 4-4.2" stroke="#fff"/></svg></div><h3>Плашка «Резидент Nova»</h3><p>Знак принадлежности к сообществу для сайта и соцсетей.</p></div>
+    <div class="bento spot perk reveal"><div class="ic"><svg class="gic" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="12" rx="2.5" fill="url(#gi-fill)" opacity=".2" stroke="url(#gi-stroke)"/><path d="M7 7.5h10M7 10.5h6" stroke="#fff"/><circle cx="12" cy="18.5" r="2.6" stroke="url(#gi-stroke)"/><path d="M10.2 20.3l-1 2.7 2.8-1.1 2.8 1.1-1-2.7" stroke="#fff"/></svg></div><h3>Сертификат с QR</h3><p>Дизайнерский сертификат в рамке. QR ведёт на верифицированную карточку проекта.</p></div>
+    <div class="bento spot perk span2 reveal"><div class="ic"><svg class="gic" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="url(#gi-fill)" opacity=".18" stroke="url(#gi-stroke)"/><path d="M3.5 12h17M12 3.5c2.5 2.6 2.5 14.4 0 17M12 3.5c-2.5 2.6-2.5 14.4 0 17" stroke="#fff"/></svg></div><h3>Голос в медиа</h3><p>Рассказываем о резиденте на сайте, в Instagram и на 30–50 трастовых площадках, VC и Дзен.</p></div>
+    <div class="bento spot perk reveal"><div class="ic"><svg class="gic" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3" fill="url(#gi-fill)" opacity=".22" stroke="url(#gi-stroke)"/><circle cx="17" cy="10.5" r="2.3" stroke="url(#gi-stroke)"/><path d="M3.6 19c.7-2.8 2.6-4.2 5.4-4.2 1.6 0 3 .5 4 1.5M14.5 19c.4-1.7 1.6-2.7 3.2-2.7 1.2 0 2.2.6 2.8 1.7" stroke="#fff"/></svg></div><h3>Закрытое сообщество</h3><p>Доступ к кругу резидентов, экспертов и новаторов Nova.</p></div>
+    <div class="bento spot perk reveal" style="background:rgba(41,141,255,.07)"><div class="ic" style="background:var(--blue)"><svg class="gic" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></div><h3>«При поддержке Nova»</h3><p>Со-брендинг, который усиливает доверие к вашему проекту.</p></div>
   </div>
 </section>
 
@@ -319,7 +359,35 @@ footer{border-top:1px solid var(--hair);margin-top:80px;padding:48px 0;text-alig
   </div>
 </section>
 
-<footer><div class="wrap">© 2026 Nova Scout — Признание, которое подтверждает делом · превью-демо</div></footer>
+<footer style="margin-top:60px">
+  <div class="wrap">
+    <div class="grid" style="grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px">
+      <div>
+        <a href="#" class="logo">
+          <svg class="mark" viewBox="0 0 40 40" style="overflow:visible">
+            <circle cx="20" cy="20" r="16.5" fill="none" stroke="url(#nova-mark)" stroke-width="1" stroke-opacity=".35" stroke-dasharray="3 5" class="lrot-slow"/>
+            <path d="M20 3.5 L23.2 16.8 L36.5 20 L23.2 23.2 L20 36.5 L16.8 23.2 L3.5 20 L16.8 16.8 Z" fill="url(#nova-mark)"/>
+            <circle cx="20" cy="20" r="2.6" fill="url(#nova-core)"/>
+            <g class="lrot-fast"><circle cx="36.5" cy="20" r="1.7" fill="#7db4ff"/></g>
+          </svg>
+          Nova<span class="dim"> Scout</span>
+        </a>
+        <p style="margin-top:16px;max-width:260px;font-size:14px;color:rgba(255,255,255,.45);text-align:left">Хорошим технологиям не хватает не идей, а признания и доверия. Nova Scout даёт новаторам и то, и другое.</p>
+        <div style="margin-top:18px;display:flex;gap:10px">
+          <a class="soc" href="#" aria-label="Telegram"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4L3 11l5 2 2 6 3-4 5 4z"/></svg></a>
+          <a class="soc" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+      </div>
+      <div class="fcol"><h4>Проект</h4><a href="#mission">Миссия</a><a href="#council">Экспертный совет</a><a href="#registry">Реестр резидентов</a><a href="#">Блог</a></div>
+      <div class="fcol"><h4>Резидентам</h4><a href="#perks">Что даёт резидентство</a><a href="#process">Как стать резидентом</a><a href="#">Подать заявку</a><a href="#">Проверить ID</a></div>
+      <div class="fcol"><h4>Документы</h4><a href="#">Оферта</a><a href="#">Политика конфиденциальности</a></div>
+    </div>
+    <div style="margin-top:44px;border-top:1px solid var(--hair);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:rgba(255,255,255,.35)">
+      <span>© 2026 Nova Scout. Все права защищены.</span>
+      <span style="font-family:var(--mono)">council@novascout.ru · Признание, которое подтверждает делом</span>
+    </div>
+  </div>
+</footer>
 
 <script>
 /* nav scroll */
