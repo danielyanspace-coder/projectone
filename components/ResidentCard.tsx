@@ -4,7 +4,7 @@ import { Icon } from "./Icon";
 
 export function ResidentCard({ r }: { r: Resident }) {
   return (
-    <Link href={`/rezident/${r.id}`} className="bento bento-pad bento-hover group flex h-full flex-col">
+    <Link href={`/rezident/${r.id}`} className="bento spot bento-pad bento-hover group flex h-full flex-col">
       <div className="flex items-center justify-between">
         <span className="pill">{r.category}</span>
         <span className="font-mono text-[11px] text-white/35">{r.id}</span>

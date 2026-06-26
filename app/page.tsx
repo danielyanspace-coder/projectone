@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, SectionHeading } from "@/components/Section";
-import { StatCard, LinkCard, PerkCard } from "@/components/Bits";
+import { StatCard, PerkCard } from "@/components/Bits";
 import { ResidentCard } from "@/components/ResidentCard";
 import { Icon } from "@/components/Icon";
-import { stats, perks, steps, council } from "@/lib/content";
+import { AuroraBackground } from "@/components/motion/AuroraBackground";
+import { ParticleField } from "@/components/motion/ParticleField";
+import { DitherRing } from "@/components/motion/DitherRing";
+import { Marquee } from "@/components/motion/Marquee";
+import { stats, perks, steps, council, trust, marqueeItems } from "@/lib/content";
 import { getResidents } from "@/lib/store";
 import { site } from "@/lib/site";
 
@@ -14,10 +18,11 @@ export default function Home() {
   return (
     <>
       {/* ───────────────────────── HERO ───────────────────────── */}
-      <section className="relative">
-        <div className="absolute inset-0 -z-10 bg-hero-glow opacity-[0.9]" />
-        <div className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-black" />
-        <div className="container-x flex min-h-[92vh] flex-col items-center justify-center pt-28 pb-16 text-center">
+      <section className="relative overflow-hidden">
+        <AuroraBackground variant="hero" />
+        <ParticleField className="absolute inset-0 -z-[5] opacity-70" />
+        <div className="absolute inset-0 -z-[4] bg-gradient-to-b from-black/50 via-transparent to-black" />
+        <div className="container-x flex min-h-[94vh] flex-col items-center justify-center pt-28 pb-16 text-center">
           <Reveal>
             <Eyebrow>Институт признания технологий</Eyebrow>
           </Reveal>
@@ -25,13 +30,11 @@ export default function Home() {
             <h1 className="mt-8 font-display text-[15vw] font-semibold leading-[0.92] tracking-tight text-white text-glow sm:text-7xl md:text-8xl">
               Технологиям
               <br />
-              нужно <span className="gradient-text">признание</span>
+              нужно <span className="shine-text">признание</span>
             </h1>
           </Reveal>
           <Reveal delay={160}>
-            <p className="mt-8 max-w-xl text-balance text-lg leading-relaxed text-white/65">
-              {site.manifesto}
-            </p>
+            <p className="mt-8 max-w-xl text-balance text-lg leading-relaxed text-white/65">{site.manifesto}</p>
           </Reveal>
           <Reveal delay={240}>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
@@ -53,7 +56,7 @@ export default function Home() {
       </section>
 
       {/* ───────────────────────── STATS BENTO ───────────────────────── */}
-      <section className="container-x -mt-8">
+      <section className="container-x -mt-10">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Reveal className="sm:col-span-2 lg:col-span-1">
             <StatCard {...stats[0]} highlight withRing />
@@ -66,6 +69,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ───────────────────────── MARQUEE ───────────────────────── */}
+      <section className="container-x mt-20">
+        <Reveal>
+          <div className="mb-5 text-center">
+            <span className="mono-label">Направления, которые мы признаём</span>
+          </div>
+          <Marquee items={marqueeItems} />
+        </Reveal>
+      </section>
+
       {/* ───────────────────────── PHILOSOPHY ───────────────────────── */}
       <section className="container-x py-24 sm:py-32">
         <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -76,7 +89,7 @@ export default function Home() {
           />
           <Reveal delay={120}>
             <div className="grid gap-4">
-              <div className="bento bento-pad">
+              <div className="bento spot bento-pad">
                 <div className="mono-label">Принцип</div>
                 <p className="mt-3 text-lg leading-relaxed text-white/80">
                   «Сначала признание — потом членство. Вы вносите взнос только после того, как совет
@@ -84,11 +97,11 @@ export default function Home() {
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bento bento-pad">
+                <div className="bento spot bento-pad">
                   <div className="font-display text-3xl font-semibold text-brand">12 мес.</div>
                   <p className="mt-2 text-sm text-white/45">срок резидентства</p>
                 </div>
-                <div className="bento bento-pad">
+                <div className="bento spot bento-pad">
                   <div className="font-display text-3xl font-semibold text-white">{site.fee}</div>
                   <p className="mt-2 text-sm text-white/45">годовой членский взнос</p>
                 </div>
@@ -98,12 +111,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ───────────────────────── ABSTRACT VISUAL BAND ───────────────────────── */}
+      <section className="container-x py-8">
+        <Reveal>
+          <div className="bento relative flex min-h-[340px] flex-col items-center justify-center overflow-hidden p-10 text-center sm:p-16">
+            <AuroraBackground variant="band" />
+            <div className="absolute inset-0 -z-[5] opacity-50">
+              <ParticleField className="h-full w-full" />
+            </div>
+            <DitherRing className="pointer-events-none absolute left-1/2 top-1/2 w-[120%] -translate-x-1/2 -translate-y-1/2 opacity-[0.08]" />
+            <span className="pill">Признание, у которого есть вес</span>
+            <h2 className="mt-6 max-w-3xl font-display text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
+              Один статус, которому <span className="gradient-text">верит рынок</span>
+            </h2>
+            <div className="mt-10 grid w-full gap-4 sm:grid-cols-3">
+              {trust.map((t) => (
+                <div key={t.who} className="rounded-2xl border border-hair bg-black/40 p-5 text-left backdrop-blur-sm">
+                  <div className="font-mono text-[11px] uppercase tracking-[0.16em] text-brand">{t.who}</div>
+                  <p className="mt-3 text-sm leading-relaxed text-white/60">{t.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </section>
+
       {/* ───────────────────────── PERKS BENTO ───────────────────────── */}
-      <section className="container-x py-12">
+      <section className="container-x py-16">
         <SectionHeading
           eyebrow="Что даёт резидентство"
-          title="Признание, у которого есть вес"
-          sub="Каждое преимущество — следствие принадлежности к Nova, а не купленная услуга."
+          title="Преимущества, которые работают на вас"
+          sub="Каждое — следствие принадлежности к Nova, а не купленная услуга."
         />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {perks.map((p, i) => (
@@ -114,9 +152,9 @@ export default function Home() {
           <Reveal delay={140}>
             <Link
               href="/rezidentstvo"
-              className="bento bento-pad bento-hover group flex h-full flex-col justify-between bg-brand/[0.07]"
+              className="bento spot bento-pad bento-hover group flex h-full flex-col justify-between bg-brand/[0.07]"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand text-white">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand text-white">
                 <Icon name="arrowUpRight" className="h-5 w-5" />
               </span>
               <div>
@@ -137,8 +175,8 @@ export default function Home() {
         />
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
           {steps.map((s, i) => (
-            <Reveal key={s.n} delay={(i % 5) * 60} className={i === 0 ? "lg:row-span-1" : ""}>
-              <div className="bento bento-pad bento-hover flex h-full flex-col">
+            <Reveal key={s.n} delay={(i % 5) * 60}>
+              <div className="bento spot bento-pad bento-hover flex h-full flex-col">
                 <span className="font-mono text-sm text-brand">{s.n}</span>
                 <h3 className="mt-4 text-base font-semibold text-white">{s.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-white/45">{s.body}</p>
@@ -166,15 +204,15 @@ export default function Home() {
           <Reveal delay={120}>
             <div className="grid gap-3 sm:grid-cols-2">
               {council.slice(0, 4).map((m) => (
-                <div key={m.name} className="bento bento-pad">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand/15 font-display text-sm font-semibold text-brand">
+                <div key={m.name} className="bento spot bento-pad">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand to-brand-700 font-display text-sm font-semibold text-white">
                     {m.name[0]}
                   </div>
                   <div className="mt-4 text-sm font-semibold text-white">{m.name}</div>
                   <div className="mt-1 text-xs text-white/45">{m.role}</div>
                 </div>
               ))}
-              <Link href="/sovet" className="bento bento-pad bento-hover group flex items-center justify-between sm:col-span-2">
+              <Link href="/sovet" className="bento spot bento-pad bento-hover group flex items-center justify-between sm:col-span-2">
                 <span className="text-sm text-white/70">Весь состав совета — 9 экспертов</span>
                 <Icon name="arrow" className="h-4 w-4 text-brand transition-transform group-hover:translate-x-0.5" />
               </Link>
@@ -210,7 +248,7 @@ export default function Home() {
       <section className="container-x pb-8">
         <Reveal>
           <div className="bento relative overflow-hidden p-10 text-center sm:p-16">
-            <div className="absolute inset-0 -z-10 bg-[radial-gradient(80%_120%_at_50%_120%,rgba(41,141,255,0.35),transparent_60%)]" />
+            <AuroraBackground variant="band" />
             <Eyebrow>Готовы к признанию?</Eyebrow>
             <h2 className="mx-auto mt-6 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl">
               Подайте заявку и получите вердикт Экспертного совета

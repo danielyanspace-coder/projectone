@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { CursorFx } from "@/components/motion/CursorFx";
 import { site } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-sans", display: "swap" });
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru" className={`${inter.variable} ${grotesk.variable} ${mono.variable}`}>
       <body className="grain min-h-screen antialiased">
+        <CursorFx />
         <Navbar />
         <main>{children}</main>
         <Footer />

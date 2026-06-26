@@ -1,4 +1,6 @@
 import { Reveal } from "./Reveal";
+import { AuroraBackground } from "./motion/AuroraBackground";
+import { ParticleField } from "./motion/ParticleField";
 
 export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
@@ -54,7 +56,10 @@ export function PageHero({
 }) {
   return (
     <section className="relative overflow-hidden border-b border-hair">
+      <AuroraBackground variant="soft" />
+      <ParticleField className="absolute inset-0 -z-10 opacity-60" />
       <div className="pointer-events-none absolute inset-x-0 -top-40 h-80 bg-[radial-gradient(60%_100%_at_50%_0%,rgba(41,141,255,0.18),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-black" />
       <div className="container-x relative pt-32 pb-14 sm:pt-40 sm:pb-20">
         <Reveal>
           <Eyebrow>{eyebrow}</Eyebrow>
