@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Nova Scout — живое превью</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --blue:#298DFF; --blue-l:#5aa6ff; --black:#000; --ink:#0a0b0e; --ink2:#0e1014;
+  --hair:rgba(255,255,255,.08); --hairlit:rgba(255,255,255,.16);
+  --sans:'Inter',system-ui,sans-serif; --disp:'Space Grotesk',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+body{background:#000;color:#e8eaee;font-family:var(--sans);overflow-x:hidden;line-height:1.5}
+::selection{background:var(--blue);color:#fff}
+a{color:inherit;text-decoration:none}
+img,canvas{display:block}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;font-size:11px;color:rgba(255,255,255,.42)}
+.disp{font-family:var(--disp);letter-spacing:-.02em}
+
+/* grain */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:3px 3px;opacity:.6}
+
+/* ---------- cursor glow (desktop) ---------- */
+.cursor-glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(41,141,255,.16),transparent 60%);
+  transform:translate(-50%,-50%);transition:opacity .4s;opacity:0;mix-blend-mode:screen}
+
+/* ---------- nav ---------- */
+header{position:fixed;inset:0 0 auto 0;z-index:40;transition:.3s}
+header.scrolled{background:rgba(0,0,0,.7);backdrop-filter:blur(18px);border-bottom:1px solid var(--hair)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;color:#fff}
+.logo .mark{width:28px;height:28px}
+.logo .dim{color:rgba(255,255,255,.55)}
+.nav-links{display:flex;gap:4px}
+.nav-links a{padding:8px 14px;border-radius:99px;font-size:14px;color:rgba(255,255,255,.55);transition:.2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{display:flex;align-items:center;gap:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:11px 20px;font-size:14px;font-weight:500;
+  cursor:pointer;border:none;transition:transform .15s,box-shadow .25s,background .2s;position:relative;overflow:hidden}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 0 0 1px rgba(41,141,255,.4),0 8px 30px -8px rgba(41,141,255,.6)}
+.btn-primary:hover{background:var(--blue-l)}
+/* shine sweep */
+.btn-primary::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(110deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);transition:left .6s}
+.btn-primary:hover::after{left:140%}
+.btn-ghost{background:rgba(255,255,255,.03);color:#fff;border:1px solid var(--hairlit)}
+.btn-ghost:hover{background:rgba(255,255,255,.07)}
+.link-dim{font-size:14px;color:rgba(255,255,255,.55);transition:.2s}.link-dim:hover{color:#fff}
+.burger{display:none;width:40px;height:40px;border:1px solid var(--hair);border-radius:10px;background:none;cursor:pointer;align-items:center;justify-content:center;flex-direction:column;gap:5px}
+.burger span{display:block;width:18px;height:2px;background:#fff;transition:.25s}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+#aurora{position:absolute;inset:0;z-index:0}
+.aura{position:absolute;border-radius:50%;filter:blur(90px);opacity:.8;will-change:transform}
+.a1{width:60vw;height:60vw;left:50%;bottom:-25vw;transform:translateX(-50%);
+  background:radial-gradient(circle,#298DFF,#1b5fb0 45%,transparent 70%);animation:floatA 16s ease-in-out infinite}
+.a2{width:40vw;height:40vw;left:8%;top:18%;background:radial-gradient(circle,#1f73d6,transparent 65%);animation:floatB 20s ease-in-out infinite}
+.a3{width:36vw;height:36vw;right:6%;top:30%;background:radial-gradient(circle,#3a7bd5,transparent 65%);animation:floatC 24s ease-in-out infinite}
+@keyframes floatA{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-46%) scale(1.12)}}
+@keyframes floatB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6%,-8%) scale(1.15)}}
+@keyframes floatC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-8%,6%) scale(1.1)}}
+#particles{position:absolute;inset:0;z-index:1;opacity:.7}
+.hero-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.5) 0%,transparent 30%,transparent 60%,#000 100%)}
+.hero-inner{position:relative;z-index:3;padding:120px 20px 60px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--hair);background:rgba(255,255,255,.03);
+  border-radius:99px;padding:6px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 3s infinite}
+@keyframes pulse{0%,100%{opacity:.4;box-shadow:0 0 0 0 rgba(41,141,255,.5)}50%{opacity:1;box-shadow:0 0 0 6px rgba(41,141,255,0)}}
+h1.hero-title{font-family:var(--disp);font-weight:600;font-size:clamp(44px,9vw,104px);line-height:.95;letter-spacing:-.03em;color:#fff;margin-top:28px;text-shadow:0 0 50px rgba(41,141,255,.4)}
+.shine{background:linear-gradient(110deg,#fff 20%,#9cc6ff 40%,#fff 60%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.hero-sub{max-width:520px;margin:28px auto 0;font-size:clamp(16px,2vw,19px);color:rgba(255,255,255,.66)}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.hero-foot{margin-top:40px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);display:inline-flex;gap:8px;align-items:center}
+.hero-foot .dot{width:6px;height:6px;border-radius:50%;background:var(--blue)}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- bento ---------- */
+section{position:relative;z-index:3}
+.section-pad{padding:90px 0}
+.head{max-width:640px}
+.head h2{font-family:var(--disp);font-weight:600;font-size:clamp(28px,4.5vw,46px);line-height:1.08;letter-spacing:-.02em;color:#fff;margin-top:18px}
+.head p{margin-top:16px;color:rgba(255,255,255,.55);font-size:clamp(15px,2vw,18px)}
+.grid{display:grid;gap:16px}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.cols-2{grid-template-columns:repeat(2,1fr)}
+.span2{grid-column:span 2}
+.bento{position:relative;overflow:hidden;border:1px solid var(--hair);border-radius:18px;background:var(--ink);
+  background-image:linear-gradient(180deg,rgba(255,255,255,.04),transparent 40%);padding:26px;transition:border-color .3s,background .3s,transform .3s}
+.bento:hover{border-color:var(--hairlit);background-color:var(--ink2);transform:translateY(-3px)}
+/* spotlight that follows cursor inside grid */
+.spot{position:relative}
+.spot::before{content:"";position:absolute;inset:0;border-radius:18px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:0;
+  background:radial-gradient(220px circle at var(--mx) var(--my),rgba(41,141,255,.14),transparent 70%)}
+.spot:hover::before{opacity:1}
+.bento>*{position:relative;z-index:1}
+.stat .num{font-family:var(--disp);font-weight:600;font-size:clamp(38px,5vw,52px);letter-spacing:-.02em;color:#fff;line-height:1}
+.stat.hl .num{color:var(--blue)}
+.stat .lab{margin-top:10px;font-size:14px;color:rgba(255,255,255,.8);max-width:18ch}
+.stat .sub{margin-top:20px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.4);line-height:1.6}
+.ring{width:92px;height:92px;flex-shrink:0}
+.stat-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+
+.ic{width:44px;height:44px;border-radius:12px;border:1px solid var(--hair);background:rgba(255,255,255,.03);
+  display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.perk h3{margin-top:18px;font-size:18px;font-weight:600;color:#fff}
+.perk p{margin-top:8px;font-size:14px;color:rgba(255,255,255,.46)}
+
+.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--hair);background:rgba(255,255,255,.03);
+  border-radius:99px;padding:5px 12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+
+/* marquee */
+.marquee{overflow:hidden;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:22px 0;margin-top:10px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee-track{display:flex;gap:48px;width:max-content;animation:scrollX 28s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track span{font-family:var(--disp);font-weight:500;font-size:20px;color:rgba(255,255,255,.4);white-space:nowrap;display:inline-flex;align-items:center;gap:48px}
+.marquee-track span::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);opacity:.6}
+@keyframes scrollX{to{transform:translateX(-50%)}}
+
+/* process */
+.step{display:flex;gap:18px;align-items:flex-start}
+.step .n{width:48px;height:48px;flex-shrink:0;border-radius:12px;border:1px solid var(--hair);background:rgba(255,255,255,.03);
+  display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;color:var(--blue)}
+.step h3{font-size:16px;font-weight:600;color:#fff}
+.step p{margin-top:6px;font-size:14px;color:rgba(255,255,255,.46)}
+
+/* resident card */
+.rcard{cursor:pointer}
+.rcard .top{display:flex;justify-content:space-between;align-items:center}
+.rcard h3{margin-top:18px;font-family:var(--disp);font-weight:600;font-size:20px;color:#fff}
+.rcard .tg{margin-top:6px;font-size:14px;color:rgba(255,255,255,.55)}
+.rcard .desc{margin-top:14px;font-size:14px;color:rgba(255,255,255,.4);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rcard .foot{margin-top:22px;padding-top:16px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.idmono{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.35)}
+.av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#175aa8);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;color:#fff}
+
+/* CTA */
+.cta{position:relative;overflow:hidden;border:1px solid var(--hair);border-radius:24px;padding:64px 24px;text-align:center;background:var(--ink)}
+.cta::before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(80% 120% at 50% 130%,rgba(41,141,255,.4),transparent 60%)}
+.cta>*{position:relative;z-index:1}
+.cta h2{font-family:var(--disp);font-weight:600;font-size:clamp(28px,5vw,52px);letter-spacing:-.02em;color:#fff;max-width:640px;margin:22px auto 0;line-height:1.08}
+
+footer{border-top:1px solid var(--hair);margin-top:80px;padding:48px 0;text-align:center;color:rgba(255,255,255,.35);font-size:13px}
+
+/* mobile */
+@media(max-width:880px){
+  .nav-links,.nav-cta .link-dim,.nav-cta .btn{display:none}
+  .burger{display:flex}
+  .cols-4{grid-template-columns:1fr 1fr}
+  .cols-3,.cols-2{grid-template-columns:1fr}
+  .span2{grid-column:span 1}
+  .stat-top .ring{width:72px;height:72px}
+  .mobile-menu{display:flex}
+}
+@media(max-width:520px){.cols-4{grid-template-columns:1fr}}
+/* mobile menu */
+.mobile-menu{position:fixed;inset:64px 0 auto 0;z-index:39;background:rgba(0,0,0,.96);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--hair);transform:translateY(-120%);transition:transform .35s cubic-bezier(.16,1,.3,1);padding:12px 20px 20px}
+.mobile-menu.open{transform:none}
+.mobile-menu a{display:block;padding:14px 8px;color:rgba(255,255,255,.8);font-size:16px;border-bottom:1px solid var(--hair)}
+.mobile-menu .btn{width:100%;justify-content:center;margin-top:14px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="cursor-glow" id="cglow"></div>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#" class="logo">
+      <svg class="mark" viewBox="0 0 32 32"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5aa6ff"/><stop offset="1" stop-color="#298DFF"/></linearGradient></defs><path d="M16 2l3.4 9.1L29 14l-9.6 2.9L16 26l-3.4-9.1L3 14l9.6-2.9z" fill="url(#g)"/><circle cx="16" cy="14" r="2.4" fill="#000" opacity=".85"/></svg>
+      Nova<span class="dim"> Scout</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#mission">Миссия</a><a href="#perks">Резидентство</a><a href="#process">Как стать</a><a href="#council">Совет</a><a href="#registry">Реестр</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#" class="link-dim">Проверить ID</a>
+      <button class="btn btn-primary">Подать заявку</button>
+      <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu" id="mmenu">
+  <a href="#mission">Миссия</a><a href="#perks">Резидентство</a><a href="#process">Как стать</a><a href="#council">Совет</a><a href="#registry">Реестр</a>
+  <button class="btn btn-primary">Подать заявку</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div id="aurora"><div class="aura a1"></div><div class="aura a2"></div><div class="aura a3"></div></div>
+  <canvas id="particles"></canvas>
+  <div class="hero-veil"></div>
+  <div class="hero-inner">
+    <div class="eyebrow reveal"><span class="dot"></span>Институт признания технологий</div>
+    <h1 class="hero-title reveal">Технологиям<br>нужно <span class="shine">признание</span></h1>
+    <p class="hero-sub reveal">Хорошим технологиям не хватает не идей, а признания и доверия. Nova Scout даёт новаторам и то, и другое.</p>
+    <div class="hero-actions reveal">
+      <button class="btn btn-primary">Подать заявку →</button>
+      <button class="btn btn-ghost">Наша миссия</button>
+    </div>
+    <div class="hero-foot reveal"><span class="dot"></span>Признание нельзя купить — его можно заслужить</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="wrap" style="margin-top:-30px">
+  <div class="grid cols-4 spot-grid">
+    <div class="bento spot stat hl reveal">
+      <div class="stat-top">
+        <div><div class="num" data-count="4">0</div><div class="lab">Признанных резидента</div></div>
+        <canvas class="ring" data-ring></canvas>
+      </div>
+      <div class="sub">Реестр пополняется после каждого совета</div>
+    </div>
+    <div class="bento spot stat reveal"><div class="num" data-count="9">0</div><div class="lab">Экспертов в совете</div><div class="sub">Фаундеры, инженеры, маркетологи</div></div>
+    <div class="bento spot stat reveal"><div class="num" data-count="50" data-suffix="+">0</div><div class="lab">Трастовых площадок</div><div class="sub">Где мы рассказываем о резидентах</div></div>
+    <div class="bento spot stat reveal"><div class="num">1 ID</div><div class="lab">Проверяемый статус</div><div class="sub">Подлинность подтверждается онлайн</div></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<section class="wrap" id="mission" style="margin-top:30px">
+  <div class="marquee">
+    <div class="marquee-track" id="mq">
+      <span>HealthTech</span><span>Компьютерное зрение</span><span>EdTech</span><span>AgroTech</span><span>LLM-агенты</span><span>FinTech</span><span>RoboticS</span><span>DevTools</span>
+      <span>HealthTech</span><span>Компьютерное зрение</span><span>EdTech</span><span>AgroTech</span><span>LLM-агенты</span><span>FinTech</span><span>RoboticS</span><span>DevTools</span>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="wrap section-pad">
+  <div class="grid cols-2" style="align-items:end">
+    <div class="head reveal">
+      <span class="pill">Кто мы</span>
+      <h2>Мы не клуб по интересам. Мы — институт, который признаёт.</h2>
+      <p>Nova Scout оценивает проекты как судья, а не как продавец. Статус резидента — это вердикт Экспертного совета, а не строка в прайсе. Поэтому он что-то значит.</p>
+    </div>
+    <div class="grid reveal">
+      <div class="bento"><span class="mono">Принцип</span><p style="margin-top:12px;font-size:18px;color:rgba(255,255,255,.82)">«Сначала признание — потом членство. Вы вносите взнос только после того, как совет признал проект».</p></div>
+      <div class="grid cols-2">
+        <div class="bento"><div class="num disp" style="font-size:32px;font-weight:600;color:var(--blue)">12 мес.</div><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.46)">срок резидентства</p></div>
+        <div class="bento"><div class="num disp" style="font-size:32px;font-weight:600;color:#fff">15 000 ₽</div><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.46)">годовой взнос</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERKS -->
+<section class="wrap section-pad" id="perks">
+  <div class="head reveal"><span class="pill">Что даёт резидентство</span><h2>Признание, у которого есть вес</h2><p>Каждое преимущество — следствие принадлежности к Nova, а не купленная услуга.</p></div>
+  <div class="grid cols-3 spot-grid" style="margin-top:44px">
+    <div class="bento spot perk span2 reveal"><div class="ic">◇</div><h3>Резидентский ID</h3><p>Уникальный идентификатор в реестре. По нему любой может онлайн удостовериться, что проект — действующий резидент.</p></div>
+    <div class="bento spot perk reveal"><div class="ic">▣</div><h3>Плашка «Резидент Nova»</h3><p>Знак принадлежности к сообществу для сайта и соцсетей.</p></div>
+    <div class="bento spot perk reveal"><div class="ic">✦</div><h3>Сертификат с QR</h3><p>Дизайнерский сертификат в рамке. QR ведёт на верифицированную карточку проекта.</p></div>
+    <div class="bento spot perk span2 reveal"><div class="ic">◉</div><h3>Голос в медиа</h3><p>Рассказываем о резиденте на сайте, в Instagram и на 30–50 трастовых площадках, VC и Дзен.</p></div>
+    <div class="bento spot perk reveal"><div class="ic">⬡</div><h3>Закрытое сообщество</h3><p>Доступ к кругу резидентов, экспертов и новаторов Nova.</p></div>
+    <div class="bento spot perk reveal" style="background:rgba(41,141,255,.07)"><div class="ic" style="background:var(--blue);color:#fff">↗</div><h3>«При поддержке Nova»</h3><p>Со-брендинг, который усиливает доверие к вашему проекту.</p></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="wrap section-pad" id="process">
+  <div class="head reveal"><span class="pill">Путь резидента</span><h2>От заявки до признания</h2></div>
+  <div class="grid cols-2" style="margin-top:44px">
+    <div class="bento reveal step"><div class="n">01</div><div><h3>Заявка</h3><p>Вы рассказываете о проекте, команде и технологии. 10 минут — без бюрократии.</p></div></div>
+    <div class="bento reveal step"><div class="n">02</div><div><h3>Рассмотрение советом</h3><p>Экспертный совет изучает проект по чек-листу. 1–5 дней.</p></div></div>
+    <div class="bento reveal step"><div class="n">03</div><div><h3>Признание</h3><p>Если совет признаёт проект — вы получаете приглашение. Это нельзя купить.</p></div></div>
+    <div class="bento reveal step"><div class="n">04</div><div><h3>Членский взнос</h3><p>Только после признания вносится годовой взнос 15 000 ₽.</p></div></div>
+    <div class="bento reveal step span2"><div class="n">05</div><div><h3>Резидентство</h3><p>Вы получаете ID, сертификат, страницу в реестре и волну публикаций. Статус действует 12 месяцев.</p></div></div>
+  </div>
+</section>
+
+<!-- COUNCIL -->
+<section class="wrap section-pad" id="council">
+  <div class="head reveal"><span class="pill">Экспертный совет</span><h2>Признание выносят практики</h2><p>Заявки оценивают действующие фаундеры, инженеры, маркетологи и новаторы Nova.</p></div>
+  <div class="grid cols-4 spot-grid" style="margin-top:44px">
+    <div class="bento spot reveal"><div class="av">А</div><h3 style="margin-top:14px;font-size:15px;font-weight:600;color:#fff">Алексей Северов</h3><p style="margin-top:4px;font-size:13px;color:rgba(255,255,255,.46)">Председатель</p></div>
+    <div class="bento spot reveal"><div class="av">И</div><h3 style="margin-top:14px;font-size:15px;font-weight:600;color:#fff">Ирина Власова</h3><p style="margin-top:4px;font-size:13px;color:rgba(255,255,255,.46)">Венчурный аналитик</p></div>
+    <div class="bento spot reveal"><div class="av">М</div><h3 style="margin-top:14px;font-size:15px;font-weight:600;color:#fff">Максим Дорохов</h3><p style="margin-top:4px;font-size:13px;color:rgba(255,255,255,.46)">ML-инженер</p></div>
+    <div class="bento spot reveal"><div class="av">С</div><h3 style="margin-top:14px;font-size:15px;font-weight:600;color:#fff">Светлана Беляева</h3><p style="margin-top:4px;font-size:13px;color:rgba(255,255,255,.46)">Маркетинг</p></div>
+  </div>
+</section>
+
+<!-- REGISTRY -->
+<section class="wrap section-pad" id="registry">
+  <div class="head reveal"><span class="pill">Реестр резидентов</span><h2>Признанные проекты</h2><p>Каждого можно проверить по ID. Подлинность подтверждается онлайн.</p></div>
+  <div class="grid cols-3 spot-grid" style="margin-top:44px">
+    <div class="bento spot rcard reveal"><div class="top"><span class="pill">HealthTech · ИИ</span><span class="idmono">NSR-2026-0001</span></div><h3>Helix AI</h3><div class="tg">Голосовой ассистент для клиник</div><div class="desc">Автоматизирует запись пациентов и маршрутизацию обращений голосовым ИИ.</div><div class="foot"><span class="badge">✦ Резидент Nova</span><span>→</span></div></div>
+    <div class="bento spot rcard reveal"><div class="top"><span class="pill">Industrial · ИИ</span><span class="idmono">NSR-2026-0002</span></div><h3>Quanta Vision</h3><div class="tg">Компьютерное зрение для промышленности</div><div class="desc">Дефектоскопия на конвейере в реальном времени с интеграцией в MES.</div><div class="foot"><span class="badge">✦ Резидент Nova</span><span>→</span></div></div>
+    <div class="bento spot rcard reveal"><div class="top"><span class="pill">EdTech · ИИ</span><span class="idmono">NSR-2026-0003</span></div><h3>Lumen Tutor</h3><div class="tg">Персональный ИИ-репетитор</div><div class="desc">Адаптивная среда, выстраивающая индивидуальную траекторию обучения.</div><div class="foot"><span class="badge">✦ Резидент Nova</span><span>→</span></div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="wrap section-pad">
+  <div class="cta reveal">
+    <span class="eyebrow"><span class="dot"></span>Готовы к признанию?</span>
+    <h2>Подайте заявку и получите вердикт Экспертного совета</h2>
+    <p style="margin-top:16px;color:rgba(255,255,255,.55)">Заполнение занимает 10 минут. Взнос — только после признания.</p>
+    <div class="hero-actions"><button class="btn btn-primary">Подать заявку →</button><button class="btn btn-ghost" style="background:#fff;color:#000;border:none">Проверить ID резидента</button></div>
+  </div>
+</section>
+
+<footer><div class="wrap">© 2026 Nova Scout — Признание, которое подтверждает делом · превью-демо</div></footer>
+
+<script>
+/* nav scroll */
+const hdr=document.getElementById('hdr');
+addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>8));
+/* burger */
+const mmenu=document.getElementById('mmenu'),burger=document.getElementById('burger');
+burger.addEventListener('click',()=>{mmenu.classList.toggle('open');burger.classList.toggle('x')});
+mmenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mmenu.classList.remove('open')));
+
+/* reveal on scroll */
+const io=new IntersectionObserver((es)=>es.forEach((e,i)=>{if(e.isIntersecting){e.target.style.transitionDelay=(e.target.dataset.d||0)+'ms';e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.dataset.d=(i%4)*70;io.observe(el)});
+
+/* count up */
+const cio=new IntersectionObserver((es)=>es.forEach(e=>{if(!e.isIntersecting)return;cio.unobserve(e.target);
+  const el=e.target,to=+el.dataset.count,suf=el.dataset.suffix||'';let t0=null;
+  function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/1100,1);const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(to*ease)+suf;if(p<1)requestAnimationFrame(step)}requestAnimationFrame(step)}),{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+/* cursor glow + spotlight (desktop only) */
+const fine=matchMedia('(pointer:fine)').matches;
+if(fine){
+  const cg=document.getElementById('cglow');
+  addEventListener('pointermove',e=>{cg.style.opacity=1;cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px'});
+  addEventListener('pointerleave',()=>cg.style.opacity=0);
+  document.querySelectorAll('.spot').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));
+}
+
+/* particle constellation */
+(function(){
+  const cv=document.getElementById('particles'),ctx=cv.getContext('2d');let w,h,dpr,pts;
+  function size(){dpr=Math.min(devicePixelRatio||1,2);w=cv.width=innerWidth*dpr;h=cv.height=cv.parentElement.offsetHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=cv.parentElement.offsetHeight+'px';
+    const n=innerWidth<700?34:70;pts=Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.25*dpr,vy:(Math.random()-.5)*.25*dpr,r:(Math.random()*1.6+.5)*dpr}));}
+  size();addEventListener('resize',size);
+  let mx=-9999,my=-9999;addEventListener('pointermove',e=>{mx=e.clientX*dpr;my=e.clientY*dpr});
+  function loop(){ctx.clearRect(0,0,w,h);
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;
+      const dm=Math.hypot(p.x-mx,p.y-my);
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fillStyle=dm<120*dpr?'rgba(120,180,255,.9)':'rgba(150,180,230,.45)';ctx.fill();}
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<120*dpr){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(41,141,255,'+(.16*(1-d/(120*dpr)))+')';ctx.lineWidth=dpr;ctx.stroke();}}
+    requestAnimationFrame(loop);}
+  loop();
+})();
+
+/* dithered rotating ring(s) */
+document.querySelectorAll('[data-ring]').forEach(cv=>{
+  const ctx=cv.getContext('2d');let a=0;const S=200;cv.width=S;cv.height=S;
+  function draw(){ctx.clearRect(0,0,S,S);ctx.save();ctx.translate(S/2,S/2);ctx.rotate(a);
+    for(let r=44;r<92;r+=5){for(let t=0;t<Math.PI*2;t+=.10){const x=Math.cos(t)*r,y=Math.sin(t)*r;
+      ctx.beginPath();ctx.arc(x,y,1.4,0,7);ctx.fillStyle='rgba(90,166,255,'+(.25+.55*((r-44)/48))+')';ctx.fill();}}
+    ctx.restore();a+=.006;requestAnimationFrame(draw);}
+  draw();
+});
+
+/* duplicate marquee for seamless loop is already in HTML */
+</script>
+</body>
+</html>
