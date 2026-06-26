@@ -3,146 +3,144 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Nova Scout — кликабельный прототип</title>
+<title>Nova Scout — экосистема ИИ-проектов</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
-:root{--blue:#298DFF;--blue-l:#5aa6ff;--ink:#0a0b0e;--ink2:#0e1014;--hair:rgba(255,255,255,.08);--hairlit:rgba(255,255,255,.16);
---sans:'Inter',system-ui,sans-serif;--disp:'Space Grotesk',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace}
+:root{--blue:#298DFF;--blue-l:#5aa6ff;--ink:#0b0c0f;--ink2:#101216;--card:#0d0f13;--hair:rgba(255,255,255,.09);--hairlit:rgba(255,255,255,.18);
+--sans:'Inter',system-ui,sans-serif;--disp:'Space Grotesk',system-ui,sans-serif;--serif:'Newsreader',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
 html{scroll-behavior:smooth}
-body{background:#000;color:#e8eaee;font-family:var(--sans);overflow-x:hidden;line-height:1.5}
+body{background:#060708;color:#e9ebef;font-family:var(--sans);overflow-x:hidden;line-height:1.55}
 ::selection{background:var(--blue);color:#fff}
 a{color:inherit;text-decoration:none}
 canvas,img,svg{display:block}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);background-size:3px 3px;opacity:.5}
-.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
-.mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;font-size:11px;color:rgba(255,255,255,.42)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 22px}
+.mono{font-family:var(--mono);text-transform:uppercase;letter-spacing:.16em;font-size:11px;color:rgba(255,255,255,.42)}
 .disp{font-family:var(--disp);letter-spacing:-.02em}
-.cursor-glow{position:fixed;width:540px;height:540px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(41,141,255,.14),transparent 60%);transform:translate(-50%,-50%);transition:opacity .4s;opacity:0;mix-blend-mode:screen}
-/* nav */
-header{position:fixed;inset:0 0 auto 0;z-index:40;transition:.3s}
-header.scrolled{background:rgba(0,0,0,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--hair)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;color:#fff}
-.logo .mark{width:30px;height:30px;overflow:visible}
-.logo .dim{color:rgba(255,255,255,.55)}
+.serif{font-family:var(--serif)}
+.cursor-glow{position:fixed;width:480px;height:480px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(41,141,255,.08),transparent 60%);transform:translate(-50%,-50%);transition:opacity .4s;opacity:0;mix-blend-mode:screen}
+header{position:fixed;inset:0 0 auto 0;z-index:50;transition:.3s;border-bottom:1px solid transparent}
+header.scrolled{background:rgba(6,7,8,.82);backdrop-filter:blur(18px);border-bottom:1px solid var(--hair)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px;color:#fff;letter-spacing:-.01em}
+.logo .mark{width:28px;height:28px;overflow:visible}
+.logo .dim{color:rgba(255,255,255,.5)}
 .nav-links{display:flex;gap:2px}
-.nav-links a{padding:8px 13px;border-radius:99px;font-size:14px;color:rgba(255,255,255,.55);transition:.2s}
-.nav-links a:hover,.nav-links a.active{color:#fff}
-.nav-cta{display:flex;align-items:center;gap:14px}
-.btn{display:inline-flex;align-items:center;gap:8px;border-radius:99px;padding:11px 20px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:transform .15s,box-shadow .25s,background .2s;position:relative;overflow:hidden;font-family:inherit}
-.btn:active{transform:scale(.97)}
+.nav-links a{padding:8px 13px;border-radius:8px;font-size:14px;color:rgba(255,255,255,.6);transition:.2s}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(255,255,255,.05)}
+.nav-cta{display:flex;align-items:center;gap:16px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:9px;padding:11px 18px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:transform .15s,background .2s,border-color .2s;position:relative;font-family:inherit}
+.btn:active{transform:scale(.98)}
 .btn svg{width:16px;height:16px}
-.btn-primary{background:var(--blue);color:#fff;box-shadow:0 0 0 1px rgba(41,141,255,.4),0 8px 30px -8px rgba(41,141,255,.6)}
+.btn-primary{background:var(--blue);color:#fff}
 .btn-primary:hover{background:var(--blue-l)}
-.btn-primary::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(110deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);transition:left .6s}
-.btn-primary:hover::after{left:140%}
-.btn-ghost{background:rgba(255,255,255,.03);color:#fff;border:1px solid var(--hairlit)}
-.btn-ghost:hover{background:rgba(255,255,255,.07)}
+.btn-ghost{background:transparent;color:#fff;border:1px solid var(--hairlit)}
+.btn-ghost:hover{background:rgba(255,255,255,.06)}
 .btn-white{background:#fff;color:#000}.btn-white:hover{background:rgba(255,255,255,.9)}
-.btn-danger{background:none;border:1px solid rgba(248,113,113,.3);color:#fca5a5}.btn-danger:hover{background:rgba(248,113,113,.1)}
-.btn-sm{padding:8px 14px;font-size:13px}
-.link-dim{font-size:14px;color:rgba(255,255,255,.55);transition:.2s;cursor:pointer}.link-dim:hover{color:#fff}
-.burger{display:none;width:40px;height:40px;border:1px solid var(--hair);border-radius:10px;background:none;cursor:pointer;flex-direction:column;gap:5px;align-items:center;justify-content:center}
+.btn-danger{background:transparent;border:1px solid rgba(248,113,113,.35);color:#fca5a5}.btn-danger:hover{background:rgba(248,113,113,.12)}
+.btn-sm{padding:7px 12px;font-size:12px;border-radius:7px}
+.link-dim{font-size:14px;color:rgba(255,255,255,.6);transition:.2s;cursor:pointer}.link-dim:hover{color:#fff}
+.burger{display:none;width:40px;height:40px;border:1px solid var(--hair);border-radius:9px;background:none;cursor:pointer;flex-direction:column;gap:5px;align-items:center;justify-content:center}
 .burger span{display:block;width:18px;height:2px;background:#fff;transition:.25s}
-.mobile-menu{position:fixed;inset:64px 0 auto 0;z-index:39;background:rgba(0,0,0,.97);backdrop-filter:blur(18px);border-bottom:1px solid var(--hair);transform:translateY(-130%);transition:transform .35s cubic-bezier(.16,1,.3,1);padding:12px 20px 20px}
+.mobile-menu{position:fixed;inset:62px 0 auto 0;z-index:49;background:rgba(6,7,8,.98);backdrop-filter:blur(18px);border-bottom:1px solid var(--hair);transform:translateY(-130%);transition:transform .35s cubic-bezier(.16,1,.3,1);padding:12px 22px 20px}
 .mobile-menu.open{transform:none}
 .mobile-menu a{display:block;padding:14px 8px;color:rgba(255,255,255,.8);font-size:16px;border-bottom:1px solid var(--hair)}
 .mobile-menu .btn{width:100%;justify-content:center;margin-top:14px}
-/* aurora + particles */
-.hero{position:relative;overflow:hidden}
-.aura{position:absolute;border-radius:50%;filter:blur(90px);opacity:.8;will-change:transform;pointer-events:none}
-.a1{width:62vw;height:62vw;left:50%;bottom:-25vw;transform:translateX(-50%);background:radial-gradient(circle,#298DFF,#1b5fb0 45%,transparent 70%);animation:floatA 16s ease-in-out infinite}
-.a2{width:40vw;height:40vw;left:8%;top:16%;background:radial-gradient(circle,#1f73d6,transparent 65%);animation:floatB 20s ease-in-out infinite}
-.a3{width:36vw;height:36vw;right:5%;top:28%;background:radial-gradient(circle,#3a7bd5,transparent 65%);animation:floatC 24s ease-in-out infinite}
-@keyframes floatA{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-46%) scale(1.12)}}
-@keyframes floatB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6%,-8%) scale(1.15)}}
-@keyframes floatC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-8%,6%) scale(1.1)}}
-.hero-canvas{position:absolute;inset:0;z-index:1;opacity:.7;pointer-events:none}
-.hero-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.5),transparent 30%,transparent 60%,#000)}
-/* headings */
-.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--hair);background:rgba(255,255,255,.03);border-radius:99px;padding:6px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.6)}
-.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse 3s infinite}
-@keyframes pulse{0%,100%{opacity:.4;box-shadow:0 0 0 0 rgba(41,141,255,.5)}50%{opacity:1;box-shadow:0 0 0 6px rgba(41,141,255,0)}}
-.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--hair);background:rgba(255,255,255,.03);border-radius:99px;padding:5px 12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-.shine{background:linear-gradient(110deg,#fff 20%,#9cc6ff 40%,#fff 60%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shineMove 5s linear infinite}
-.gtext{background:linear-gradient(180deg,#fff 30%,#9cc6ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-@keyframes shineMove{to{background-position:200% center}}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:10px}
+.kicker .c{color:var(--blue)}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--hair);background:rgba(255,255,255,.03);border-radius:99px;padding:5px 12px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);border:1px solid rgba(41,141,255,.3);border-radius:5px;padding:3px 8px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--hair);background:rgba(255,255,255,.03);border-radius:99px;padding:6px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--blue)}
+h1,h2,h3{letter-spacing:-.02em}
 .head{max-width:640px}
-.head h2{font-family:var(--disp);font-weight:600;font-size:clamp(28px,4.5vw,46px);line-height:1.08;letter-spacing:-.02em;color:#fff;margin-top:18px}
-.head p{margin-top:16px;color:rgba(255,255,255,.55);font-size:clamp(15px,2vw,18px)}
-.section-pad{padding:80px 0}
-/* page hero */
-.phero{position:relative;overflow:hidden;border-bottom:1px solid var(--hair);padding:130px 0 70px}
-.phero .glow{position:absolute;inset-inline:0;top:-160px;height:320px;background:radial-gradient(60% 100% at 50% 0%,rgba(41,141,255,.18),transparent 70%);pointer-events:none}
-.phero h1{font-family:var(--disp);font-weight:600;font-size:clamp(36px,7vw,68px);line-height:1.04;letter-spacing:-.03em;color:#fff;margin-top:24px;max-width:760px;position:relative;z-index:3}
-.phero p{margin-top:20px;max-width:620px;font-size:clamp(16px,2vw,19px);color:rgba(255,255,255,.55);position:relative;z-index:3}
-.phero .eyebrow{position:relative;z-index:3}
-/* bento */
+.head .kicker{margin-bottom:14px}
+.head h2{font-family:var(--disp);font-weight:600;font-size:clamp(26px,4vw,40px);line-height:1.1;color:#fff}
+.head p{margin-top:14px;color:rgba(255,255,255,.55);font-size:clamp(15px,2vw,17px)}
+.section{padding:64px 0;border-top:1px solid var(--hair)}
+.section.first{border-top:none}
+.phero{position:relative;padding:120px 0 48px;border-bottom:1px solid var(--hair)}
+.phero::before{content:"";position:absolute;left:0;top:96px;width:48px;height:3px;background:var(--blue)}
+.phero h1{font-family:var(--disp);font-weight:600;font-size:clamp(34px,6vw,58px);line-height:1.05;color:#fff;margin-top:22px;max-width:780px}
+.phero p{margin-top:18px;max-width:620px;font-size:clamp(16px,2vw,18px);color:rgba(255,255,255,.55)}
 .grid{display:grid;gap:16px}
-.cols-2{grid-template-columns:repeat(2,1fr)}.cols-3{grid-template-columns:repeat(3,1fr)}.cols-4{grid-template-columns:repeat(4,1fr)}.cols-5{grid-template-columns:repeat(5,1fr)}
+.cols-2{grid-template-columns:repeat(2,1fr)}.cols-3{grid-template-columns:repeat(3,1fr)}.cols-4{grid-template-columns:repeat(4,1fr)}
 .span2{grid-column:span 2}
-.bento{position:relative;overflow:hidden;border:1px solid var(--hair);border-radius:18px;background:var(--ink);background-image:linear-gradient(180deg,rgba(255,255,255,.04),transparent 40%);padding:26px;transition:border-color .3s,background .3s,transform .3s}
-.bento.hover:hover{border-color:var(--hairlit);background-color:var(--ink2);transform:translateY(-3px)}
+.card{position:relative;border:1px solid var(--hair);border-radius:14px;background:var(--card);padding:24px;transition:border-color .25s,background .25s,transform .25s}
+.card.hover:hover{border-color:var(--hairlit);transform:translateY(-2px)}
 .spot{position:relative}
-.spot::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .35s;pointer-events:none;z-index:0;background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(41,141,255,.16),transparent 70%)}
+.spot::before{content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .35s;pointer-events:none;background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),rgba(41,141,255,.1),transparent 70%)}
 .spot:hover::before{opacity:1}
-.bento>*{position:relative;z-index:1}
-.num{font-family:var(--disp);font-weight:600;letter-spacing:-.02em;color:#fff;line-height:1}
-.ic{width:48px;height:48px;border-radius:12px;border:1px solid var(--hair);background:linear-gradient(135deg,rgba(255,255,255,.06),transparent);display:flex;align-items:center;justify-content:center}
-.ic svg{width:26px;height:26px}
-.av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#175aa8);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;color:#fff}
-/* reveal */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-.reveal.in{opacity:1;transform:none}
-/* marquee */
-.marquee{overflow:hidden;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:22px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
-.mtrack{display:flex;width:max-content;animation:scrollX 32s linear infinite}
-.marquee:hover .mtrack{animation-play-state:paused}
-.mtrack span{font-family:var(--disp);font-weight:500;font-size:20px;color:rgba(255,255,255,.4);white-space:nowrap;display:inline-flex;align-items:center;gap:48px;padding-right:48px}
-.mtrack span::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);opacity:.6}
-@keyframes scrollX{to{transform:translateX(-50%)}}
-/* logo spin */
-@keyframes novaspin{to{transform:rotate(360deg)}}
-.lrot-slow{transform-box:fill-box;transform-origin:center;animation:novaspin 16s linear infinite}
-.lrot-fast{transform-box:view-box;transform-origin:20px 20px;animation:novaspin 7s linear infinite}
-/* forms */
-.field{width:100%;border:1px solid var(--hair);background:var(--ink);border-radius:12px;padding:12px 16px;font-size:14px;color:#fff;outline:none;transition:.2s;font-family:inherit}
+.card>*{position:relative;z-index:1}
+.num{font-family:var(--disp);font-weight:600;color:#fff;line-height:1}
+.lead{display:grid;grid-template-columns:1.15fr .85fr;gap:0;overflow:hidden;border:1px solid var(--hair);border-radius:16px;background:var(--card)}
+.lead .media{position:relative;min-height:340px;overflow:hidden}
+.lead .body{padding:36px;display:flex;flex-direction:column;justify-content:center}
+.lead h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.4vw,38px);line-height:1.12;letter-spacing:-.01em;color:#fff;margin-top:16px}
+.lead p{margin-top:14px;color:rgba(255,255,255,.55);font-size:15px}
+.side{display:flex;flex-direction:column;border:1px solid var(--hair);border-radius:16px;overflow:hidden;background:var(--card)}
+.side a{padding:20px 22px;border-bottom:1px solid var(--hair);transition:background .2s}
+.side a:last-child{border-bottom:none}
+.side a:hover{background:rgba(255,255,255,.03)}
+.side h4{font-family:var(--serif);font-weight:500;font-size:17px;line-height:1.25;color:#fff;margin-top:8px}
+.newscard{display:flex;flex-direction:column;height:100%;overflow:hidden;border:1px solid var(--hair);border-radius:14px;background:var(--card);transition:border-color .25s,transform .25s}
+.newscard:hover{border-color:var(--hairlit);transform:translateY(-2px)}
+.newscard .media{height:150px;position:relative;overflow:hidden}
+.newscard .body{padding:20px;display:flex;flex-direction:column;flex:1}
+.newscard h3{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.22;color:#fff;margin-top:12px}
+.newscard p{margin-top:10px;font-size:14px;color:rgba(255,255,255,.45);flex:1}
+.ph-grad{background:radial-gradient(120% 120% at 20% 0%,#1b3a6b,#0d1b30 55%,#0a0d12)}
+.ph-mesh{background:linear-gradient(135deg,#123,#0a1622)}
+.dateline{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.4);display:flex;gap:10px;align-items:center}
+.toy{border:1px solid var(--hair);border-radius:16px;background:var(--card);overflow:hidden}
+.toy-head{padding:18px 24px;border-bottom:1px solid var(--hair);display:flex;align-items:center;gap:12px}
+.toy-body{padding:28px 24px}
+.quote{font-family:var(--serif);font-size:clamp(18px,2.4vw,24px);line-height:1.4;color:#fff}
+.choice{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+.cbtn{flex:1;min-width:120px;border:1px solid var(--hairlit);background:rgba(255,255,255,.02);color:#fff;border-radius:10px;padding:14px;font-size:15px;font-weight:500;cursor:pointer;transition:.2s;font-family:inherit}
+.cbtn:hover{border-color:var(--blue);background:rgba(41,141,255,.08)}
+.cbtn.right{border-color:#34d399;background:rgba(52,211,153,.12);color:#6ee7b7}
+.cbtn.wrong{border-color:#f87171;background:rgba(248,113,113,.12);color:#fca5a5}
+.genout{font-family:var(--disp);font-weight:600;font-size:clamp(20px,3vw,30px);color:#fff;line-height:1.25;min-height:2.4em;display:flex;align-items:center}
+.field{width:100%;border:1px solid var(--hair);background:var(--ink);border-radius:10px;padding:12px 15px;font-size:14px;color:#fff;outline:none;transition:.2s;font-family:inherit}
 .field::placeholder{color:rgba(255,255,255,.3)}
-.field:focus{border-color:rgba(41,141,255,.6);background:var(--ink2);box-shadow:0 0 0 3px rgba(41,141,255,.12)}
+.field:focus{border-color:rgba(41,141,255,.55);background:var(--ink2)}
 textarea.field{resize:vertical}
-.flabel{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:8px}
-.chip{border:1px solid var(--hair);background:none;color:rgba(255,255,255,.55);border-radius:99px;padding:8px 16px;font-size:13px;cursor:pointer;transition:.2s;font-family:inherit}
+.flabel{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:8px}
+.chip{border:1px solid var(--hair);background:none;color:rgba(255,255,255,.6);border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;transition:.2s;font-family:inherit}
 .chip:hover{border-color:var(--hairlit);color:#fff}
-.chip.on{border-color:var(--blue);background:rgba(41,141,255,.15);color:var(--blue)}
-/* misc */
-.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.chip.on{border-color:var(--blue);background:rgba(41,141,255,.14);color:var(--blue)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
 .idmono{font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.35)}
 .note{border:1px solid rgba(245,158,11,.2);background:rgba(245,158,11,.05);border-radius:12px;padding:14px 16px;font-size:13px;color:rgba(253,230,138,.7);line-height:1.6}
-.ok-box{border:1px solid rgba(41,141,255,.3);background:rgba(41,141,255,.07);border-radius:14px;padding:18px}
-.err-box{border:1px solid rgba(248,113,113,.25);background:rgba(248,113,113,.06);border-radius:12px;padding:12px 16px;color:#fca5a5;font-size:14px}
-.divider{height:1px;background:var(--hair);margin:16px 0}
-/* footer */
-footer{border-top:1px solid var(--hair);margin-top:80px;padding:48px 0}
-.fcol h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:14px}
+.ok-box{border:1px solid rgba(41,141,255,.3);background:rgba(41,141,255,.07);border-radius:12px;padding:18px}
+.err-box{border:1px solid rgba(248,113,113,.25);background:rgba(248,113,113,.06);border-radius:10px;padding:12px 15px;color:#fca5a5;font-size:14px}
+.stat-row{display:flex;justify-content:space-between;border-bottom:1px solid var(--hair);padding:12px 0;font-size:14px}
+.statusdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}
+.aura{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;pointer-events:none}
+footer{border-top:1px solid var(--hair);margin-top:72px;padding:46px 0;background:rgba(255,255,255,.012)}
+.fcol h4{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:14px}
 .fcol a{display:block;font-size:14px;color:rgba(255,255,255,.55);padding:5px 0;cursor:pointer;transition:.2s}.fcol a:hover{color:#fff}
-.soc{display:inline-flex;width:36px;height:36px;border:1px solid var(--hair);border-radius:10px;align-items:center;justify-content:center;color:rgba(255,255,255,.55);transition:.2s}.soc:hover{border-color:var(--blue);color:var(--blue)}
-/* certificate */
+.soc{display:inline-flex;width:36px;height:36px;border:1px solid var(--hair);border-radius:9px;align-items:center;justify-content:center;color:rgba(255,255,255,.55);transition:.2s}.soc:hover{border-color:var(--blue);color:var(--blue)}
+@keyframes novaspin{to{transform:rotate(360deg)}}
+.lrot{transform-box:fill-box;transform-origin:center;animation:novaspin 22s linear infinite}
 .cert-frame{border-radius:28px;padding:2px;background:linear-gradient(140deg,rgba(41,141,255,.6),rgba(255,255,255,.06) 35%,rgba(41,141,255,.25) 70%,rgba(255,255,255,.05));box-shadow:0 40px 120px -40px rgba(41,141,255,.35)}
 .cert{position:relative;overflow:hidden;border-radius:26px;background:var(--ink);padding:56px 56px}
 .cert .corner{position:absolute;width:24px;height:24px;border-left:1px solid rgba(41,141,255,.5);border-top:1px solid rgba(41,141,255,.5)}
-/* responsive */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
 @media(max-width:900px){
-.nav-links,.nav-cta .link-dim,.nav-cta>.btn{display:none}
+.nav-links,.nav-cta .link-dim{display:none}
 .burger{display:flex}
-.cols-4,.cols-5{grid-template-columns:1fr 1fr}.cols-3,.cols-2{grid-template-columns:1fr}.span2{grid-column:span 1}
-.cert{padding:36px 24px}
+.cols-2,.cols-3,.cols-4{grid-template-columns:1fr}.span2{grid-column:span 1}
+.lead{grid-template-columns:1fr}.lead .media{min-height:200px}
+.cert{padding:34px 22px}
 footer .grid{grid-template-columns:1fr 1fr!important;gap:28px!important}
 }
-@media(max-width:560px){.cols-4,.cols-5{grid-template-columns:1fr}footer .grid{grid-template-columns:1fr!important}}
-@media(prefers-reduced-motion:reduce){.aura,.mtrack,.shine,.lrot-slow,.lrot-fast{animation:none!important}.reveal{opacity:1;transform:none}}
+@media(max-width:560px){footer .grid{grid-template-columns:1fr!important}.nav-cta>.btn{display:none}}
+@media(prefers-reduced-motion:reduce){.lrot{animation:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -153,7 +151,6 @@ footer .grid{grid-template-columns:1fr 1fr!important;gap:28px!important}
 <linearGradient id="gi-fill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7db4ff"/><stop offset="1" stop-color="#298DFF"/></linearGradient>
 <linearGradient id="gi-stroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a9cdff"/><stop offset="1" stop-color="#4a98ff"/></linearGradient>
 </defs></svg>
-
 <header id="hdr"></header>
 <div class="mobile-menu" id="mmenu"></div>
 <main id="app"></main>
@@ -169,280 +166,227 @@ Minimum version required to store current data is: `+i+`.
 </script>
 <script>
 /* ===================== DATA ===================== */
-const LS='nova_demo_v1';
+const LS='nova_demo_v2';
+function plusYear(d){const x=new Date(d);x.setFullYear(x.getFullYear()+1);return x.toISOString().slice(0,10);}
 const SEED_RES=[
- {id:"NSR-2026-0001",project:"Helix AI",tagline:"Голосовой ассистент для клиник",category:"HealthTech · ИИ",city:"Москва",website:"https://example.com",founders:"Анна Кравцова, Дмитрий Лебедев",description:"Helix AI автоматизирует запись пациентов и первичную маршрутизацию обращений с помощью голосового ИИ, снижая нагрузку на регистратуру до 60%.",recognizedAt:"2026-02-14"},
- {id:"NSR-2026-0002",project:"Quanta Vision",tagline:"Компьютерное зрение для промышленности",category:"Industrial · ИИ",city:"Казань",website:"https://example.com",founders:"Ринат Сафин",description:"Платформа дефектоскопии на конвейере: модели CV находят брак в реальном времени и интегрируются с MES-системами завода.",recognizedAt:"2026-03-02"},
- {id:"NSR-2026-0003",project:"Lumen Tutor",tagline:"Персональный ИИ-репетитор",category:"EdTech · ИИ",city:"Санкт-Петербург",website:"",founders:"Мария Орлова, Павел Гущин",description:"Адаптивная образовательная среда, которая выстраивает индивидуальную траекторию обучения школьника по результатам диагностики.",recognizedAt:"2026-03-28"},
- {id:"NSR-2026-0004",project:"AgroSense",tagline:"ИИ-агроном для полей",category:"AgroTech · ИИ",city:"Краснодар",website:"",founders:"Игорь Демин",description:"Спутниковая аналитика и модели прогноза урожайности помогают агрохолдингам точнее планировать внесение удобрений и полив.",recognizedAt:"2026-04-11"}
+ {id:"NSR-2026-0001",project:"Helix AI",tagline:"Голосовой ассистент для клиник",category:"HealthTech · ИИ",city:"Москва",website:"https://example.com",founders:"Анна Кравцова, Дмитрий Лебедев",email:"team@helix.ai",telegram:"@helix_ai",description:"Helix AI автоматизирует запись пациентов и первичную маршрутизацию обращений с помощью голосового ИИ, снижая нагрузку на регистратуру до 60%.",recognizedAt:"2026-02-14",expiresAt:"2027-02-14"},
+ {id:"NSR-2026-0002",project:"Quanta Vision",tagline:"Компьютерное зрение для промышленности",category:"Industrial · ИИ",city:"Казань",website:"https://example.com",founders:"Ринат Сафин",email:"rinat@quanta.vision",telegram:"@quanta_cv",description:"Платформа дефектоскопии на конвейере: модели CV находят брак в реальном времени и интегрируются с MES-системами завода.",recognizedAt:"2026-03-02",expiresAt:"2027-03-02"},
+ {id:"NSR-2026-0003",project:"Lumen Tutor",tagline:"Персональный ИИ-репетитор",category:"EdTech · ИИ",city:"Санкт-Петербург",website:"",founders:"Мария Орлова, Павел Гущин",email:"hello@lumen.edu",telegram:"@lumen_tutor",description:"Адаптивная образовательная среда, которая выстраивает индивидуальную траекторию обучения школьника по результатам диагностики.",recognizedAt:"2026-03-28",expiresAt:"2027-03-28"},
+ {id:"NSR-2026-0004",project:"AgroSense",tagline:"ИИ-агроном для полей",category:"AgroTech · ИИ",city:"Краснодар",website:"",founders:"Игорь Демин",email:"igor@agrosense.ru",telegram:"@agrosense",description:"Спутниковая аналитика и модели прогноза урожайности помогают агрохолдингам точнее планировать внесение удобрений и полив.",recognizedAt:"2026-04-11",expiresAt:"2027-04-11"}
 ];
 const SEED_APPS=[
  {ref:"AP-DEMO01",project:"NeuroDesk",tagline:"ИИ-помощник для поддержки",category:"DevTools · ИИ",city:"Москва",founders:"Олег Титов",email:"oleg@neurodesk.ai",telegram:"@neurodesk",website:"",stage:"MVP",ai:"LLM-агенты для разбора тикетов",description:"Автоматически отвечает на 70% обращений в техподдержку, опираясь на базу знаний компании.",createdAt:"2026-06-20",status:"new"}
 ];
+const SEED_NEWS=[
+ {id:"n1",title:"Российская лаборатория представила открытую мультимодальную модель",cat:"Технологии",date:"2026-06-24",excerpt:"Модель работает с текстом, изображениями и звуком и доступна по открытой лицензии для исследователей и стартапов.",ph:"ph-grad",body:["Команда представила мультимодальную модель, которая объединяет понимание текста, изображений и аудио в едином контуре.","Авторы делают акцент на доступности: веса опубликованы под открытой лицензией, а инференс оптимизирован под потребительские видеокарты.","Для стартапов это снижает порог входа — можно строить продукты, не завися от закрытых API."]},
+ {id:"n2",title:"ИИ-агенты выходят на рынок корпоративной поддержки",cat:"Индустрия",date:"2026-06-22",excerpt:"Автономные агенты берут на себя до 70% типовых обращений, меняя экономику клиентского сервиса.",ph:"ph-mesh",body:["Корпоративный сегмент всё активнее внедряет автономных ИИ-агентов вместо классических чат-ботов.","Ключевое отличие — способность агентов выполнять многошаговые задачи и обращаться к внутренним системам компании.","Аналитики отмечают, что выигрывают команды, которые выстраивают прозрачные сценарии эскалации к человеку."]},
+ {id:"n3",title:"Регуляторы обсуждают рамки для генеративного ИИ",cat:"Регулирование",date:"2026-06-19",excerpt:"На повестке — маркировка синтетического контента и ответственность за решения, принятые моделями.",ph:"ph-grad",body:["Обсуждается обязательная маркировка контента, созданного ИИ, и требования к прозрачности обучающих данных.","Бизнес просит предсказуемых правил, чтобы инвестировать в долгосрочные продукты.","Эксперты сходятся: разумная рамка ускоряет, а не тормозит зрелые проекты."]},
+ {id:"n4",title:"HealthTech-стартапы с ИИ привлекли рекордные инвестиции",cat:"Инвестиции",date:"2026-06-16",excerpt:"Медицинские ИИ-сервисы стали одним из самых горячих сегментов первого полугодия.",ph:"ph-mesh",body:["Инвесторы делают ставку на диагностику, голосовых ассистентов для клиник и автоматизацию документооборота.","Главный фактор успеха — доказанная клиническая ценность и интеграция в существующие процессы.","Резиденты Nova из HealthTech показывают, что доверие рынка ускоряет сделки."]},
+ {id:"n5",title:"Компьютерное зрение снижает производственный брак",cat:"Кейсы",date:"2026-06-12",excerpt:"Заводы внедряют визуальный контроль качества в реальном времени и сокращают потери.",ph:"ph-grad",body:["Системы CV находят дефекты на конвейере быстрее и точнее человека.","Окупаемость проектов измеряется месяцами за счёт снижения брака и простоев.","Следующий шаг — связка зрения с предиктивным обслуживанием оборудования."]},
+ {id:"n6",title:"ИИ-репетиторы показали рост вовлечённости учеников",cat:"EdTech",date:"2026-06-08",excerpt:"Адаптивные образовательные сервисы удерживают учеников лучше классических платформ.",ph:"ph-mesh",body:["Персонализация траектории обучения повышает завершаемость курсов.","Учителя используют ИИ как ассистента, а не замену — это снимает тревогу родителей.","Рынок ждёт прозрачных метрик образовательного результата."]}
+];
 let DB=load();
-function load(){try{const s=localStorage.getItem(LS);if(s)return JSON.parse(s);}catch(e){}return {residents:JSON.parse(JSON.stringify(SEED_RES)),applications:JSON.parse(JSON.stringify(SEED_APPS))};}
+function load(){try{const s=localStorage.getItem(LS);if(s){const d=JSON.parse(s);if(!d.news)d.news=cp(SEED_NEWS);return d;}}catch(e){}return {residents:cp(SEED_RES),applications:cp(SEED_APPS),news:cp(SEED_NEWS)};}
+function cp(x){return JSON.parse(JSON.stringify(x));}
 function save(){localStorage.setItem(LS,JSON.stringify(DB));}
-function resetDB(){DB={residents:JSON.parse(JSON.stringify(SEED_RES)),applications:JSON.parse(JSON.stringify(SEED_APPS))};save();router();}
+function resetDB(){if(!confirm('Сбросить все демо-данные к исходным?'))return;DB={residents:cp(SEED_RES),applications:cp(SEED_APPS),news:cp(SEED_NEWS)};save();location.hash='#/';router();}
 function nextId(){const y=new Date().getFullYear();const n=DB.residents.filter(r=>r.id.includes(String(y))).length+1;return "NSR-"+y+"-"+String(n).padStart(4,"0");}
 function fmt(d){try{return new Date(d).toLocaleDateString("ru-RU",{day:"numeric",month:"long",year:"numeric"})}catch(e){return d}}
+function fmtShort(d){try{return new Date(d).toLocaleDateString("ru-RU",{day:"numeric",month:"short"})}catch(e){return d}}
+function addTime(date,unit){const x=new Date(date);if(unit==='day')x.setDate(x.getDate()+1);if(unit==='month')x.setMonth(x.getMonth()+1);if(unit==='year')x.setFullYear(x.getFullYear()+1);return x.toISOString().slice(0,10);}
+function daysLeft(exp){return Math.ceil((new Date(exp)-new Date())/86400000);}
 
 /* ===================== CONTENT ===================== */
-const NAV=[["Миссия","#/missiya"],["Резидентство","#/rezidentstvo"],["Как стать","#/kak-stat"],["Экспертный совет","#/sovet"],["Реестр","#/reestr"]];
-const STATS=[{n:4,suf:"",l:"Признанных резидента",s:"Реестр пополняется после каждого совета",hl:1,ring:1},{n:9,suf:"",l:"Экспертов в совете",s:"Фаундеры, инженеры, маркетологи"},{n:50,suf:"+",l:"Трастовых площадок",s:"Где мы рассказываем о резидентах"},{v:"1 ID",l:"Проверяемый статус",s:"Подлинность подтверждается онлайн"}];
-const MARQUEE=["HealthTech","Компьютерное зрение","EdTech","AgroTech","LLM-агенты","FinTech","Robotics","DevTools","GenAI","Кибербезопасность"];
-const TRUST=[["Инвесторам","Сигнал, что проект прошёл независимый отбор практиков — меньше времени на первичный due diligence."],["Партнёрам","Подтверждаемый статус снимает вопрос «можно ли вам доверять» ещё до первой встречи."],["Клиентам","Плашка «Резидент Nova» и проверка по ID — быстрый способ убедиться в серьёзности команды."]];
+const NAV=[["Лента","#/"],["Реестр","#/reestr"],["Экспертный совет","#/sovet"],["О проекте","#/missiya"]];
 const PERKS=[["id","Резидентский ID","Уникальный идентификатор в реестре. По нему любой может онлайн удостовериться, что проект — действующий резидент.",1],["badge","Плашка «Резидент Nova»","Знак принадлежности к сообществу для сайта и соцсетей.",0],["certificate","Дизайнерский сертификат с QR","Сертификат в рамке. QR ведёт на верифицированную карточку проекта.",0],["media","Голос в медиа","Рассказываем о резиденте на сайте, в Instagram и на 30–50 трастовых площадках, VC и Дзен.",1],["community","Закрытое сообщество","Доступ к кругу резидентов, экспертов и новаторов Nova.",0],["shield","Право «при поддержке Nova»","Со-брендинг, который усиливает доверие к вашему проекту.",0]];
 const STEPS=[["01","Заявка","Вы рассказываете о проекте, команде и технологии. 10 минут — без бюрократии."],["02","Рассмотрение советом","Экспертный совет изучает проект по чек-листу. 1–5 дней."],["03","Признание","Если совет признаёт проект, вы получаете приглашение в резиденты. Это нельзя купить — только заслужить."],["04","Членский взнос","Только после признания вносится годовой членский взнос 15 000 ₽."],["05","Резидентство","Вы получаете ID, сертификат, страницу в реестре и волну публикаций. Статус действует 12 месяцев."]];
 const CRITERIA=[["Технология в основе","Проект построен вокруг технологии, предпочтительно с ИИ-составляющей."],["Есть продукт или прототип","От рабочего MVP до растущего продукта. Чистая идея без воплощения — рано."],["Реальная команда","За проектом стоят живые основатели, которые им занимаются."],["Прозрачность","Никакого скама и введения в заблуждение. Совет проверяет добросовестность."]];
 const COUNCIL=[["Алексей Северов","Сооснователь, экс-фаундер B2B SaaS","Председатель"],["Ирина Власова","Венчурный аналитик","Оценка рынка"],["Максим Дорохов","ML-инженер","Технологии"],["Светлана Беляева","Директор по маркетингу","Позиционирование"],["Тимур Аскаров","Фаундер-резидент","Голос сообщества"],["Ольга Нечаева","Продуктовый дизайнер","Продукт"],["Денис Кораблёв","Серийный предприниматель","Бизнес-модель"],["Полина Зайцева","PR-стратег","Медиа"],["Артём Логинов","Новатор Nova","Этика"]];
-const FAQ=[["Это покупка статуса?","Нет. Членство — это признание Экспертного совета, его нельзя купить. Сначала совет рассматривает заявку и признаёт проект, и только после этого вносится годовой членский взнос."],["Что входит в членский взнос 15 000 ₽?","Годовое резидентство: ID и проверка в реестре, сертификат с QR, плашка «Резидент Nova», личная страница, рассказ о вас в медиа и доступ в закрытое сообщество."],["На какой срок даётся статус?","Резидентство действует 12 месяцев. По истечении срока статус можно подтвердить и продлить."],["Кто принимает решение?","Экспертный совет: фаундеры-резиденты, программисты, маркетологи и новаторы Nova. Решение коллегиальное."],["Обязательно ли это ИИ-проект?","Предпочтительно. Делаем акцент на ИИ и технологиях, но рассматриваем сильные технологические проекты из смежных областей."],["Как проверить подлинность?","На странице «Проверить ID» введите резидентский ID — система покажет верифицированную карточку. Тот же результат даёт QR с сертификата."]];
-const INCLUDED=["Резидентский ID и проверка в публичном реестре","Дизайнерский сертификат в рамке с QR-кодом","Плашка «Резидент Nova» для сайта и соцсетей","Личная страница проекта в реестре","Статья о проекте на сайте и в блоге Nova","Публикация в Instagram сообщества","Размещения на 30–50 трастовых площадках, VC и Дзен","Доступ в закрытое сообщество резидентов","Право указывать «при поддержке Nova»"];
-const POSTS=[["chto-takoe-nova","Что такое Nova Scout и зачем технологиям признание","Манифест","2026-02-01",["Каждый день в России появляются десятки сильных технологических команд. У них есть продукт, есть результаты — но нет внешнего сигнала, которому доверяет рынок.","Nova Scout решает именно эту проблему. Мы — институт признания. Не рекламное агентство, а совет практиков, который оценивает проекты по существу и публично подтверждает: этим — можно верить.","Признание нельзя купить. Сначала совет рассматривает заявку, и только если признаёт проект, основатели вносят членский взнос. Деньги не покупают статус — они его подтверждают."]],["kak-rabotaet-sovet","Как Экспертный совет принимает решения","Процесс","2026-02-20",["Совет — это девять практиков, каждый смотрит на заявку со своей стороны.","Оценка идёт по единому чек-листу: технология, продукт, команда, добросовестность.","Решение принимается коллегиально, большинством голосов. Поэтому «да» от Nova что-то значит."]],["helix-ai-rezident","Helix AI: первый резидент Nova","Резиденты","2026-03-05",["Helix AI стал резидентом под номером NSR-2026-0001. Команда автоматизирует регистратуры клиник голосовым ИИ.","Совет признал проект за зрелость продукта и понятную технологическую основу.","Сегодня проект носит плашку «Резидент Nova», а подлинность можно проверить по ID."]]];
+const FAQ=[["Это покупка статуса?","Нет. Членство — это признание Экспертного совета, его нельзя купить. Сначала совет рассматривает заявку и признаёт проект, и только после этого вносится годовой членский взнос."],["Что входит в членский взнос 15 000 ₽?","Годовое резидентство: ID и проверка в реестре, сертификат с QR, плашка «Резидент Nova», личная страница, рассказ о вас в медиа и доступ в закрытое сообщество."],["На какой срок даётся статус?","Резидентство действует 12 месяцев. По истечении срока статус можно подтвердить и продлить."],["Кто принимает решение?","Экспертный совет: фаундеры-резиденты, программисты, маркетологи и новаторы Nova. Решение коллегиальное."]];
+const AIQUIZ=[
+ ["Мы научили модель воздерживаться от ответа, когда она не уверена, — это снизило галлюцинации на 38%.",true,"Типичная формулировка из релиза ИИ-лаборатории."],
+ ["Тот, кто рано встаёт, тому и сервер не падает.",false,"Народная переделка поговорки — так шутят инженеры, не модель."],
+ ["Я обработала 2,4 млн запросов за ночь и не выпила ни одной чашки кофе.",true,"Маркетинговая реплика от лица ассистента — стиль ИИ-бренда."],
+ ["Лучшая архитектура — та, которую не пришлось переписывать в пятницу вечером.",false,"Живая инженерная ирония из чата команды."],
+ ["Согласно паттернам в данных, вероятность дождя завтра — 73 процента.",true,"Сухая вероятностная формулировка, характерная для модели."],
+ ["Если код работает — не трогай, если не работает — тоже подумай дважды.",false,"Человеческая мудрость разработчика."]
+];
+const GEN_T=["ассистент","платформа","копилот","движок","сервис","оркестратор"];
+const GEN_TECH=["на основе LLM-агентов","с компьютерным зрением","на синтезе речи","с предиктивной аналитикой","на графовых нейросетях","с RAG-поиском"];
+const GEN_DOM=["для юристов","для фермеров","для клиник","для ритейла","для логистики","для HR","для образования","для строителей","для геймдева","для банков"];
 
 /* ===================== ICONS ===================== */
-function ico(n){const p={
- arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',arrowUR:'<path d="M7 17L17 7M9 7h8v8"/>',check:'<path d="M5 12l4 4L19 7"/>',
- search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/>',idc:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9h5M13 13h5"/>',
- shield:'<path d="M12 3l7 3v5c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/>',spark:'<path d="M12 3v6m0 6v6m9-9h-6m-6 0H3"/>',cert:'<rect x="4" y="4" width="16" height="13" rx="2"/><path d="M8 9h8M8 12h5"/><circle cx="12" cy="18.5" r="2.2"/>'
- };return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(p[n]||p.spark)+'</svg>';}
-function glyph(n){const g={
- id:'<rect x="3" y="5" width="18" height="14" rx="3" fill="url(#gi-fill)" opacity=".22"/><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="url(#gi-stroke)"/><circle cx="8.5" cy="11" r="2.1" stroke="#fff"/><path d="M13 9.5h5M13 12.5h5M5.6 15.4c.5-1.3 1.6-2 2.9-2s2.4.7 2.9 2" stroke="#fff"/>',
- badge:'<path d="M12 2.5l2.4 1.5 2.8-.2.9 2.7 2.2 1.7-.9 2.7.9 2.7-2.2 1.7-.9 2.7-2.8-.2L12 21.5l-2.4-1.5-2.8.2-.9-2.7-2.2-1.7.9-2.7-.9-2.7 2.2-1.7.9-2.7 2.8.2z" fill="url(#gi-fill)" opacity=".22" stroke="url(#gi-stroke)"/><path d="M9 12l2 2 4-4.2" stroke="#fff"/>',
- certificate:'<rect x="3.5" y="3.5" width="17" height="12" rx="2.5" fill="url(#gi-fill)" opacity=".2" stroke="url(#gi-stroke)"/><path d="M7 7.5h10M7 10.5h6" stroke="#fff"/><circle cx="12" cy="18.5" r="2.6" stroke="url(#gi-stroke)"/><path d="M10.2 20.3l-1 2.7 2.8-1.1 2.8 1.1-1-2.7" stroke="#fff"/>',
- media:'<circle cx="12" cy="12" r="8.5" fill="url(#gi-fill)" opacity=".18" stroke="url(#gi-stroke)"/><path d="M3.5 12h17M12 3.5c2.5 2.6 2.5 14.4 0 17M12 3.5c-2.5 2.6-2.5 14.4 0 17" stroke="#fff"/>',
- community:'<circle cx="9" cy="9" r="3" fill="url(#gi-fill)" opacity=".22" stroke="url(#gi-stroke)"/><circle cx="17" cy="10.5" r="2.3" stroke="url(#gi-stroke)"/><path d="M3.6 19c.7-2.8 2.6-4.2 5.4-4.2 1.6 0 3 .5 4 1.5M14.5 19c.4-1.7 1.6-2.7 3.2-2.7 1.2 0 2.2.6 2.8 1.7" stroke="#fff"/>',
- shield:'<path d="M12 2.8l7.5 3.2v5c0 4.7-3.2 8.2-7.5 9.6-4.3-1.4-7.5-4.9-7.5-9.6V6z" fill="url(#gi-fill)" opacity=".2" stroke="url(#gi-stroke)"/><path d="M8.7 12l2.3 2.3 4.3-4.5" stroke="#fff"/>'
- };return '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+(g[n]||g.shield)+'</svg>';}
-const LOGO_SVG='<svg class="mark" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16.5" fill="none" stroke="url(#nova-mark)" stroke-width="1" stroke-opacity=".35" stroke-dasharray="3 5" class="lrot-slow"/><path d="M20 3.5 L23.2 16.8 L36.5 20 L23.2 23.2 L20 36.5 L16.8 23.2 L3.5 20 L16.8 16.8 Z" fill="url(#nova-mark)"/><path d="M20 9 L21.6 18.4 L31 20 L21.6 21.6 L20 31 L18.4 21.6 L9 20 L18.4 18.4 Z" fill="#0a0b0e" opacity=".25"/><circle cx="20" cy="20" r="2.6" fill="url(#nova-core)"/><g class="lrot-fast"><circle cx="36.5" cy="20" r="1.7" fill="#7db4ff"/></g></svg>';
+function ico(n){const p={arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>',arrowUR:'<path d="M7 17L17 7M9 7h8v8"/>',check:'<path d="M5 12l4 4L19 7"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/>',idc:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M13 9h5M13 13h5"/>',shield:'<path d="M12 3l7 3v5c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6z"/><path d="M9 12l2 2 4-4"/>',spark:'<path d="M12 3v6m0 6v6m9-9h-6m-6 0H3"/>',cert:'<rect x="4" y="4" width="16" height="13" rx="2"/><path d="M8 9h8M8 12h5"/><circle cx="12" cy="18.5" r="2.2"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',trash:'<path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/>',edit:'<path d="M4 20h4L18 10l-4-4L4 16z"/><path d="M14 6l4 4"/>',plus:'<path d="M12 5v14M5 12h14"/>',play:'<path d="M7 5l11 7-11 7z"/>',dice:'<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1.3" fill="currentColor"/><circle cx="15" cy="15" r="1.3" fill="currentColor"/><circle cx="15" cy="9" r="1.3" fill="currentColor"/><circle cx="9" cy="15" r="1.3" fill="currentColor"/>'};return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(p[n]||p.spark)+'</svg>';}
+function glyph(n){const g={id:'<rect x="3" y="5" width="18" height="14" rx="3" fill="url(#gi-fill)" opacity=".22"/><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="url(#gi-stroke)"/><circle cx="8.5" cy="11" r="2.1" stroke="#fff"/><path d="M13 9.5h5M13 12.5h5M5.6 15.4c.5-1.3 1.6-2 2.9-2s2.4.7 2.9 2" stroke="#fff"/>',badge:'<path d="M12 2.5l2.4 1.5 2.8-.2.9 2.7 2.2 1.7-.9 2.7.9 2.7-2.2 1.7-.9 2.7-2.8-.2L12 21.5l-2.4-1.5-2.8.2-.9-2.7-2.2-1.7.9-2.7-.9-2.7 2.2-1.7.9-2.7 2.8.2z" fill="url(#gi-fill)" opacity=".22" stroke="url(#gi-stroke)"/><path d="M9 12l2 2 4-4.2" stroke="#fff"/>',certificate:'<rect x="3.5" y="3.5" width="17" height="12" rx="2.5" fill="url(#gi-fill)" opacity=".2" stroke="url(#gi-stroke)"/><path d="M7 7.5h10M7 10.5h6" stroke="#fff"/><circle cx="12" cy="18.5" r="2.6" stroke="url(#gi-stroke)"/><path d="M10.2 20.3l-1 2.7 2.8-1.1 2.8 1.1-1-2.7" stroke="#fff"/>',media:'<circle cx="12" cy="12" r="8.5" fill="url(#gi-fill)" opacity=".18" stroke="url(#gi-stroke)"/><path d="M3.5 12h17M12 3.5c2.5 2.6 2.5 14.4 0 17M12 3.5c-2.5 2.6-2.5 14.4 0 17" stroke="#fff"/>',community:'<circle cx="9" cy="9" r="3" fill="url(#gi-fill)" opacity=".22" stroke="url(#gi-stroke)"/><circle cx="17" cy="10.5" r="2.3" stroke="url(#gi-stroke)"/><path d="M3.6 19c.7-2.8 2.6-4.2 5.4-4.2 1.6 0 3 .5 4 1.5M14.5 19c.4-1.7 1.6-2.7 3.2-2.7 1.2 0 2.2.6 2.8 1.7" stroke="#fff"/>',shield:'<path d="M12 2.8l7.5 3.2v5c0 4.7-3.2 8.2-7.5 9.6-4.3-1.4-7.5-4.9-7.5-9.6V6z" fill="url(#gi-fill)" opacity=".2" stroke="url(#gi-stroke)"/><path d="M8.7 12l2.3 2.3 4.3-4.5" stroke="#fff"/>'};return '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+(g[n]||g.shield)+'</svg>';}
+const LOGO='<svg class="mark" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16.5" fill="none" stroke="url(#nova-mark)" stroke-width="1" stroke-opacity=".3" stroke-dasharray="2 6" class="lrot"/><path d="M20 3.5 L23.2 16.8 L36.5 20 L23.2 23.2 L20 36.5 L16.8 23.2 L3.5 20 L16.8 16.8 Z" fill="url(#nova-mark)"/><path d="M20 9 L21.6 18.4 L31 20 L21.6 21.6 L20 31 L18.4 21.6 L9 20 L18.4 18.4 Z" fill="#0a0b0e" opacity=".25"/><circle cx="20" cy="20" r="2.6" fill="url(#nova-core)"/></svg>';
 
 /* ===================== SHELL ===================== */
 function renderShell(){
- document.getElementById('hdr').innerHTML=
-  '<div class="wrap nav"><a class="logo" href="#/">'+LOGO_SVG+'Nova<span class="dim"> Scout</span></a>'+
+ document.getElementById('hdr').innerHTML='<div class="wrap nav"><a class="logo" href="#/">'+LOGO+'Nova<span class="dim"> Scout</span></a>'+
   '<nav class="nav-links">'+NAV.map(n=>'<a href="'+n[1]+'">'+n[0]+'</a>').join('')+'</nav>'+
-  '<div class="nav-cta"><a class="link-dim" href="#/proverka">Проверить ID</a><a class="btn btn-primary" href="#/zayavka">Подать заявку</a>'+
-  '<button class="burger" id="burger"><span></span><span></span><span></span></button></div></div>';
- document.getElementById('mmenu').innerHTML=NAV.map(n=>'<a href="'+n[1]+'">'+n[0]+'</a>').join('')+'<a href="#/proverka">Проверить ID</a><a class="btn btn-primary" href="#/zayavka">Подать заявку</a>';
+  '<div class="nav-cta"><a class="link-dim" href="#/proverka">Проверить ID</a><a class="btn btn-primary" href="#/stat-rezidentom">Стать резидентом</a><button class="burger" id="burger"><span></span><span></span><span></span></button></div></div>';
+ document.getElementById('mmenu').innerHTML=NAV.map(n=>'<a href="'+n[1]+'">'+n[0]+'</a>').join('')+'<a href="#/proverka">Проверить ID</a><a class="btn btn-primary" href="#/stat-rezidentom">Стать резидентом</a>';
  document.getElementById('burger').onclick=()=>document.getElementById('mmenu').classList.toggle('open');
  document.querySelectorAll('#mmenu a').forEach(a=>a.onclick=()=>document.getElementById('mmenu').classList.remove('open'));
 }
-function footerHTML(){
- const col=(h,arr)=>'<div class="fcol"><h4>'+h+'</h4>'+arr.map(a=>'<a href="'+a[1]+'">'+a[0]+'</a>').join('')+'</div>';
- return '<footer><div class="wrap">'+
-  '<div class="bento spot" style="position:relative;overflow:hidden;text-align:center;padding:48px 24px">'+
-   '<div class="aura a2" style="width:60%;height:60%;left:50%;top:50%;transform:translate(-50%,-50%);opacity:.4"></div>'+
-   '<h2 class="disp" style="font-weight:600;font-size:clamp(24px,4vw,32px);color:#fff;max-width:560px;margin:0 auto">Думаете, ваш проект достоин признания?</h2>'+
-   '<p style="margin:12px auto 0;max-width:440px;color:rgba(255,255,255,.55);font-size:14px">Подайте заявку — вердикт вынесет Экспертный совет. Взнос только после признания.</p>'+
-   '<div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap"><a class="btn btn-primary" href="#/zayavka">Подать заявку '+ico('arrow')+'</a><a class="btn btn-ghost" href="#/proverka">Проверить ID</a></div>'+
-  '</div>'+
-  '<div class="grid" style="grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-top:48px">'+
-   '<div><a class="logo" href="#/">'+LOGO_SVG+'Nova<span class="dim"> Scout</span></a>'+
-    '<p style="margin-top:16px;max-width:260px;font-size:14px;color:rgba(255,255,255,.45)">Хорошим технологиям не хватает не идей, а признания и доверия. Nova Scout даёт новаторам и то, и другое.</p>'+
-    '<div style="margin-top:18px;display:flex;gap:10px"><span class="soc">'+ico('arrowUR')+'</span><span class="soc">'+ico('spark')+'</span></div></div>'+
-   col("Проект",[["Миссия","#/missiya"],["Экспертный совет","#/sovet"],["Реестр резидентов","#/reestr"],["Блог","#/blog"]])+
-   col("Резидентам",[["Что даёт резидентство","#/rezidentstvo"],["Как стать резидентом","#/kak-stat"],["Подать заявку","#/zayavka"],["Проверить ID","#/proverka"]])+
-   col("Документы",[["Оферта","#/oferta"],["Политика конфиденциальности","#/politika"],["Админ-панель","#/admin"]])+
-  '</div>'+
-  '<div style="margin-top:44px;border-top:1px solid var(--hair);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:rgba(255,255,255,.35)"><span>© 2026 Nova Scout. Прототип для демонстрации.</span><span class="mono" style="cursor:pointer" onclick="resetDB()">↺ сбросить демо-данные</span></div>'+
- '</div></footer>';
+function footerHTML(){const col=(h,arr)=>'<div class="fcol"><h4>'+h+'</h4>'+arr.map(a=>'<a href="'+a[1]+'">'+a[0]+'</a>').join('')+'</div>';
+ return '<footer><div class="wrap"><div class="grid" style="grid-template-columns:1.6fr 1fr 1fr 1fr;gap:44px">'+
+  '<div><a class="logo" href="#/">'+LOGO+'Nova<span class="dim"> Scout</span></a><p style="margin-top:14px;max-width:280px;font-size:14px;color:rgba(255,255,255,.45)">Институт признания технологических проектов. Мы рассказываем о жизни ИИ-экосистемы и признаём проекты, которым можно верить.</p><div style="margin-top:16px;display:flex;gap:10px"><span class="soc">'+ico('arrowUR')+'</span><span class="soc">'+ico('spark')+'</span></div></div>'+
+  col("Экосистема",[["Лента новостей","#/"],["Реестр резидентов","#/reestr"],["Экспертный совет","#/sovet"],["О проекте","#/missiya"]])+
+  col("Резидентам",[["Стать резидентом","#/stat-rezidentom"],["Подать заявку","#/zayavka"],["Проверить ID","#/proverka"],["Журнал","#/blog"]])+
+  col("Документы",[["Оферта","#/oferta"],["Политика конфиденциальности","#/politika"],["Админ-панель","#/admin"]])+
+  '</div><div style="margin-top:40px;border-top:1px solid var(--hair);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:rgba(255,255,255,.35)"><span>© 2026 Nova Scout. Прототип для демонстрации.</span><span class="mono" style="cursor:pointer" onclick="resetDB()">↺ сбросить демо-данные</span></div></div></footer>';
 }
+function shead(kick,title,sub){return '<div class="head reveal"><div class="kicker"><span class="c">'+kick+'</span></div><h2>'+title+'</h2>'+(sub?'<p>'+sub+'</p>':'')+'</div>';}
+function phero(kick,title,sub){return '<section class="phero"><div class="wrap"><div class="kicker reveal">'+kick+'</div><h1 class="reveal">'+title+'</h1>'+(sub?'<p class="reveal">'+sub+'</p>':'')+'</div></section>';}
 
-/* reusable bits */
-function pageHero(eb,title,sub){return '<section class="phero hero"><div class="aura a2" style="opacity:.4"></div><div class="aura a3" style="opacity:.35"></div><canvas class="hero-canvas"></canvas><div class="glow"></div><div class="wrap"><span class="eyebrow reveal"><span class="dot"></span>'+eb+'</span><h1 class="reveal">'+title+'</h1>'+(sub?'<p class="reveal">'+sub+'</p>':'')+'</div></section>';}
-function shead(eb,title,sub){return '<div class="head"><span class="pill reveal">'+eb+'</span><h2 class="reveal">'+title+'</h2>'+(sub?'<p class="reveal">'+sub+'</p>':'')+'</div>';}
+function newsLead(n){return '<a class="lead reveal" href="#/novosti/'+n.id+'"><div class="media"><div class="'+n.ph+'" style="position:absolute;inset:0"></div></div><div class="body"><div class="dateline"><span class="tag">'+n.cat+'</span><span>'+fmt(n.date)+'</span></div><h2>'+n.title+'</h2><p>'+n.excerpt+'</p><span class="badge" style="margin-top:20px">Читать материал '+ico('arrow')+'</span></div></a>';}
+function newsSide(items){return '<div class="side reveal">'+items.map(n=>'<a href="#/novosti/'+n.id+'"><div class="dateline"><span class="tag">'+n.cat+'</span><span>'+fmtShort(n.date)+'</span></div><h4>'+n.title+'</h4></a>').join('')+'</div>';}
+function newsCard(n){return '<a class="newscard reveal" href="#/novosti/'+n.id+'"><div class="media"><div class="'+n.ph+'" style="position:absolute;inset:0"></div></div><div class="body"><div class="dateline"><span class="tag">'+n.cat+'</span><span>'+fmtShort(n.date)+'</span></div><h3>'+n.title+'</h3><p>'+n.excerpt+'</p><span class="badge" style="margin-top:14px">Читать '+ico('arrow')+'</span></div></a>';}
+function rcard(r){const exp=daysLeft(r.expiresAt)<0;return '<a class="card hover spot reveal" href="#/rezident/'+r.id+'" style="display:flex;flex-direction:column"><div style="display:flex;justify-content:space-between;align-items:center"><span class="tag">'+r.category+'</span><span class="idmono">'+r.id+'</span></div><h3 class="disp" style="margin-top:16px;font-weight:600;font-size:20px;color:#fff">'+r.project+'</h3><div style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.55)">'+r.tagline+'</div><p style="margin-top:12px;font-size:14px;color:rgba(255,255,255,.4);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+r.description+'</p><div style="margin-top:auto;padding-top:20px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--hair)"><span class="badge">'+(exp?'<span class="statusdot" style="background:#f87171"></span>Истёк':ico('check')+' Резидент Nova')+'</span><span style="color:rgba(255,255,255,.4)">'+ico('arrow')+'</span></div></a>';}
+function numCard(v,l,s){return '<div class="card spot reveal"><div class="num" style="font-size:clamp(32px,4vw,44px)">'+v+'</div><div style="margin-top:10px;font-size:14px;color:rgba(255,255,255,.8)">'+l+'</div><div class="mono" style="margin-top:14px">'+s+'</div></div>';}
 
 /* ===================== VIEWS ===================== */
 const V={};
-V.home=()=>{
- const stat=(s,i)=>'<div class="bento spot hover reveal'+(s.hl?'" style="box-shadow:inset 0 0 0 1px rgba(41,141,255,.4)':'')+'">'+
-   '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px"><div>'+
-   '<div class="num" style="font-size:clamp(38px,5vw,52px)'+(s.hl?';color:var(--blue)':'')+'" '+(s.n!==undefined?'data-count="'+s.n+'" data-suf="'+s.suf+'"':'')+'>'+(s.v||'0')+'</div>'+
-   '<div style="margin-top:10px;font-size:14px;color:rgba(255,255,255,.8);max-width:18ch">'+s.l+'</div></div>'+
-   (s.ring?'<canvas class="dring" width="80" height="80" style="width:80px;height:80px"></canvas>':'')+'</div>'+
-   '<div style="margin-top:20px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.4)">'+s.s+'</div></div>';
- return '<section class="hero" style="min-height:94vh;display:flex;align-items:center;justify-content:center;text-align:center">'+
-  '<div class="aura a1"></div><div class="aura a2"></div><div class="aura a3"></div><canvas class="hero-canvas"></canvas><div class="hero-veil"></div>'+
-  '<div class="wrap" style="position:relative;z-index:3;padding:120px 0 60px">'+
-   '<span class="eyebrow reveal"><span class="dot"></span>Институт признания технологий</span>'+
-   '<h1 class="reveal disp" style="font-weight:600;font-size:clamp(44px,9vw,104px);line-height:.95;letter-spacing:-.03em;color:#fff;margin-top:28px;text-shadow:0 0 50px rgba(41,141,255,.4)">Технологиям<br>нужно <span class="shine">признание</span></h1>'+
-   '<p class="reveal" style="max-width:520px;margin:28px auto 0;font-size:clamp(16px,2vw,19px);color:rgba(255,255,255,.66)">Хорошим технологиям не хватает не идей, а признания и доверия. Nova Scout даёт новаторам и то, и другое.</p>'+
-   '<div class="reveal" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px"><a class="btn btn-primary" href="#/zayavka">Подать заявку '+ico('arrow')+'</a><a class="btn btn-ghost" href="#/missiya">Наша миссия</a></div>'+
-   '<div class="reveal mono" style="margin-top:40px">Признание нельзя купить — его можно заслужить</div>'+
-  '</div></section>'+
-  '<section class="wrap" style="margin-top:-40px"><div class="grid cols-4">'+STATS.map(stat).join('')+'</div></section>'+
-  '<section class="wrap" style="margin-top:60px"><div class="reveal" style="text-align:center;margin-bottom:18px"><span class="mono">Направления, которые мы признаём</span></div><div class="marquee reveal"><div class="mtrack">'+MARQUEE.concat(MARQUEE).map(m=>'<span>'+m+'</span>').join('')+'</div></div></section>'+
-  /* philosophy */
-  '<section class="wrap section-pad"><div class="grid" style="grid-template-columns:1.1fr .9fr;align-items:end">'+
-   shead("Кто мы","Мы не клуб по интересам. Мы — институт, который признаёт.","Nova Scout оценивает технологические проекты как судья, а не как продавец. Статус резидента — это вердикт Экспертного совета, а не строка в прайсе.")+
-   '<div class="grid reveal"><div class="bento spot"><div class="mono">Принцип</div><p style="margin-top:12px;font-size:18px;color:rgba(255,255,255,.82)">«Сначала признание — потом членство. Вы вносите взнос только после того, как совет признал проект».</p></div>'+
-   '<div class="grid cols-2"><div class="bento spot"><div class="num" style="font-size:32px;color:var(--blue)">12 мес.</div><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.46)">срок резидентства</p></div><div class="bento spot"><div class="num" style="font-size:32px">15 000 ₽</div><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.46)">годовой взнос</p></div></div></div>'+
-  '</div></section>'+
-  /* trust band */
-  '<section class="wrap section-pad"><div class="bento reveal" style="position:relative;overflow:hidden;text-align:center;padding:64px 24px"><div class="aura a2" style="width:60%;height:60%;left:50%;top:50%;transform:translate(-50%,-50%);opacity:.5"></div>'+
-   '<span class="pill">Признание, у которого есть вес</span><h2 class="disp" style="font-weight:600;font-size:clamp(28px,5vw,48px);color:#fff;margin-top:22px;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.08">Один статус, которому <span class="shine">верит рынок</span></h2>'+
-   '<div class="grid cols-3" style="margin-top:40px;text-align:left">'+TRUST.map(t=>'<div class="bento" style="background:rgba(0,0,0,.4)"><div class="mono" style="color:var(--blue)">'+t[0]+'</div><p style="margin-top:12px;font-size:14px;color:rgba(255,255,255,.6)">'+t[1]+'</p></div>').join('')+'</div></div></section>'+
-  /* perks */
-  '<section class="wrap section-pad">'+shead("Что даёт резидентство","Преимущества, которые работают на вас","Каждое — следствие принадлежности к Nova, а не купленная услуга.")+
-   '<div class="grid cols-3" style="margin-top:44px">'+PERKS.map(p=>'<div class="bento spot hover reveal'+(p[3]?' span2':'')+'"><div class="ic">'+glyph(p[0])+'</div><h3 style="margin-top:18px;font-size:18px;font-weight:600;color:#fff">'+p[1]+'</h3><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.46)">'+p[2]+'</p></div>').join('')+
-   '<a class="bento spot hover reveal" href="#/rezidentstvo" style="background:rgba(41,141,255,.07);display:flex;flex-direction:column;justify-content:space-between"><span class="ic" style="background:var(--blue);border:none;color:#fff">'+ico('arrowUR')+'</span><div><h3 style="margin-top:18px;font-size:18px;font-weight:600;color:#fff">Все преимущества</h3><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.55)">Полный состав годового резидентства Nova.</p></div></a></div></section>'+
-  /* process */
-  '<section class="wrap section-pad">'+shead("Путь резидента","Пять шагов от заявки до признания","Никакой бюрократии. Решает Экспертный совет — коллегиально.")+
-   '<div class="grid cols-5" style="margin-top:44px">'+STEPS.map(s=>'<div class="bento spot hover reveal"><span class="mono" style="color:var(--blue)">'+s[0]+'</span><h3 style="margin-top:14px;font-size:15px;font-weight:600;color:#fff">'+s[1]+'</h3><p style="margin-top:8px;font-size:13px;color:rgba(255,255,255,.46)">'+s[2]+'</p></div>').join('')+'</div>'+
-   '<div style="display:flex;justify-content:center;margin-top:24px"><a class="btn btn-ghost" href="#/kak-stat">Подробно о признании '+ico('arrow')+'</a></div></section>'+
-  /* registry preview */
-  '<section class="wrap section-pad"><div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:20px">'+shead("Реестр резидентов","Признанные проекты","Каждого можно проверить по ID.")+'<a class="btn btn-ghost reveal" href="#/reestr">Весь реестр '+ico('arrow')+'</a></div>'+
-   '<div class="grid cols-3" style="margin-top:44px">'+DB.residents.slice(0,3).map(rcard).join('')+'</div></section>'+
-  /* CTA */
-  '<section class="wrap" style="padding-bottom:20px"><div class="bento reveal" style="position:relative;overflow:hidden;text-align:center;padding:64px 24px"><div class="aura a2" style="width:70%;height:120%;left:50%;top:60%;transform:translate(-50%,-50%);opacity:.5"></div>'+
-   '<span class="eyebrow"><span class="dot"></span>Готовы к признанию?</span><h2 class="disp" style="font-weight:600;font-size:clamp(28px,5vw,52px);color:#fff;margin:22px auto 0;max-width:640px;line-height:1.08">Подайте заявку и получите вердикт Экспертного совета</h2>'+
-   '<p style="margin-top:16px;color:rgba(255,255,255,.55)">Заполнение занимает 10 минут. Взнос — только после признания.</p>'+
-   '<div style="display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap"><a class="btn btn-primary" href="#/zayavka">Подать заявку '+ico('arrow')+'</a><a class="btn btn-white" href="#/proverka">Проверить ID резидента</a></div></div></section>';
+V.home=()=>{const[lead,...rest]=DB.news;const side=rest.slice(0,3);const gridNews=rest.slice(0,3);const res=DB.residents.slice(0,3);
+ return '<section class="wrap section first" style="padding-top:110px">'+
+   '<div class="kicker reveal" style="margin-bottom:22px"><span class="c">● Лента ИИ</span> <span>главное в экосистеме · '+fmt(new Date())+'</span></div>'+
+   '<div class="grid" style="grid-template-columns:1.55fr .85fr;gap:16px">'+newsLead(lead)+newsSide(side)+'</div></section>'+
+  '<section class="wrap section"><div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px">'+shead("Новости из мира ИИ","Что происходит в индустрии","Подборка материалов, которые читает команда Nova. В реальном проекте лента редактируется в админке.")+'<a class="btn btn-ghost reveal" href="#/blog">Все материалы '+ico('arrow')+'</a></div><div class="grid cols-3" style="margin-top:32px">'+gridNews.map(newsCard).join('')+'</div></section>'+
+  '<section class="wrap section">'+shead("Интерактив","ИИ-разминка","Два мини-приложения, чтобы почувствовать ИИ, а не просто почитать о нём.")+
+   '<div class="grid cols-2" style="margin-top:32px">'+
+    '<div class="toy reveal"><div class="toy-head"><span class="pill">'+ico('play')+' Игра</span><h3 class="disp" style="font-weight:600;font-size:17px;color:#fff">ИИ или человек?</h3></div><div class="toy-body" id="quizbody"></div></div>'+
+    '<div class="toy reveal"><div class="toy-head"><span class="pill">'+ico('dice')+' Генератор</span><h3 class="disp" style="font-weight:600;font-size:17px;color:#fff">Идея ИИ-стартапа</h3></div><div class="toy-body"><p style="font-size:14px;color:rgba(255,255,255,.5)">Нажмите — соберём случайную концепцию из реальных сегментов рынка.</p><div class="genout" id="genout" style="margin-top:18px">Нажмите «Сгенерировать»</div><div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap"><button class="btn btn-primary" id="genbtn">'+ico('dice')+' Сгенерировать</button><a class="btn btn-ghost" href="#/zayavka">Подать с этой идеей</a></div></div></div>'+
+   '</div></section>'+
+  '<section class="wrap section"><div class="grid cols-4">'+numCard(String(DB.residents.length),"проектов в реестре","признаны Экспертным советом")+numCard("9","экспертов совета","фаундеры, инженеры, маркетологи")+numCard("6","направлений","от HealthTech до промышленности")+numCard("100%","статусов","проверяемы по ID онлайн")+'</div></section>'+
+  '<section class="wrap section"><div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px">'+shead("Сообщество","Знакомьтесь — резиденты","Проекты, которым Экспертный совет уже сказал «да».")+'<a class="btn btn-ghost reveal" href="#/reestr">Весь реестр '+ico('arrow')+'</a></div><div class="grid cols-3" style="margin-top:32px">'+res.map(rcard).join('')+'</div></section>'+
+  '<section class="wrap" style="padding:64px 0"><div class="card reveal" style="display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding:32px 36px"><div><div class="kicker"><span class="c">Для основателей</span></div><h2 class="disp" style="font-weight:600;font-size:clamp(22px,3vw,30px);color:#fff;margin-top:12px;max-width:520px">Создаёте технологический проект? Его можно представить совету.</h2></div><a class="btn btn-primary" href="#/stat-rezidentom">Как стать резидентом '+ico('arrow')+'</a></div></section>';
 };
-function rcard(r){return '<a class="bento spot hover reveal" href="#/rezident/'+r.id+'" style="display:flex;flex-direction:column"><div style="display:flex;justify-content:space-between;align-items:center"><span class="pill">'+r.category+'</span><span class="idmono">'+r.id+'</span></div>'+
- '<h3 class="disp" style="margin-top:18px;font-weight:600;font-size:20px;color:#fff">'+r.project+'</h3><div style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.55)">'+r.tagline+'</div>'+
- '<p style="margin-top:14px;font-size:14px;color:rgba(255,255,255,.4);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+r.description+'</p>'+
- '<div style="margin-top:auto;padding-top:22px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--hair)"><span class="badge">'+ico('check')+' Резидент Nova</span><span style="color:rgba(255,255,255,.4)">'+ico('arrow')+'</span></div></a>';}
 
-V.missiya=()=>pageHero("Манифест","Хорошим технологиям не хватает не идей, а признания.","Nova Scout существует, чтобы давать новаторам и то, и другое — признание и доверие.")+
- '<section class="wrap section-pad"><div class="grid" style="grid-template-columns:2fr 1fr">'+
- '<div class="bento spot reveal" style="display:flex;flex-direction:column;justify-content:center;padding:48px"><span class="mono">Манифест Nova</span><p class="disp" style="margin-top:24px;font-size:clamp(22px,3vw,30px);font-weight:500;line-height:1.3;color:#fff">Каждый день рождаются сильные продукты, которые мир не замечает. Им мешает не отсутствие идей, а отсутствие <span style="color:var(--blue)">доверия</span>. Мы находим такие команды, проверяем их по-настоящему и говорим рынку: <span class="gtext">этим — можно верить.</span></p></div>'+
- '<div class="grid reveal"><div class="bento spot">'+'<div class="ic">'+glyph("shield")+'</div><p style="margin-top:16px;font-size:14px;color:rgba(255,255,255,.6)">Мы относимся к статусу резидента как к репутационному активу — и защищаем его от обесценивания.</p></div><div class="bento spot" style="background:rgba(41,141,255,.06)"><div class="num disp" style="font-size:24px">Признание, которое подтверждает делом</div></div></div>'+
+V.novosti=(id)=>{const n=DB.news.find(x=>x.id===id);if(!n)return V.notfound();const more=DB.news.filter(x=>x.id!==id).slice(0,3);
+ return '<article class="wrap" style="padding-top:108px;padding-bottom:40px"><a class="link-dim" href="#/" style="display:inline-flex;gap:8px;align-items:center"><span style="width:16px;height:16px;transform:rotate(180deg)">'+ico('arrow')+'</span> Лента</a>'+
+  '<div style="max-width:760px;margin:28px auto 0"><div class="dateline"><span class="tag">'+n.cat+'</span><span>'+fmt(n.date)+'</span></div><h1 class="serif" style="font-weight:500;font-size:clamp(30px,5vw,48px);line-height:1.12;color:#fff;margin-top:18px">'+n.title+'</h1><div class="'+n.ph+'" style="height:300px;border-radius:14px;margin-top:28px;border:1px solid var(--hair)"></div><div style="margin-top:32px;display:grid;gap:20px;font-family:var(--serif);font-size:19px;line-height:1.7;color:rgba(255,255,255,.72)">'+n.body.map(p=>'<p>'+p+'</p>').join('')+'</div><div class="note" style="margin-top:36px">Демо-материал. В реальном проекте новости создаются и редактируются в админ-панели (вкладка «Новости»).</div></div>'+
+  '<div style="max-width:760px;margin:48px auto 0"><div class="kicker" style="margin-bottom:18px"><span class="c">Ещё в ленте</span></div><div class="grid cols-3">'+more.map(newsCard).join('')+'</div></div></article>';
+};
+
+V.statrez=()=>'<section class="phero" style="overflow:hidden"><div class="aura" style="width:50vw;height:50vw;left:60%;top:-20%;background:radial-gradient(circle,#1f73d6,transparent 65%);opacity:.4"></div><div class="wrap"><div class="kicker reveal">Для основателей · Признание</div><h1 class="reveal">Станьте резидентом Nova Scout</h1><p class="reveal">Резидентство — это членство в сообществе признанных технологических команд. Оно даёт статус, доверие и видимость. Признание выносит Экспертный совет — и только после него вносится членский взнос.</p><div class="reveal" style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-primary" href="#/zayavka">Подать заявку '+ico('arrow')+'</a><a class="btn btn-ghost" href="#/proverka">Проверить ID резидента</a></div></div></section>'+
+ '<section class="wrap section first" style="padding-top:56px"><div class="grid" style="grid-template-columns:2fr 1fr">'+
+  '<div class="card reveal" style="padding:36px"><div class="kicker"><span class="c">Принцип</span></div><p class="serif" style="margin-top:18px;font-size:clamp(20px,2.6vw,26px);line-height:1.4;color:#fff">«Сначала признание — потом членство. Вы вносите взнос только после того, как Экспертный совет признал проект. Деньги не покупают статус — они его подтверждают».</p></div>'+
+  '<div class="card reveal" style="display:flex;flex-direction:column;justify-content:space-between;padding:32px"><div class="kicker"><span class="c">Членский взнос</span></div><div><div class="num" style="font-size:52px">15 000 ₽</div><div style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.5)">за 12 месяцев резидентства</div></div><div style="margin-top:20px;display:flex;align-items:center;gap:8px;border:1px solid var(--hair);border-radius:10px;padding:10px 14px"><span style="width:16px;height:16px;color:var(--blue)">'+ico('check')+'</span><span style="font-size:12px;color:rgba(255,255,255,.6)">Только после признания совета</span></div></div>'+
  '</div></section>'+
- '<section class="wrap section-pad">'+shead("Принципы","Во что мы верим","")+'<div class="grid cols-2" style="margin-top:44px">'+
- [["Признание выше рекламы","Мы не продаём видимость. Мы выносим вердикт."],["Судья, а не продавец","Можно получить отказ — и это делает «да» ценным."],["Статус, который нельзя купить","Взнос вносится только после признания."],["Доверие по умолчанию","Резидент Nova — сигнал рынку: проект прошёл отбор."]].map((p,i)=>'<div class="bento spot hover reveal"><span class="mono" style="color:var(--blue)">0'+(i+1)+'</span><h3 style="margin-top:12px;font-size:20px;font-weight:600;color:#fff">'+p[0]+'</h3><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.5)">'+p[1]+'</p></div>').join('')+'</div></section>';
+ '<section class="wrap section">'+shead("Что входит","Преимущества резидентства","Каждое — следствие принадлежности к Nova, а не купленная услуга.")+'<div class="grid cols-3" style="margin-top:32px">'+PERKS.map(p=>'<div class="card hover spot reveal'+(p[3]?' span2':'')+'"><div style="width:46px;height:46px;border-radius:11px;border:1px solid var(--hair);display:flex;align-items:center;justify-content:center"><span style="width:26px;height:26px">'+glyph(p[0])+'</span></div><h3 style="margin-top:16px;font-size:18px;font-weight:600;color:#fff">'+p[1]+'</h3><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.46)">'+p[2]+'</p></div>').join('')+'</div></section>'+
+ '<section class="wrap section">'+shead("Путь резидента","Пять шагов от заявки до признания","Решает Экспертный совет — коллегиально и по существу.")+'<div class="grid cols-2" style="margin-top:32px">'+STEPS.map((s,i)=>'<div class="card spot reveal'+(i===4?' span2':'')+'" style="display:flex;gap:18px;align-items:flex-start"><span style="flex-shrink:0;width:46px;height:46px;border-radius:11px;border:1px solid var(--hair);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;color:var(--blue)">'+s[0]+'</span><div><h3 style="font-size:16px;font-weight:600;color:#fff">'+s[1]+'</h3><p style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.46)">'+s[2]+'</p></div></div>').join('')+'</div></section>'+
+ '<section class="wrap section"><div class="grid" style="grid-template-columns:.8fr 1.2fr">'+shead("Критерии","Кого признаёт совет","")+'<div class="card reveal"><div class="grid cols-2">'+CRITERIA.map(c=>'<div><h3 style="font-size:15px;font-weight:600;color:#fff">'+c[0]+'</h3><p style="margin-top:6px;font-size:13px;color:rgba(255,255,255,.45)">'+c[1]+'</p></div>').join('')+'</div></div></div></section>'+
+ '<section class="wrap section">'+shead("Вопросы","Частые вопросы","")+'<div class="grid cols-2" style="margin-top:32px">'+FAQ.map(f=>'<details class="card reveal"><summary style="cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:16px;font-weight:500;color:#fff">'+f[0]+'<span style="flex-shrink:0;width:24px;height:24px;border-radius:6px;border:1px solid var(--hair);color:rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center">+</span></summary><p style="margin-top:14px;font-size:14px;color:rgba(255,255,255,.55)">'+f[1]+'</p></details>').join('')+'</div></section>'+
+ '<section class="wrap" style="padding:56px 0"><div class="card reveal" style="text-align:center;padding:56px 24px"><h2 class="disp" style="font-weight:600;font-size:clamp(26px,4vw,40px);color:#fff;max-width:560px;margin:0 auto">Готовы получить вердикт совета?</h2><p style="margin:14px auto 0;color:rgba(255,255,255,.55);max-width:440px">Заполнение заявки занимает 10 минут. Взнос — только после признания.</p><div style="margin-top:26px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn btn-primary" href="#/zayavka">Подать заявку '+ico('arrow')+'</a></div></div></section>';
 
-V.rezidentstvo=()=>pageHero("Годовое резидентство","Что значит быть резидентом Nova","Членство в сообществе признанных технологических команд на 12 месяцев — подтверждается единым взносом только после признания совета.")+
- '<section class="wrap section-pad"><div class="grid" style="grid-template-columns:2fr 1fr">'+
- '<div class="bento spot reveal" style="display:flex;flex-direction:column;justify-content:space-between;padding:40px"><div><span class="pill">Членство</span><h2 class="disp" style="margin-top:20px;font-weight:600;font-size:clamp(26px,4vw,40px);color:#fff">Один взнос. Целый год признания.</h2><p style="margin-top:16px;max-width:480px;color:rgba(255,255,255,.55)">Никаких тарифов и подписок. Это членский взнос сообщества — он идёт на развитие экосистемы, продвижение резидентов и работу Экспертного совета.</p></div><div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-primary" href="#/zayavka">Подать заявку '+ico('arrow')+'</a><a class="btn btn-ghost" href="#/kak-stat">Как стать резидентом</a></div></div>'+
- '<div class="bento spot reveal" style="position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:40px"><div class="aura a2" style="width:90%;height:90%;left:80%;top:0;opacity:.25"></div><div class="mono">Членский взнос</div><div><div class="num" style="font-size:56px">15 000 ₽</div><div style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.5)">за 12 месяцев резидентства</div></div><div style="margin-top:24px;display:flex;align-items:center;gap:8px;border:1px solid var(--hair);border-radius:12px;padding:10px 14px;background:rgba(255,255,255,.02)">'+ico('check')+'<span style="font-size:12px;color:rgba(255,255,255,.6)">Оплачивается только после признания</span></div></div>'+
+V.missiya=()=>phero("Манифест","Хорошим технологиям не хватает не идей, а признания.","Nova Scout существует, чтобы давать новаторам и то, и другое — признание и доверие.")+
+ '<section class="wrap section first" style="padding-top:56px"><div class="grid" style="grid-template-columns:2fr 1fr">'+
+ '<div class="card reveal" style="display:flex;flex-direction:column;justify-content:center;padding:44px"><div class="kicker"><span class="c">Манифест Nova</span></div><p class="serif" style="margin-top:20px;font-size:clamp(21px,3vw,28px);line-height:1.45;color:#fff">Каждый день рождаются сильные продукты, которые мир не замечает. Им мешает не отсутствие идей, а отсутствие доверия. Мы находим такие команды, проверяем их по-настоящему и говорим рынку: этим — можно верить.</p></div>'+
+ '<div class="grid reveal"><div class="card"><div style="width:44px;height:44px;border-radius:11px;border:1px solid var(--hair);display:flex;align-items:center;justify-content:center"><span style="width:24px;height:24px">'+glyph("shield")+'</span></div><p style="margin-top:16px;font-size:14px;color:rgba(255,255,255,.6)">Мы относимся к статусу резидента как к репутационному активу — и защищаем его от обесценивания.</p></div><div class="card" style="background:rgba(41,141,255,.06)"><div class="disp" style="font-weight:600;font-size:18px;color:#fff">Признание, которое подтверждает делом</div></div></div>'+
  '</div></section>'+
- '<section class="wrap section-pad">'+shead("Состав резидентства","Что входит","")+'<div class="grid cols-3" style="margin-top:44px">'+PERKS.map(p=>'<div class="bento spot hover reveal'+(p[3]?' span2':'')+'"><div class="ic">'+glyph(p[0])+'</div><h3 style="margin-top:18px;font-size:18px;font-weight:600;color:#fff">'+p[1]+'</h3><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.46)">'+p[2]+'</p></div>').join('')+'</div></section>'+
- '<section class="wrap section-pad"><div class="grid" style="grid-template-columns:.8fr 1.2fr">'+shead("Чек-лист","Всё, что получает резидент","")+'<div class="bento spot reveal"><div class="grid cols-2">'+INCLUDED.map(i=>'<div style="display:flex;gap:12px;align-items:flex-start"><span style="margin-top:2px;flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(41,141,255,.15);color:var(--blue);display:flex;align-items:center;justify-content:center">'+ico('check')+'</span><span style="font-size:14px;color:rgba(255,255,255,.7)">'+i+'</span></div>').join('')+'</div></div></div></section>';
+ '<section class="wrap section">'+shead("Принципы","Во что мы верим","")+'<div class="grid cols-2" style="margin-top:32px">'+[["Признание выше рекламы","Мы не продаём видимость. Мы выносим вердикт."],["Судья, а не продавец","Можно получить отказ — и это делает «да» ценным."],["Статус, который нельзя купить","Взнос вносится только после признания."],["Доверие по умолчанию","Резидент Nova — сигнал рынку: проект прошёл отбор."]].map((p,i)=>'<div class="card hover spot reveal"><span class="mono" style="color:var(--blue)">0'+(i+1)+'</span><h3 style="margin-top:12px;font-size:19px;font-weight:600;color:#fff">'+p[0]+'</h3><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.5)">'+p[1]+'</p></div>').join('')+'</div></section>';
 
-V.kakstat=()=>pageHero("Путь резидента","От заявки до признания","Прозрачный процесс без бюрократии. Решение выносит Экспертный совет — и только после признания вы становитесь резидентом.")+
- '<section class="wrap section-pad"><div class="grid cols-2">'+STEPS.map((s,i)=>'<div class="bento spot hover reveal'+(i===4?' span2':'')+'" style="display:flex;gap:18px;align-items:flex-start"><span style="flex-shrink:0;width:48px;height:48px;border-radius:12px;border:1px solid var(--hair);background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;color:var(--blue)">'+s[0]+'</span><div><h3 style="font-size:16px;font-weight:600;color:#fff">'+s[1]+'</h3><p style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.46)">'+s[2]+'</p></div></div>').join('')+'</div></section>'+
- '<section class="wrap section-pad">'+shead("Критерии","Кого признаёт совет","Простой и честный чек-лист.")+'<div class="grid cols-4" style="margin-top:44px">'+CRITERIA.map(c=>'<div class="bento spot hover reveal"><span style="width:40px;height:40px;border-radius:50%;background:rgba(41,141,255,.15);color:var(--blue);display:flex;align-items:center;justify-content:center">'+ico('check')+'</span><h3 style="margin-top:16px;font-size:15px;font-weight:600;color:#fff">'+c[0]+'</h3><p style="margin-top:8px;font-size:13px;color:rgba(255,255,255,.45)">'+c[1]+'</p></div>').join('')+'</div></section>'+
- '<section class="wrap section-pad">'+shead("Вопросы","Частые вопросы","")+'<div class="grid cols-2" style="margin-top:44px">'+FAQ.map(f=>'<details class="bento reveal"><summary style="cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:16px;font-weight:500;color:#fff">'+f[0]+'<span style="flex-shrink:0;width:26px;height:26px;border-radius:50%;border:1px solid var(--hair);color:rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center">+</span></summary><p style="margin-top:16px;font-size:14px;color:rgba(255,255,255,.55)">'+f[1]+'</p></details>').join('')+'</div></section>';
+V.sovet=()=>phero("Кто выносит признание","Экспертный совет Nova","Девять практиков: основатели проектов-резидентов, инженеры, маркетологи и новаторы Nova.")+
+ '<section class="wrap section first" style="padding-top:48px"><div class="grid cols-3">'+COUNCIL.map(m=>'<div class="card hover spot reveal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#175aa8);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:600;color:#fff">'+m[0][0]+'</div><span class="tag">'+m[2]+'</span></div><h3 style="margin-top:18px;font-size:18px;font-weight:600;color:#fff">'+m[0]+'</h3><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.45)">'+m[1]+'</p></div>').join('')+'</div></section>';
 
-V.sovet=()=>pageHero("Кто выносит признание","Экспертный совет Nova","Девять практиков: основатели проектов-резидентов, инженеры, маркетологи и новаторы Nova.")+
- '<section class="wrap section-pad"><div class="grid cols-3">'+COUNCIL.map(m=>'<div class="bento spot hover reveal"><div style="display:flex;justify-content:space-between;align-items:center"><div class="av">'+m[0][0]+'</div><span class="pill">'+m[2]+'</span></div><h3 style="margin-top:20px;font-size:18px;font-weight:600;color:#fff">'+m[0]+'</h3><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.45)">'+m[1]+'</p></div>').join('')+'</div></section>'+
- '<section class="wrap section-pad">'+shead("Как принимается решение","Признание — это процесс, а не симпатия","")+'<div class="grid cols-3" style="margin-top:44px">'+[["Чек-лист","Каждую заявку оценивают по единым критериям: технология, продукт, команда, добросовестность."],["Голосование","Решение принимается коллегиально. Признание — вердикт большинства совета."],["Без конфликта интересов","Эксперт не голосует по проекту, с которым связан."]].map(h=>'<div class="bento spot hover reveal"><div class="ic">'+glyph("shield")+'</div><h3 style="margin-top:16px;font-size:18px;font-weight:600;color:#fff">'+h[0]+'</h3><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.5)">'+h[1]+'</p></div>').join('')+'</div></section>';
-
-V.reestr=()=>{
- const cats=Array.from(new Set(DB.residents.map(r=>r.category.split('·')[0].trim())));
- return pageHero(DB.residents.length+" признанных проектов","Реестр резидентов Nova","Официальный список признанных технологических команд. Подлинность каждого резидента можно проверить по ID.")+
- '<section class="wrap section-pad"><div class="grid cols-3" style="margin-bottom:32px">'+
-  '<div class="bento spot"><div class="num" style="font-size:32px;color:var(--blue)">'+DB.residents.length+'</div><p style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.45)">действующих резидентов</p></div>'+
-  '<div class="bento spot"><div class="num" style="font-size:32px">'+cats.length+'</div><p style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.45)">технологических направлений</p></div>'+
-  '<div class="bento spot"><div class="num" style="font-size:32px">100%</div><p style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.45)">статусов проверяемы по ID</p></div></div>'+
-  '<div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><div style="position:relative;flex:1;min-width:240px">'+
-  '<span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:rgba(255,255,255,.35)">'+ico('search')+'</span>'+
-  '<input id="regq" class="field" style="padding-left:40px" placeholder="Поиск по проекту, ID или категории…"></div>'+
-  '<div id="regcats" style="display:flex;gap:8px;flex-wrap:wrap"><button class="chip on" data-c="Все">Все</button>'+cats.map(c=>'<button class="chip" data-c="'+c+'">'+c+'</button>').join('')+'</div></div>'+
-  '<div style="margin:18px 0;font-family:var(--mono);font-size:12px;color:rgba(255,255,255,.35)" id="regcount"></div>'+
-  '<div class="grid cols-3" id="reglist"></div></section>';
+V.reestr=()=>{const cats=Array.from(new Set(DB.residents.map(r=>r.category.split('·')[0].trim())));
+ return phero("Реестр · "+DB.residents.length+" проектов","Реестр резидентов Nova","Официальный список признанных технологических команд. Подлинность каждого можно проверить по ID.")+
+ '<section class="wrap section first" style="padding-top:40px"><div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center"><div style="position:relative;flex:1;min-width:240px"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:rgba(255,255,255,.35)">'+ico('search')+'</span><input id="regq" class="field" style="padding-left:40px" placeholder="Поиск по проекту, ID или категории…"></div><div id="regcats" style="display:flex;gap:8px;flex-wrap:wrap"><button class="chip on" data-c="Все">Все</button>'+cats.map(c=>'<button class="chip" data-c="'+c+'">'+c+'</button>').join('')+'</div></div><div class="mono" style="margin:18px 0" id="regcount"></div><div class="grid cols-3" id="reglist"></div></section>';
+};
+V.rezident=(id)=>{const r=DB.residents.find(x=>x.id.toLowerCase()===String(id).toLowerCase());if(!r)return V.notfound();const exp=daysLeft(r.expiresAt)<0;
+ const det=(k,v)=>'<div style="border:1px solid var(--hair);background:rgba(255,255,255,.02);border-radius:11px;padding:16px"><div class="mono">'+k+'</div><div style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.8)">'+v+'</div></div>';
+ const row=(k,v)=>'<div class="stat-row"><span style="color:rgba(255,255,255,.4)">'+k+'</span><span style="color:rgba(255,255,255,.85)">'+v+'</span></div>';
+ return '<section class="wrap" style="padding-top:104px;padding-bottom:48px"><a class="link-dim" href="#/reestr" style="display:inline-flex;gap:8px;align-items:center"><span style="width:16px;height:16px;transform:rotate(180deg)">'+ico('arrow')+'</span> Назад в реестр</a><div class="grid" style="grid-template-columns:2fr 1fr;margin-top:28px">'+
+  '<div class="card reveal" style="padding:40px"><div style="display:flex;gap:12px;flex-wrap:wrap"><span class="badge" style="background:rgba(41,141,255,.13);padding:5px 12px;border-radius:99px">'+(exp?'Срок истёк':ico('check')+' Подлинность подтверждена')+'</span><span class="tag">'+r.category+'</span></div><h1 class="disp" style="margin-top:22px;font-weight:600;font-size:clamp(30px,5vw,48px);color:#fff">'+r.project+'</h1><p style="margin-top:10px;font-size:18px;color:rgba(255,255,255,.6)">'+r.tagline+'</p><p style="margin-top:22px;max-width:560px;color:rgba(255,255,255,.55);line-height:1.6">'+r.description+'</p><div class="grid cols-3" style="margin-top:28px">'+det("Основатели",r.founders)+det("Город",r.city)+det("Сайт",r.website?'<a style="color:var(--blue)" href="'+r.website+'" target="_blank">Перейти ↗</a>':"—")+'</div></div>'+
+  '<div class="card reveal" style="display:flex;flex-direction:column;justify-content:space-between;padding:30px"><div><div class="mono">Резидентский ID</div><div style="font-family:var(--mono);font-size:22px;color:#fff;margin-top:8px">'+r.id+'</div><div style="margin-top:22px">'+row("Статус",exp?'<span style="color:#f87171">Истёк</span>':'<span style="color:var(--blue)">Действующий</span>')+row("Признан",fmt(r.recognizedAt))+row("Действует до",fmt(r.expiresAt))+row("Плашка","Резидент Nova")+'</div></div><a class="btn btn-primary" href="#/sertifikat/'+r.id+'" style="margin-top:24px;width:100%;justify-content:center">'+ico('cert')+' Открыть сертификат</a></div></div></section>';
 };
 
-V.rezident=(id)=>{
- const r=DB.residents.find(x=>x.id.toLowerCase()===String(id).toLowerCase());
- if(!r)return V.notfound();
- const row=(k,v)=>'<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--hair);padding-bottom:12px;font-size:14px"><span style="color:rgba(255,255,255,.4)">'+k+'</span><span style="color:rgba(255,255,255,.8)">'+v+'</span></div>';
- const det=(k,v)=>'<div style="border:1px solid var(--hair);background:rgba(255,255,255,.02);border-radius:12px;padding:16px"><div class="mono">'+k+'</div><div style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.8)">'+v+'</div></div>';
- return '<section class="wrap" style="padding-top:110px;padding-bottom:60px"><a class="link-dim" href="#/reestr" style="display:inline-flex;gap:8px;align-items:center"><span style="width:16px;height:16px;transform:rotate(180deg)">'+ico('arrow')+'</span> Назад в реестр</a>'+
- '<div class="grid" style="grid-template-columns:2fr 1fr;margin-top:32px">'+
- '<div class="bento spot reveal" style="position:relative;overflow:hidden;padding:40px"><div class="aura a3" style="width:80%;height:80%;left:90%;top:-20%;opacity:.2"></div>'+
-  '<div style="display:flex;gap:12px;flex-wrap:wrap"><span class="badge" style="background:rgba(41,141,255,.15);padding:5px 12px;border-radius:99px">'+ico('check')+' Подлинность подтверждена</span><span class="pill">'+r.category+'</span></div>'+
-  '<h1 class="disp" style="margin-top:24px;font-weight:600;font-size:clamp(32px,5vw,52px);color:#fff">'+r.project+'</h1><p style="margin-top:12px;font-size:18px;color:rgba(255,255,255,.6)">'+r.tagline+'</p>'+
-  '<p style="margin-top:24px;max-width:560px;color:rgba(255,255,255,.55);line-height:1.6">'+r.description+'</p>'+
-  '<div class="grid cols-3" style="margin-top:32px">'+det("Основатели",r.founders)+det("Город",r.city)+det("Сайт",r.website?'<a style="color:var(--blue)" href="'+r.website+'" target="_blank">Перейти ↗</a>':"—")+'</div></div>'+
- '<div class="bento spot reveal" style="display:flex;flex-direction:column;justify-content:space-between;padding:32px"><div><div class="mono">Резидентский ID</div><div class="num" style="font-family:var(--mono);font-size:24px;margin-top:8px">'+r.id+'</div>'+
-  '<div style="margin-top:24px;display:grid;gap:14px">'+row("Статус",'<span style="color:var(--blue)">Действующий резидент</span>')+row("Признан",fmt(r.recognizedAt))+row("Срок","12 месяцев")+row("Плашка","Резидент Nova")+'</div></div>'+
-  '<a class="btn btn-primary" href="#/sertifikat/'+r.id+'" style="margin-top:28px;width:100%;justify-content:center">'+ico('cert')+' Открыть сертификат</a></div>'+
- '</div>'+
- '<div class="bento spot" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><p style="font-size:14px;color:rgba(255,255,255,.5);max-width:560px">Эта страница — официальное подтверждение, что проект является резидентом Nova. На неё ведёт QR-код с сертификата.</p><a class="btn btn-ghost" href="#/proverka">Проверить другой ID</a></div></section>';
-};
-
-V.sertifikat=(id)=>{
- const r=DB.residents.find(x=>x.id.toLowerCase()===String(id).toLowerCase());
- if(!r)return V.notfound();
- return '<section class="wrap" style="padding-top:110px;padding-bottom:80px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:32px"><a class="link-dim" href="#/rezident/'+r.id+'" style="display:inline-flex;gap:8px;align-items:center"><span style="width:16px;height:16px;transform:rotate(180deg)">'+ico('arrow')+'</span> К профилю резидента</a><button class="btn btn-ghost" onclick="window.print()">'+ico('arrowUR')+' Печать / PDF</button></div>'+
+/* ===== CERTIFICATE — UNCHANGED ===== */
+V.sertifikat=(id)=>{const r=DB.residents.find(x=>x.id.toLowerCase()===String(id).toLowerCase());if(!r)return V.notfound();
+ return '<section class="wrap" style="padding-top:104px;padding-bottom:72px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:30px"><a class="link-dim" href="#/rezident/'+r.id+'" style="display:inline-flex;gap:8px;align-items:center"><span style="width:16px;height:16px;transform:rotate(180deg)">'+ico('arrow')+'</span> К профилю резидента</a><button class="btn btn-ghost" onclick="window.print()">'+ico('arrowUR')+' Печать / PDF</button></div>'+
  '<div style="max-width:780px;margin:0 auto"><div class="cert-frame"><div class="cert">'+
   '<span class="corner" style="left:20px;top:20px"></span><span class="corner" style="right:20px;top:20px;transform:rotate(90deg)"></span><span class="corner" style="left:20px;bottom:20px;transform:rotate(-90deg)"></span><span class="corner" style="right:20px;bottom:20px;transform:rotate(180deg)"></span>'+
-  '<div class="aura a2" style="width:70%;height:50%;left:50%;top:-10%;transform:translateX(-50%);opacity:.18"></div>'+
-  '<div style="display:flex;justify-content:space-between;align-items:center"><a class="logo">'+LOGO_SVG+'Nova<span class="dim"> Scout</span></a><span class="pill">Сертификат резидента</span></div>'+
+  '<div class="aura" style="width:70%;height:50%;left:50%;top:-10%;transform:translateX(-50%);background:radial-gradient(circle,#298DFF,transparent 60%);opacity:.18"></div>'+
+  '<div style="display:flex;justify-content:space-between;align-items:center"><span class="logo">'+LOGO+'Nova<span class="dim"> Scout</span></span><span class="pill">Сертификат резидента</span></div>'+
   '<div style="text-align:center;margin-top:48px"><div class="mono">Настоящим подтверждается, что проект</div><h1 class="disp" style="margin-top:20px;font-weight:600;font-size:clamp(32px,5vw,48px);color:#fff">'+r.project+'</h1><p style="margin-top:12px;color:rgba(255,255,255,.55)">'+r.tagline+'</p><p style="max-width:420px;margin:28px auto 0;font-size:14px;color:rgba(255,255,255,.55)">признан Экспертным советом Nova и является официальным <span style="color:var(--blue)">резидентом сообщества</span> сроком на 12 месяцев.</p></div>'+
-  '<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:48px;flex-wrap:wrap">'+
-   '<div style="display:grid;gap:16px"><div><div class="mono">Резидентский ID</div><div style="margin-top:4px;font-family:var(--mono);font-size:14px;color:#fff">'+r.id+'</div></div><div><div class="mono">Дата признания</div><div style="margin-top:4px;color:#fff">'+fmt(r.recognizedAt)+'</div></div><div><div class="mono">Категория</div><div style="margin-top:4px;color:#fff">'+r.category+'</div></div></div>'+
+  '<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:48px;flex-wrap:wrap"><div style="display:grid;gap:16px"><div><div class="mono">Резидентский ID</div><div style="margin-top:4px;font-family:var(--mono);font-size:14px;color:#fff">'+r.id+'</div></div><div><div class="mono">Дата признания</div><div style="margin-top:4px;color:#fff">'+fmt(r.recognizedAt)+'</div></div><div><div class="mono">Категория</div><div style="margin-top:4px;color:#fff">'+r.category+'</div></div></div>'+
    '<div style="display:flex;flex-direction:column;align-items:center;gap:8px"><div style="border:1px solid var(--hair);background:rgba(255,255,255,.02);border-radius:16px;padding:12px"><canvas id="certqr" width="120" height="120" style="width:120px;height:120px"></canvas></div><span class="mono" style="font-size:10px">Сканируйте для проверки</span></div></div>'+
   '<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:48px;border-top:1px solid var(--hair);padding-top:24px"><div><div style="font-family:cursive;font-size:24px;color:rgba(255,255,255,.85)">Nova Council</div><div class="mono" style="margin-top:4px">Экспертный совет</div></div><div style="text-align:right"><div style="font-size:14px;color:rgba(255,255,255,.7)">Nova Scout</div><div class="mono" style="margin-top:4px">novascout.ru</div></div></div>'+
   '</div></div><p style="text-align:center;margin-top:24px;font-size:14px;color:rgba(255,255,255,.4)">QR-код ведёт на <a class="link-dim" style="color:var(--blue)" href="#/rezident/'+r.id+'">официальную страницу резидента</a> — это и есть подтверждение подлинности.</p></div></section>';
 };
 
-V.proverka=()=>pageHero("Проверка подлинности","Проверить резидента по ID","Подлинность статуса резидента Nova подтверждается онлайн. Никаких посредников — только официальный реестр.")+
- '<section class="wrap section-pad"><div style="max-width:640px;margin:0 auto"><div class="bento spot reveal" style="padding:32px">'+
- '<div style="display:flex;gap:12px;flex-wrap:wrap"><div style="position:relative;flex:1;min-width:220px"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:rgba(255,255,255,.35)">'+ico('idc')+'</span><input id="vid" class="field" style="padding-left:40px;font-family:var(--mono);text-transform:uppercase" placeholder="Например, NSR-2026-0001"></div><button class="btn btn-primary" id="vbtn">Проверить '+ico('arrow')+'</button></div>'+
- '<div id="vres" style="margin-top:20px"></div></div>'+
- '<div class="grid cols-3" style="margin-top:32px">'+[["Что это","Введите резидентский ID — увидите официальную карточку проекта."],["Откуда ID","ID указан на сертификате и в плашке «Резидент Nova». Тот же результат даёт QR."],["Зачем","Чтобы инвестор, партнёр или клиент за секунду убедился: проект признан Nova."]].map(f=>'<div class="bento spot reveal"><div style="width:20px;height:20px;color:var(--blue)">'+ico('shield')+'</div><h3 style="margin-top:12px;font-size:14px;font-weight:600;color:#fff">'+f[0]+'</h3><p style="margin-top:6px;font-size:14px;color:rgba(255,255,255,.45)">'+f[1]+'</p></div>').join('')+'</div></div></section>';
+V.proverka=()=>phero("Проверка подлинности","Проверить резидента по ID","Подлинность статуса резидента Nova подтверждается онлайн. Только официальный реестр.")+
+ '<section class="wrap section first" style="padding-top:40px"><div style="max-width:640px;margin:0 auto"><div class="card reveal" style="padding:30px"><div style="display:flex;gap:12px;flex-wrap:wrap"><div style="position:relative;flex:1;min-width:220px"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:rgba(255,255,255,.35)">'+ico('idc')+'</span><input id="vid" class="field" style="padding-left:40px;font-family:var(--mono);text-transform:uppercase" placeholder="Например, NSR-2026-0001"></div><button class="btn btn-primary" id="vbtn">Проверить '+ico('arrow')+'</button></div><div id="vres" style="margin-top:20px"></div></div></div></section>';
 
-V.zayavka=()=>pageHero("Заявка на резидентство","Представьте проект совету","Расскажите о продукте, команде и технологии. Если совет признает проект — вы получите приглашение в резиденты Nova.")+
- '<section class="wrap section-pad"><div class="grid" style="grid-template-columns:1fr 2.2fr">'+
- '<div class="grid reveal" style="align-content:start">'+[["10 минут","Столько занимает заявка."],["1–5 дней","Рассмотрение Экспертным советом."],["Взнос потом","Платите только после признания."]].map(a=>'<div class="bento spot"><div style="width:20px;height:20px;color:var(--blue)">'+ico('spark')+'</div><div class="num" style="font-size:24px;margin-top:12px">'+a[0]+'</div><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.45)">'+a[1]+'</p></div>').join('')+'</div>'+
+V.zayavka=()=>phero("Заявка на резидентство","Представьте проект совету","Расскажите о продукте, команде и технологии. Если совет признает проект — вы получите приглашение в резиденты Nova.")+
+ '<section class="wrap section first" style="padding-top:40px"><div class="grid" style="grid-template-columns:1fr 2.2fr">'+
+ '<div class="grid reveal" style="align-content:start">'+[["10 минут","Столько занимает заявка."],["1–5 дней","Рассмотрение Экспертным советом."],["Взнос потом","Платите только после признания."]].map(a=>'<div class="card"><div class="num" style="font-size:24px">'+a[0]+'</div><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.45)">'+a[1]+'</p></div>').join('')+'</div>'+
  '<div id="applyzone" class="reveal"></div></div></section>';
-function applyFormHTML(){
- const f=(name,label,ph,t)=>'<div><label class="flabel">'+label+'</label><input data-f="'+name+'" class="field" type="'+(t||'text')+'" placeholder="'+ph+'"></div>';
- return '<div class="bento spot" style="padding:32px"><div class="grid cols-2">'+
-  f("project","Название проекта","Например, Helix AI")+f("tagline","Одной строкой","Голосовой ассистент для клиник")+
-  f("category","Категория","HealthTech · ИИ")+f("city","Город","Москва")+
-  f("founders","Основатели","Имена основателей")+f("website","Сайт / демо (необязательно)","https://…")+
-  f("email","Email для связи","you@startup.com","email")+f("telegram","Telegram (необязательно)","@username")+'</div>'+
+function applyFormHTML(){const f=(name,label,ph,t)=>'<div><label class="flabel">'+label+'</label><input data-f="'+name+'" class="field" type="'+(t||'text')+'" placeholder="'+ph+'"></div>';
+ return '<div class="card" style="padding:30px"><div class="grid cols-2">'+f("project","Название проекта","Например, Helix AI")+f("tagline","Одной строкой","Голосовой ассистент для клиник")+f("category","Категория","HealthTech · ИИ")+f("city","Город","Москва")+f("founders","Основатели","Имена основателей")+f("website","Сайт / демо (необязательно)","https://…")+f("email","Email для связи","you@startup.com","email")+f("telegram","Telegram (необязательно)","@username")+'</div>'+
   '<div style="margin-top:20px"><label class="flabel">Стадия проекта</label><div id="stagechips" style="display:flex;gap:8px;flex-wrap:wrap">'+["Идея с прототипом","MVP","Первые пользователи","Растущий продукт"].map((s,i)=>'<button type="button" class="chip'+(i===1?' on':'')+'" data-stage="'+s+'">'+s+'</button>').join('')+'</div></div>'+
-  '<div style="margin-top:20px"><label class="flabel">Роль ИИ / технологии в проекте</label><textarea data-f="ai" class="field" rows="2" placeholder="Какую технологию вы используете и почему она ключевая?"></textarea></div>'+
+  '<div style="margin-top:20px"><label class="flabel">Роль ИИ / технологии</label><textarea data-f="ai" class="field" rows="2" placeholder="Какую технологию вы используете и почему она ключевая?"></textarea></div>'+
   '<div style="margin-top:20px"><label class="flabel">Описание проекта</label><textarea data-f="description" class="field" rows="4" placeholder="Что вы делаете, для кого и какую проблему решаете?"></textarea></div>'+
-  '<div id="applyerr"></div>'+
-  '<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:24px;flex-wrap:wrap"><p style="font-size:12px;color:rgba(255,255,255,.4)">Отправляя заявку, вы соглашаетесь с <a class="link-dim" style="text-decoration:underline" href="#/oferta">офертой</a> и <a class="link-dim" style="text-decoration:underline" href="#/politika">политикой</a>.</p><button class="btn btn-primary" id="applybtn">Отправить на рассмотрение '+ico('arrow')+'</button></div></div>';
+  '<div id="applyerr"></div><div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:24px;flex-wrap:wrap"><p style="font-size:12px;color:rgba(255,255,255,.4)">Отправляя заявку, вы соглашаетесь с <a class="link-dim" style="text-decoration:underline" href="#/oferta">офертой</a>.</p><button class="btn btn-primary" id="applybtn">Отправить на рассмотрение '+ico('arrow')+'</button></div></div>';
 }
 
-V.blog=()=>{const[lead,...rest]=POSTS;return pageHero("Журнал Nova","Истории, процессы, резиденты","Как устроено признание, кого мы отбираем и почему технологиям нужно доверие.")+
- '<section class="wrap section-pad"><a class="bento spot hover reveal" href="#/blog/'+lead[0]+'" style="display:grid;grid-template-columns:1fr 1fr;overflow:hidden;padding:0"><div style="position:relative;min-height:220px;background:radial-gradient(80% 120% at 30% 0%,rgba(41,141,255,.35),transparent 60%)"><span class="pill" style="position:absolute;left:24px;top:24px">'+lead[2]+'</span></div><div style="padding:40px;display:flex;flex-direction:column;justify-content:center"><span class="mono">'+fmt(lead[3])+'</span><h2 class="disp" style="margin-top:16px;font-weight:600;font-size:clamp(22px,3vw,30px);color:#fff">'+lead[1]+'</h2><p style="margin-top:12px;color:rgba(255,255,255,.55)">'+lead[4][0]+'</p><span class="badge" style="margin-top:20px">Читать '+ico('arrow')+'</span></div></a>'+
- '<div class="grid cols-2" style="margin-top:16px">'+rest.map(p=>'<a class="bento spot hover reveal" href="#/blog/'+p[0]+'" style="display:flex;flex-direction:column"><div style="display:flex;justify-content:space-between;align-items:center"><span class="pill">'+p[2]+'</span><span class="idmono">'+fmt(p[3])+'</span></div><h3 style="margin-top:20px;font-size:20px;font-weight:600;color:#fff">'+p[1]+'</h3><p style="margin-top:8px;flex:1;font-size:14px;color:rgba(255,255,255,.45)">'+p[4][0]+'</p><span class="badge" style="margin-top:20px">Читать '+ico('arrow')+'</span></a>').join('')+'</div></section>';
-};
-V.post=(slug)=>{const p=POSTS.find(x=>x[0]===slug);if(!p)return V.notfound();return '<article class="wrap" style="padding-top:110px;padding-bottom:60px"><a class="link-dim" href="#/blog" style="display:inline-flex;gap:8px;align-items:center"><span style="width:16px;height:16px;transform:rotate(180deg)">'+ico('arrow')+'</span> Все статьи</a><div style="max-width:680px;margin:32px auto 0"><span class="pill">'+p[2]+'</span><h1 class="disp" style="margin-top:20px;font-weight:600;font-size:clamp(28px,5vw,46px);line-height:1.1;color:#fff">'+p[1]+'</h1><div class="mono" style="margin-top:16px">'+fmt(p[3])+'</div><div style="margin-top:32px;display:grid;gap:20px;font-size:17px;line-height:1.7;color:rgba(255,255,255,.65)">'+p[4].map(par=>'<p>'+par+'</p>').join('')+'</div><div style="margin-top:48px;border:1px solid var(--hair);background:rgba(41,141,255,.06);border-radius:16px;padding:24px;text-align:center"><p style="color:rgba(255,255,255,.7)">Готовы получить признание совета?</p><a class="btn btn-primary" href="#/zayavka" style="margin-top:16px">Подать заявку '+ico('arrow')+'</a></div></div></article>';};
+V.blog=()=>phero("Журнал Nova","Материалы и истории","Лента новостей из мира ИИ и истории резидентов.")+
+ '<section class="wrap section first" style="padding-top:40px"><div class="grid cols-3">'+DB.news.map(newsCard).join('')+'</div></section>';
 
+/* ===== ADMIN ===== */
+let adminTab='apps', appFilter='all', newsEditId=null;
 V.admin=()=>{
- const authed=sessionStorage.getItem('nova_admin_ok')==='1';
- if(!authed)return '<section class="wrap" style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding-top:80px"><div class="bento spot" style="max-width:400px;width:100%;padding:32px"><h1 class="disp" style="font-weight:600;font-size:24px;color:#fff">Админ-панель Nova</h1><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.45)">Введите токен доступа для управления заявками.</p><input id="atoken" class="field" type="password" style="margin-top:20px" placeholder="ADMIN_TOKEN"><div id="aerr"></div><button class="btn btn-primary" id="alogin" style="margin-top:16px;width:100%;justify-content:center">Войти</button><p class="mono" style="margin-top:16px;font-size:10px;color:rgba(255,255,255,.3)">demo-токен: nova-admin</p></div></section>';
- const apps=DB.applications;
- const meta={new:["Новая","rgba(255,255,255,.2)","rgba(255,255,255,.7)"],review:["На рассмотрении","rgba(251,191,36,.4)","#fcd34d"],recognized:["Признан","rgba(41,141,255,.5)","var(--blue)"],declined:["Отклонён","rgba(248,113,113,.4)","#fca5a5"]};
- const cnt=s=>apps.filter(a=>a.status===s).length;
- const card=a=>'<div class="bento spot" data-app="'+a.ref+'"><div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><div><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><h3 class="disp" style="font-weight:600;font-size:20px;color:#fff">'+a.project+'</h3><span style="border:1px solid '+meta[a.status][1]+';color:'+meta[a.status][2]+';border-radius:99px;padding:3px 10px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em">'+meta[a.status][0]+'</span>'+(a.residentId?'<a class="idmono" style="color:var(--blue)" href="#/rezident/'+a.residentId+'">'+a.residentId+' ↗</a>':'')+'</div><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.55)">'+a.tagline+'</p></div><span class="idmono">'+a.ref+'</span></div>'+
-   '<div class="grid cols-3" style="margin-top:16px;gap:8px 24px">'+[["Категория",a.category],["Город",a.city],["Стадия",a.stage],["Основатели",a.founders],["Email",a.email],["Telegram",a.telegram||"—"]].map(x=>'<div style="font-size:14px"><span style="color:rgba(255,255,255,.3)">'+x[0]+': </span><span style="color:rgba(255,255,255,.7)">'+x[1]+'</span></div>').join('')+'</div>'+
-   '<p style="margin-top:16px;font-size:14px;color:rgba(255,255,255,.55)">'+a.description+'</p><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.4)"><span style="color:rgba(255,255,255,.3)">ИИ/технология: </span>'+a.ai+'</p>'+
-   '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;border-top:1px solid var(--hair);padding-top:16px"><button class="btn btn-ghost btn-sm" data-act="review" data-ref="'+a.ref+'">На рассмотрение</button><button class="btn btn-primary btn-sm" data-act="recognized" data-ref="'+a.ref+'"'+(a.status==='recognized'?' disabled':'')+'>'+ico('check')+' Признать</button><button class="btn btn-danger btn-sm" data-act="declined" data-ref="'+a.ref+'">Отклонить</button></div></div>';
- return '<section class="wrap" style="padding-top:110px;padding-bottom:60px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><div><h1 class="disp" style="font-weight:600;font-size:clamp(28px,4vw,36px);color:#fff">Заявки</h1><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.45)">'+apps.length+' заявок · '+DB.residents.length+' резидентов в реестре</p></div><button class="btn btn-ghost" id="alogout">Выйти</button></div>'+
-  '<div id="afilters" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:28px"><button class="chip on" data-fs="all">Все · '+apps.length+'</button>'+["new","review","recognized","declined"].map(s=>'<button class="chip" data-fs="'+s+'">'+meta[s][0]+' · '+cnt(s)+'</button>').join('')+'</div>'+
-  '<div id="alist" style="display:grid;gap:16px;margin-top:28px">'+(apps.length?apps.map(card).join(''):'<div class="bento" style="text-align:center;padding:48px;color:rgba(255,255,255,.45)">Заявок пока нет.</div>')+'</div></section>';
+ if(sessionStorage.getItem('nova_admin_ok')!=='1')return '<section class="wrap" style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding-top:80px"><div class="card" style="max-width:400px;width:100%;padding:32px"><h1 class="disp" style="font-weight:600;font-size:24px;color:#fff">Админ-панель Nova</h1><p style="margin-top:8px;font-size:14px;color:rgba(255,255,255,.45)">Введите токен доступа.</p><input id="atoken" class="field" type="password" style="margin-top:20px" placeholder="ADMIN_TOKEN"><div id="aerr"></div><button class="btn btn-primary" id="alogin" style="margin-top:16px;width:100%;justify-content:center">Войти</button><p class="mono" style="margin-top:16px;font-size:10px;color:rgba(255,255,255,.3)">demo-токен: nova-admin</p></div></section>';
+ const tabs=[["apps","Заявки",DB.applications.length],["residents","Резиденты",DB.residents.length],["news","Новости",DB.news.length]];
+ let body=adminTab==='apps'?adminApps():adminTab==='residents'?adminResidents():adminNews();
+ return '<section class="wrap" style="padding-top:104px;padding-bottom:56px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px"><div><h1 class="disp" style="font-weight:600;font-size:clamp(26px,4vw,34px);color:#fff">Админ-панель</h1><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.45)">'+DB.applications.length+' заявок · '+DB.residents.length+' резидентов · '+DB.news.length+' новостей</p></div><button class="btn btn-ghost" id="alogout">Выйти</button></div>'+
+  '<div style="display:flex;gap:8px;margin-top:24px;border-bottom:1px solid var(--hair)">'+tabs.map(t=>'<button class="tabbtn" data-tab="'+t[0]+'" style="background:none;border:none;border-bottom:2px solid '+(adminTab===t[0]?'var(--blue)':'transparent')+';color:'+(adminTab===t[0]?'#fff':'rgba(255,255,255,.5)')+';font-family:inherit;font-size:14px;padding:10px 14px;cursor:pointer">'+t[1]+' <span class="idmono">'+t[2]+'</span></button>').join('')+'</div>'+
+  '<div style="margin-top:28px">'+body+'</div></section>';
 };
+function adminApps(){const apps=DB.applications;const meta={new:["Новая","rgba(255,255,255,.2)","rgba(255,255,255,.7)"],review:["На рассмотрении","rgba(251,191,36,.4)","#fcd34d"],recognized:["Признан","rgba(41,141,255,.5)","var(--blue)"],declined:["Отклонён","rgba(248,113,113,.4)","#fca5a5"]};const cnt=s=>apps.filter(a=>a.status===s).length;
+ const card=a=>'<div class="card" data-app="'+a.ref+'" style="display:'+((appFilter==='all'||a.status===appFilter)?'block':'none')+'"><div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><div><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><h3 class="disp" style="font-weight:600;font-size:20px;color:#fff">'+a.project+'</h3><span style="border:1px solid '+meta[a.status][1]+';color:'+meta[a.status][2]+';border-radius:99px;padding:3px 10px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em">'+meta[a.status][0]+'</span>'+(a.residentId?'<a class="idmono" style="color:var(--blue)" href="#/rezident/'+a.residentId+'">'+a.residentId+' ↗</a>':'')+'</div><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.55)">'+a.tagline+'</p></div><span class="idmono">'+a.ref+'</span></div>'+
+   '<div class="grid cols-3" style="margin-top:16px;gap:8px 24px">'+[["Категория",a.category],["Город",a.city],["Стадия",a.stage],["Основатели",a.founders],["Email",a.email],["Telegram",a.telegram||"—"]].map(x=>'<div style="font-size:14px"><span style="color:rgba(255,255,255,.3)">'+x[0]+': </span><span style="color:rgba(255,255,255,.7)">'+x[1]+'</span></div>').join('')+'</div>'+
+   '<p style="margin-top:14px;font-size:14px;color:rgba(255,255,255,.55)">'+a.description+'</p>'+
+   '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;border-top:1px solid var(--hair);padding-top:16px"><button class="btn btn-ghost btn-sm" data-aact="review" data-ref="'+a.ref+'">На рассмотрение</button><button class="btn btn-primary btn-sm" data-aact="recognized" data-ref="'+a.ref+'"'+(a.status==='recognized'?' disabled':'')+'>'+ico('check')+' Признать</button><button class="btn btn-danger btn-sm" data-aact="declined" data-ref="'+a.ref+'">Отклонить</button></div></div>';
+ return '<div id="afilters" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px"><button class="chip'+(appFilter==='all'?' on':'')+'" data-fs="all">Все · '+apps.length+'</button>'+["new","review","recognized","declined"].map(s=>'<button class="chip'+(appFilter===s?' on':'')+'" data-fs="'+s+'">'+meta[s][0]+' · '+cnt(s)+'</button>').join('')+'</div><div style="display:grid;gap:16px">'+(apps.length?apps.map(card).join(''):'<div class="card" style="text-align:center;padding:48px;color:rgba(255,255,255,.45)">Заявок нет.</div>')+'</div>';
+}
+function adminResidents(){
+ const row=r=>{const dl=daysLeft(r.expiresAt),exp=dl<0;
+  return '<div class="card"><div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><div><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><h3 class="disp" style="font-weight:600;font-size:20px;color:#fff">'+r.project+'</h3><a class="idmono" style="color:var(--blue)" href="#/rezident/'+r.id+'">'+r.id+' ↗</a><span style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:'+(exp?'#f87171':'#34d399')+'"><span class="statusdot" style="background:'+(exp?'#f87171':'#34d399')+'"></span>'+(exp?'Истёк':'Активен · '+dl+' дн.')+'</span></div><p style="margin-top:4px;font-size:14px;color:rgba(255,255,255,.55)">'+r.tagline+'</p></div></div>'+
+  '<div class="grid cols-3" style="margin-top:16px;gap:8px 24px">'+[["Категория",r.category],["Город",r.city],["Основатели",r.founders],["Email",r.email||"—"],["Telegram",r.telegram||"—"],["Сайт",r.website||"—"],["Признан",fmt(r.recognizedAt)],["Действует до",fmt(r.expiresAt)]].map(x=>'<div style="font-size:14px"><span style="color:rgba(255,255,255,.3)">'+x[0]+': </span><span style="color:rgba(255,255,255,.7)">'+x[1]+'</span></div>').join('')+'</div>'+
+  '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;border-top:1px solid var(--hair);padding-top:16px;align-items:center"><span class="mono" style="margin-right:4px">'+ico('clock')+' Продлить:</span><button class="btn btn-ghost btn-sm" data-ext="day" data-id="'+r.id+'">+1 день</button><button class="btn btn-ghost btn-sm" data-ext="month" data-id="'+r.id+'">+1 месяц</button><button class="btn btn-ghost btn-sm" data-ext="year" data-id="'+r.id+'">+1 год</button><span style="flex:1"></span><a class="btn btn-ghost btn-sm" href="#/sertifikat/'+r.id+'">Сертификат</a><button class="btn btn-danger btn-sm" data-del="'+r.id+'">'+ico('trash')+' Убрать из реестра</button></div></div>';};
+ return '<p style="font-size:14px;color:rgba(255,255,255,.45);margin-bottom:20px">Управление действующими резидентами: данные, контакты, продление срока и исключение из реестра.</p><div style="display:grid;gap:16px">'+(DB.residents.length?DB.residents.map(row).join(''):'<div class="card" style="text-align:center;padding:48px;color:rgba(255,255,255,.45)">В реестре пока нет резидентов.</div>')+'</div>';
+}
+function adminNews(){
+ const e=newsEditId?DB.news.find(n=>n.id===newsEditId):null;
+ const form='<div class="card" style="margin-bottom:20px"><div class="kicker" style="margin-bottom:16px"><span class="c">'+(e?'Редактирование новости':'Новая новость')+'</span></div>'+
+  '<div class="grid cols-2"><div><label class="flabel">Заголовок</label><input id="nf-title" class="field" value="'+(e?esc(e.title):'')+'"></div><div><label class="flabel">Категория</label><input id="nf-cat" class="field" value="'+(e?esc(e.cat):'')+'" placeholder="Технологии"></div></div>'+
+  '<div style="margin-top:16px"><label class="flabel">Дата</label><input id="nf-date" class="field" type="date" value="'+(e?e.date:new Date().toISOString().slice(0,10))+'" style="max-width:220px"></div>'+
+  '<div style="margin-top:16px"><label class="flabel">Краткое описание</label><textarea id="nf-exc" class="field" rows="2">'+(e?esc(e.excerpt):'')+'</textarea></div>'+
+  '<div style="margin-top:16px"><label class="flabel">Текст (абзацы с новой строки)</label><textarea id="nf-body" class="field" rows="4">'+(e?esc(e.body.join('\n')):'')+'</textarea></div>'+
+  '<div id="nf-err"></div><div style="display:flex;gap:10px;margin-top:18px">'+(e?'<button class="btn btn-primary" id="nf-save">'+ico('check')+' Сохранить</button><button class="btn btn-ghost" id="nf-cancel">Отмена</button>':'<button class="btn btn-primary" id="nf-save">'+ico('plus')+' Добавить новость</button>')+'</div></div>';
+ const list=DB.news.map(n=>'<div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"><div><div class="dateline"><span class="tag">'+n.cat+'</span><span>'+fmt(n.date)+'</span></div><h3 style="margin-top:8px;font-size:16px;font-weight:600;color:#fff">'+n.title+'</h3></div><div style="display:flex;gap:8px"><button class="btn btn-ghost btn-sm" data-nedit="'+n.id+'">'+ico('edit')+' Изменить</button><button class="btn btn-danger btn-sm" data-ndel="'+n.id+'">'+ico('trash')+'</button></div></div>').join('');
+ return form+'<div style="display:grid;gap:12px">'+list+'</div>';
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
-function legal(title,intro,secs){return '<section class="wrap" style="padding-top:110px;padding-bottom:60px"><div style="max-width:760px;margin:0 auto"><span class="pill">Документ</span><h1 class="disp" style="margin-top:20px;font-weight:600;font-size:clamp(28px,4vw,40px);color:#fff">'+title+'</h1><div class="mono" style="margin-top:12px">Редакция от 26 июня 2026</div><div style="margin-top:24px;border:1px solid var(--hair);background:rgba(255,255,255,.02);border-radius:12px;padding:20px;font-size:14px;color:rgba(255,255,255,.55)">'+intro+'</div><div style="margin-top:40px;display:grid;gap:36px">'+secs.map((s,i)=>'<div><h2 style="font-size:18px;font-weight:600;color:#fff">'+(i+1)+'. '+s[0]+'</h2><div style="margin-top:12px;display:grid;gap:12px;font-size:15px;line-height:1.6;color:rgba(255,255,255,.6)">'+s[1].map(p=>'<p>'+p+'</p>').join('')+'</div></div>').join('')+'</div><div class="note" style="margin-top:48px">Это типовой шаблон. Перед публикацией финализируйте документ с юристом и подставьте реквизиты организации.</div></div></section>';}
-V.oferta=()=>legal("Публичная оферта о членстве","Настоящий документ является официальным предложением Nova Scout о вступлении в сообщество и получении статуса резидента на условиях ниже.",[["Предмет",["Сообщество предоставляет признанному проекту статус резидента сроком на 12 месяцев и связанный набор преимуществ.","Статус не является рекламной услугой или гарантией инвестиций, прибыли или иного коммерческого результата."]],["Порядок вступления",["Кандидат подаёт заявку. Экспертный совет рассматривает её до 5 рабочих дней.","Только после признания вносится членский взнос 15 000 ₽ — и активируется статус."]],["Членский взнос",["Взнос составляет 15 000 ₽ за 12 месяцев и не является оплатой отдельных услуг.","Средства направляются на развитие экосистемы и работу совета."]],["Отзыв статуса",["Статус может быть отозван при недостоверных сведениях или недобросовестных действиях."]]]);
-V.politika=()=>legal("Политика конфиденциальности","Политика описывает, как Nova Scout обрабатывает персональные данные в соответствии с ФЗ-152.",[["Какие данные мы собираем",["При подаче заявки: название проекта, описание, имена основателей, город, email и (по желанию) Telegram и сайт."]],["Цели обработки",["Рассмотрение заявки советом, связь с кандидатом, оформление статуса и размещение в реестре."]],["Права субъекта",["Вы вправе запросить доступ к данным, их уточнение или удаление, написав на council@novascout.ru."]]]);
-
-V.notfound=()=>'<section class="wrap" style="min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:80px"><span class="pill">Ошибка 404</span><h1 class="disp" style="margin-top:24px;font-weight:600;font-size:64px;color:#fff;text-shadow:0 0 40px rgba(41,141,255,.45)">404</h1><p style="margin-top:16px;max-width:360px;color:rgba(255,255,255,.55)">Страница не найдена. Возможно, ссылка устарела или ID указан неверно.</p><div style="display:flex;gap:12px;margin-top:32px"><a class="btn btn-primary" href="#/">На главную '+ico('arrow')+'</a><a class="btn btn-ghost" href="#/proverka">Проверить ID</a></div></section>';
+function legal(title,intro,secs){return '<section class="wrap" style="padding-top:104px;padding-bottom:56px"><div style="max-width:760px;margin:0 auto"><span class="pill">Документ</span><h1 class="disp" style="margin-top:18px;font-weight:600;font-size:clamp(28px,4vw,40px);color:#fff">'+title+'</h1><div class="mono" style="margin-top:12px">Редакция от 26 июня 2026</div><div style="margin-top:24px;border:1px solid var(--hair);background:rgba(255,255,255,.02);border-radius:12px;padding:20px;font-size:14px;color:rgba(255,255,255,.55)">'+intro+'</div><div style="margin-top:40px;display:grid;gap:36px">'+secs.map((s,i)=>'<div><h2 style="font-size:18px;font-weight:600;color:#fff">'+(i+1)+'. '+s[0]+'</h2><div style="margin-top:12px;display:grid;gap:12px;font-size:15px;line-height:1.6;color:rgba(255,255,255,.6)">'+s[1].map(p=>'<p>'+p+'</p>').join('')+'</div></div>').join('')+'</div><div class="note" style="margin-top:48px">Типовой шаблон. Перед публикацией финализируйте с юристом.</div></div></section>';}
+V.oferta=()=>legal("Публичная оферта о членстве","Официальное предложение Nova Scout о вступлении в сообщество и получении статуса резидента.",[["Предмет",["Сообщество предоставляет признанному проекту статус резидента сроком на 12 месяцев и набор преимуществ.","Статус не является рекламной услугой или гарантией результата."]],["Порядок вступления",["Кандидат подаёт заявку. Совет рассматривает её до 5 рабочих дней.","Только после признания вносится взнос 15 000 ₽ — и активируется статус."]],["Членский взнос",["Взнос составляет 15 000 ₽ за 12 месяцев и не является оплатой отдельных услуг."]],["Отзыв статуса",["Статус может быть отозван при недостоверных сведениях или недобросовестных действиях."]]]);
+V.politika=()=>legal("Политика конфиденциальности","Как Nova Scout обрабатывает персональные данные в соответствии с ФЗ-152.",[["Какие данные собираем",["При подаче заявки: название проекта, описание, имена основателей, город, email и (по желанию) Telegram и сайт."]],["Цели обработки",["Рассмотрение заявки советом, связь с кандидатом, оформление статуса и размещение в реестре."]],["Права субъекта",["Вы вправе запросить доступ к данным, их уточнение или удаление: council@novascout.ru."]]]);
+V.notfound=()=>'<section class="wrap" style="min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:80px"><span class="pill">Ошибка 404</span><h1 class="disp" style="margin-top:24px;font-weight:600;font-size:64px;color:#fff">404</h1><p style="margin-top:16px;max-width:360px;color:rgba(255,255,255,.55)">Страница не найдена.</p><div style="display:flex;gap:12px;margin-top:32px"><a class="btn btn-primary" href="#/">На главную '+ico('arrow')+'</a></div></section>';
 
 /* ===================== ROUTER ===================== */
-function route(){
- const h=(location.hash||'#/').slice(1);
- const parts=h.split('/').filter(Boolean); // ['rezident','NSR..']
- const p0=parts[0]||'';
+function route(){const h=(location.hash||'#/').slice(1);const parts=h.split('/').filter(Boolean);const p0=parts[0]||'';
  if(p0==='')return V.home();
+ if(p0==='stat-rezidentom')return V.statrez();
  if(p0==='missiya')return V.missiya();
- if(p0==='rezidentstvo')return V.rezidentstvo();
- if(p0==='kak-stat')return V.kakstat();
  if(p0==='sovet')return V.sovet();
  if(p0==='reestr')return V.reestr();
  if(p0==='proverka')return V.proverka();
  if(p0==='zayavka')return V.zayavka();
- if(p0==='blog')return parts[1]?V.post(parts[1]):V.blog();
+ if(p0==='blog')return V.blog();
+ if(p0==='novosti'&&parts[1])return V.novosti(parts[1]);
  if(p0==='rezident'&&parts[1])return V.rezident(parts[1]);
  if(p0==='sertifikat'&&parts[1])return V.sertifikat(parts[1]);
  if(p0==='admin')return V.admin();
@@ -450,109 +394,78 @@ function route(){
  if(p0==='politika')return V.politika();
  return V.notfound();
 }
-function router(){
- const app=document.getElementById('app');
- const isFull=/^#\/(rezident|sertifikat|admin|oferta|politika)/.test(location.hash);
- app.innerHTML=route()+footerHTML();
- window.scrollTo(0,0);
- setActive();
- afterRender();
-}
+function router(){const app=document.getElementById('app');app.innerHTML=route()+footerHTML();window.scrollTo(0,0);setActive();afterRender();}
 function setActive(){const h=location.hash||'#/';document.querySelectorAll('.nav-links a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')===h));}
 
 /* ===================== POST-RENDER ===================== */
-let pfClean=null;
-function afterRender(){
- initParticles();initDRings();initReveal();initCount();bindView();
- const hdr=document.getElementById('hdr');hdr.classList.toggle('scrolled',window.scrollY>8);
-}
-function initReveal(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=((i%4)*70)+'ms';io.observe(el)});}
-function initCount(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const el=e.target,to=+el.dataset.count,suf=el.dataset.suf||'';let t0=null;const step=t=>{if(!t0)t0=t;const p=Math.min((t-t0)/1100,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(to*ease)+suf;if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)}),{threshold:.5});document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));}
-function initParticles(){
- if(pfClean){pfClean();pfClean=null;}
- const cv=document.querySelector('.hero-canvas');if(!cv)return;
- if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
- const ctx=cv.getContext('2d');let w,h,dpr,pts,raf,mx=-9999,my=-9999;
- function size(){dpr=Math.min(devicePixelRatio||1,2);const par=cv.parentElement;w=cv.width=innerWidth*dpr;h=cv.height=(par?par.offsetHeight:innerHeight)*dpr;cv.style.width='100%';cv.style.height='100%';const n=innerWidth<700?30:62;pts=Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.25*dpr,vy:(Math.random()-.5)*.25*dpr,r:(Math.random()*1.6+.5)*dpr}));}
- size();const onR=()=>size();const onM=e=>{const r=cv.getBoundingClientRect();mx=(e.clientX-r.left)*dpr;my=(e.clientY-r.top)*dpr;};
- addEventListener('resize',onR);addEventListener('pointermove',onM);const L=120;
- function loop(){ctx.clearRect(0,0,w,h);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>w)p.vx*=-1;if(p.y<0||p.y>h)p.vy*=-1;const dm=Math.hypot(p.x-mx,p.y-my);ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fillStyle=dm<L*dpr?'rgba(120,180,255,.9)':'rgba(150,180,230,.4)';ctx.fill();}for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<L*dpr){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle='rgba(41,141,255,'+(.16*(1-d/(L*dpr)))+')';ctx.lineWidth=dpr;ctx.stroke();}}raf=requestAnimationFrame(loop);}
- loop();pfClean=()=>{cancelAnimationFrame(raf);removeEventListener('resize',onR);removeEventListener('pointermove',onM);};
-}
-function initDRings(){document.querySelectorAll('.dring').forEach(cv=>{const ctx=cv.getContext('2d');const S=cv.width;let a=0;const red=matchMedia('(prefers-reduced-motion: reduce)').matches;function d(){ctx.clearRect(0,0,S,S);ctx.save();ctx.translate(S/2,S/2);ctx.rotate(a);const R0=S*0.22,R1=S*0.46;for(let r=R0;r<R1;r+=S*0.06){for(let t=0;t<Math.PI*2;t+=.12){ctx.beginPath();ctx.arc(Math.cos(t)*r,Math.sin(t)*r,1.3,0,7);ctx.fillStyle='rgba(90,166,255,'+(.25+.55*((r-R0)/(R1-R0)))+')';ctx.fill();}}ctx.restore();a+=.006;if(!red)requestAnimationFrame(d);}d();});}
-
-/* per-view interactivity */
-function bindView(){
- const h=(location.hash||'#/').slice(1),p0=h.split('/').filter(Boolean)[0]||'';
+function afterRender(){initReveal();bindView();document.getElementById('hdr').classList.toggle('scrolled',scrollY>8);}
+function initReveal(){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=((i%3)*60)+'ms';io.observe(el)});}
+function bindView(){const p0=(location.hash||'#/').slice(1).split('/').filter(Boolean)[0]||'';
+ if(p0==='')bindHome();
  if(p0==='reestr')bindRegistry();
  if(p0==='proverka')bindVerify();
  if(p0==='zayavka')bindApply();
  if(p0==='sertifikat')bindCert();
  if(p0==='admin')bindAdmin();
 }
-function bindRegistry(){
- const q=document.getElementById('regq'),list=document.getElementById('reglist'),count=document.getElementById('regcount');let cat='Все';
- function plural(n){const a=n%10,b=n%100;if(a===1&&b!==11)return'резидент';if(a>=2&&a<=4&&(b<10||b>=20))return'резидента';return'резидентов';}
- function draw(){const term=(q.value||'').toLowerCase();const f=DB.residents.filter(r=>{const mq=!term||[r.project,r.tagline,r.id,r.category,r.city].join(' ').toLowerCase().includes(term);const mc=cat==='Все'||r.category.startsWith(cat);return mq&&mc;});count.textContent=f.length+' '+plural(f.length);list.innerHTML=f.length?f.map(rcard).join(''):'<div class="bento" style="grid-column:1/-1;text-align:center;padding:48px;color:rgba(255,255,255,.45)">Ничего не найдено.</div>';list.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));}
+function bindHome(){
+ let qi=0,score=0,answered=false;const qb=document.getElementById('quizbody');
+ function drawQuiz(){const item=AIQUIZ[qi];answered=false;qb.innerHTML='<div class="kicker" style="margin-bottom:14px"><span class="c">Вопрос '+(qi+1)+' / '+AIQUIZ.length+'</span><span>Счёт: '+score+'</span></div><div class="quote">«'+item[0]+'»</div><div class="choice"><button class="cbtn" data-a="1">🤖 ИИ</button><button class="cbtn" data-a="0">🧑 Человек</button></div><div id="qexpl"></div>';
+  qb.querySelectorAll('.cbtn').forEach(b=>b.onclick=()=>{if(answered)return;answered=true;const guess=b.dataset.a==='1';const correct=guess===item[1];if(correct)score++;qb.querySelectorAll('.cbtn').forEach(x=>{const xg=x.dataset.a==='1';x.classList.add(xg===item[1]?'right':'wrong');x.disabled=true;});document.getElementById('qexpl').innerHTML='<div style="margin-top:18px;padding:14px 16px;border:1px solid var(--hair);border-radius:10px;font-size:14px;color:rgba(255,255,255,.6)"><b style="color:'+(correct?'#6ee7b7':'#fca5a5')+'">'+(correct?'Верно! ':'Мимо. ')+'</b>'+item[2]+'</div><button class="btn btn-ghost btn-sm" id="qnext" style="margin-top:16px">'+(qi<AIQUIZ.length-1?'Следующий':'Начать заново')+' '+ico('arrow')+'</button>';
+   document.getElementById('qnext').onclick=()=>{qi=qi<AIQUIZ.length-1?qi+1:0;if(qi===0)score=0;drawQuiz();};});}
+ if(qb)drawQuiz();
+ const gb=document.getElementById('genbtn'),go=document.getElementById('genout');
+ if(gb)gb.onclick=()=>{const pick=a=>a[Math.floor(Math.random()*a.length)];go.style.opacity=0;setTimeout(()=>{go.textContent='ИИ-'+pick(GEN_T)+' '+pick(GEN_TECH)+' '+pick(GEN_DOM);go.style.transition='opacity .3s';go.style.opacity=1;},150);};
+}
+function bindRegistry(){const q=document.getElementById('regq'),list=document.getElementById('reglist'),count=document.getElementById('regcount');let cat='Все';
+ function pl(n){const a=n%10,b=n%100;if(a===1&&b!==11)return'резидент';if(a>=2&&a<=4&&(b<10||b>=20))return'резидента';return'резидентов';}
+ function draw(){const term=(q.value||'').toLowerCase();const f=DB.residents.filter(r=>{const mq=!term||[r.project,r.tagline,r.id,r.category,r.city].join(' ').toLowerCase().includes(term);const mc=cat==='Все'||r.category.startsWith(cat);return mq&&mc;});count.textContent=f.length+' '+pl(f.length);list.innerHTML=f.length?f.map(rcard).join(''):'<div class="card" style="grid-column:1/-1;text-align:center;padding:48px;color:rgba(255,255,255,.45)">Ничего не найдено.</div>';list.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));}
  q.oninput=draw;document.querySelectorAll('#regcats .chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('#regcats .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');cat=c.dataset.c;draw();});draw();
 }
-function bindVerify(){
- const inp=document.getElementById('vid'),btn=document.getElementById('vbtn'),res=document.getElementById('vres');
+function bindVerify(){const inp=document.getElementById('vid'),btn=document.getElementById('vbtn'),res=document.getElementById('vres');
  function check(){const id=(inp.value||'').trim();if(!id)return;const r=DB.residents.find(x=>x.id.toLowerCase()===id.toLowerCase());
-  if(r){res.innerHTML='<a class="ok-box" href="#/rezident/'+r.id+'" style="display:block"><div class="badge">'+ico('check')+' Подлинность подтверждена</div><div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center"><div><div class="disp" style="font-weight:600;font-size:20px;color:#fff">'+r.project+'</div><div style="margin-top:2px;font-size:14px;color:rgba(255,255,255,.55)">'+r.tagline+'</div></div><span style="color:rgba(255,255,255,.4)">'+ico('arrow')+'</span></div><div class="idmono" style="margin-top:12px">'+r.id+' · '+r.category+'</div></a>';}
-  else{res.innerHTML='<div class="err-box"><strong>ID не найден в реестре.</strong> Проверьте правильность ID — подлинный резидент всегда есть в публичном реестре Nova.</div>';}}
+  if(r)res.innerHTML='<a class="ok-box" href="#/rezident/'+r.id+'" style="display:block"><div class="badge">'+ico('check')+' Подлинность подтверждена</div><div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center"><div><div class="disp" style="font-weight:600;font-size:20px;color:#fff">'+r.project+'</div><div style="margin-top:2px;font-size:14px;color:rgba(255,255,255,.55)">'+r.tagline+'</div></div><span style="color:rgba(255,255,255,.4)">'+ico('arrow')+'</span></div><div class="idmono" style="margin-top:12px">'+r.id+' · '+r.category+'</div></a>';
+  else res.innerHTML='<div class="err-box"><strong>ID не найден в реестре.</strong> Проверьте правильность — подлинный резидент всегда есть в публичном реестре Nova.</div>';}
  btn.onclick=check;inp.onkeydown=e=>{if(e.key==='Enter')check();};
 }
-function bindApply(){
- const zone=document.getElementById('applyzone');zone.innerHTML=applyFormHTML();
- let stage='MVP';
+function bindApply(){const zone=document.getElementById('applyzone');zone.innerHTML=applyFormHTML();let stage='MVP';
  zone.querySelectorAll('#stagechips .chip').forEach(c=>c.onclick=()=>{zone.querySelectorAll('#stagechips .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');stage=c.dataset.stage;});
- document.getElementById('applybtn').onclick=()=>{
-  const d={stage};zone.querySelectorAll('[data-f]').forEach(el=>d[el.dataset.f]=el.value.trim());
-  const req=['project','tagline','category','city','founders','email','ai','description'];
-  const miss=req.find(k=>!d[k]);const errEl=document.getElementById('applyerr');
+ document.getElementById('applybtn').onclick=()=>{const d={stage};zone.querySelectorAll('[data-f]').forEach(el=>d[el.dataset.f]=el.value.trim());
+  const req=['project','tagline','category','city','founders','email','ai','description'];const miss=req.find(k=>!d[k]);const errEl=document.getElementById('applyerr');
   if(miss){errEl.innerHTML='<div class="err-box" style="margin-top:16px">Заполните все обязательные поля.</div>';return;}
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)){errEl.innerHTML='<div class="err-box" style="margin-top:16px">Укажите корректный email.</div>';return;}
-  d.ref='AP-'+Math.random().toString(36).slice(2,8).toUpperCase();d.createdAt=new Date().toISOString().slice(0,10);d.status='new';
-  DB.applications.unshift(d);save();
-  zone.innerHTML='<div class="bento" style="position:relative;overflow:hidden;text-align:center;padding:48px"><div class="aura a2" style="width:70%;height:70%;left:50%;top:-10%;transform:translateX(-50%);opacity:.2"></div><span style="margin:0 auto;width:56px;height:56px;border-radius:50%;background:rgba(41,141,255,.15);color:var(--blue);display:flex;align-items:center;justify-content:center">'+ico('check')+'</span><h2 class="disp" style="margin-top:24px;font-weight:600;font-size:28px;color:#fff">Заявка принята</h2><p style="margin:12px auto 0;max-width:420px;color:rgba(255,255,255,.55)">Экспертный совет рассмотрит проект в течение 1–5 дней. Членский взнос — только после признания.</p><div style="margin:24px auto 0;display:inline-flex;gap:8px;align-items:center;border:1px solid var(--hair);background:rgba(255,255,255,.02);border-radius:12px;padding:12px 16px"><span class="mono">Номер заявки</span><span style="font-family:var(--mono);color:#fff">'+d.ref+'</span></div><div style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn btn-ghost" href="#/">На главную</a><a class="btn btn-primary" href="#/admin">Открыть админку →</a></div><p style="margin-top:16px;font-size:12px;color:rgba(255,255,255,.35)">Подсказка: зайдите в админку (токен nova-admin) и признайте эту заявку — проект появится в реестре с новым ID.</p></div>';
- };
+  d.ref='AP-'+Math.random().toString(36).slice(2,8).toUpperCase();d.createdAt=new Date().toISOString().slice(0,10);d.status='new';DB.applications.unshift(d);save();
+  zone.innerHTML='<div class="card" style="text-align:center;padding:48px"><span style="margin:0 auto;width:56px;height:56px;border-radius:50%;background:rgba(41,141,255,.15);color:var(--blue);display:flex;align-items:center;justify-content:center">'+ico('check')+'</span><h2 class="disp" style="margin-top:24px;font-weight:600;font-size:28px;color:#fff">Заявка принята</h2><p style="margin:12px auto 0;max-width:420px;color:rgba(255,255,255,.55)">Экспертный совет рассмотрит проект в течение 1–5 дней. Взнос — только после признания.</p><div style="margin:24px auto 0;display:inline-flex;gap:8px;align-items:center;border:1px solid var(--hair);border-radius:10px;padding:12px 16px"><span class="mono">Номер заявки</span><span style="font-family:var(--mono);color:#fff">'+d.ref+'</span></div><div style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn btn-ghost" href="#/">На главную</a><a class="btn btn-primary" href="#/admin">Открыть админку →</a></div></div>';};
 }
-function bindCert(){
- const parts=location.hash.slice(1).split('/').filter(Boolean);const id=parts[1];
- const r=DB.residents.find(x=>x.id.toLowerCase()===String(id).toLowerCase());const cv=document.getElementById('certqr');
- if(r&&cv&&window.QRCode){const url=location.origin+location.pathname+'#/rezident/'+r.id;window.QRCode.toCanvas(cv,url,{margin:0,width:120,color:{dark:'#ffffff',light:'#00000000'}},()=>{});}
-}
+function bindCert(){const id=location.hash.slice(1).split('/').filter(Boolean)[1];const r=DB.residents.find(x=>x.id.toLowerCase()===String(id).toLowerCase());const cv=document.getElementById('certqr');
+ if(r&&cv&&window.QRCode){const url=location.origin+location.pathname+'#/rezident/'+r.id;window.QRCode.toCanvas(cv,url,{margin:0,width:120,color:{dark:'#ffffff',light:'#00000000'}},()=>{});}}
 function bindAdmin(){
- if(sessionStorage.getItem('nova_admin_ok')!=='1'){
-  const btn=document.getElementById('alogin'),inp=document.getElementById('atoken');
-  const go=()=>{if((inp.value||'').trim()==='nova-admin'){sessionStorage.setItem('nova_admin_ok','1');router();}else{document.getElementById('aerr').innerHTML='<div class="err-box" style="margin-top:12px">Неверный токен.</div>';}};
-  btn.onclick=go;inp.onkeydown=e=>{if(e.key==='Enter')go();};return;
- }
+ if(sessionStorage.getItem('nova_admin_ok')!=='1'){const btn=document.getElementById('alogin'),inp=document.getElementById('atoken');const go=()=>{if((inp.value||'').trim()==='nova-admin'){sessionStorage.setItem('nova_admin_ok','1');router();}else document.getElementById('aerr').innerHTML='<div class="err-box" style="margin-top:12px">Неверный токен.</div>';};btn.onclick=go;inp.onkeydown=e=>{if(e.key==='Enter')go();};return;}
  document.getElementById('alogout').onclick=()=>{sessionStorage.removeItem('nova_admin_ok');router();};
- let filter='all';
- document.querySelectorAll('#afilters .chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('#afilters .chip').forEach(x=>x.classList.remove('on'));c.classList.add('on');filter=c.dataset.fs;applyFilter();});
- function applyFilter(){document.querySelectorAll('#alist [data-app]').forEach(el=>{const a=DB.applications.find(x=>x.ref===el.dataset.app);el.style.display=(filter==='all'||a.status===filter)?'':'none';});}
- document.querySelectorAll('#alist [data-act]').forEach(b=>b.onclick=()=>{
-  const ref=b.dataset.ref,act=b.dataset.act,app=DB.applications.find(x=>x.ref===ref);if(!app)return;
-  app.status=act;
-  if(act==='recognized'&&!app.residentId){const id=nextId();app.residentId=id;DB.residents.unshift({id,project:app.project,tagline:app.tagline,description:app.description,category:app.category,city:app.city,website:app.website||"",founders:app.founders,recognizedAt:new Date().toISOString().slice(0,10)});}
-  save();router();
- });
+ document.querySelectorAll('.tabbtn').forEach(b=>b.onclick=()=>{adminTab=b.dataset.tab;newsEditId=null;router();});
+ document.querySelectorAll('#afilters .chip').forEach(c=>c.onclick=()=>{appFilter=c.dataset.fs;router();});
+ document.querySelectorAll('[data-aact]').forEach(b=>b.onclick=()=>{const app=DB.applications.find(x=>x.ref===b.dataset.ref);if(!app)return;app.status=b.dataset.aact;if(b.dataset.aact==='recognized'&&!app.residentId){const id=nextId();app.residentId=id;const today=new Date().toISOString().slice(0,10);DB.residents.unshift({id,project:app.project,tagline:app.tagline,description:app.description,category:app.category,city:app.city,website:app.website||"",founders:app.founders,email:app.email,telegram:app.telegram||"",recognizedAt:today,expiresAt:plusYear(today)});}save();router();});
+ document.querySelectorAll('[data-ext]').forEach(b=>b.onclick=()=>{const r=DB.residents.find(x=>x.id===b.dataset.id);if(!r)return;r.expiresAt=addTime(r.expiresAt,b.dataset.ext);save();router();});
+ document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const r=DB.residents.find(x=>x.id===b.dataset.del);if(!r)return;if(!confirm('Убрать «'+r.project+'» ('+r.id+') из реестра? Действие необратимо.'))return;DB.residents=DB.residents.filter(x=>x.id!==b.dataset.del);save();router();});
+ document.querySelectorAll('[data-nedit]').forEach(b=>b.onclick=()=>{newsEditId=b.dataset.nedit;router();});
+ document.querySelectorAll('[data-ndel]').forEach(b=>b.onclick=()=>{const n=DB.news.find(x=>x.id===b.dataset.ndel);if(!n)return;if(!confirm('Удалить новость «'+n.title+'»?'))return;DB.news=DB.news.filter(x=>x.id!==b.dataset.ndel);save();router();});
+ const ncancel=document.getElementById('nf-cancel');if(ncancel)ncancel.onclick=()=>{newsEditId=null;router();};
+ const nsave=document.getElementById('nf-save');if(nsave)nsave.onclick=()=>{
+  const t=document.getElementById('nf-title').value.trim(),cat=document.getElementById('nf-cat').value.trim(),date=document.getElementById('nf-date').value,exc=document.getElementById('nf-exc').value.trim(),body=document.getElementById('nf-body').value.trim();
+  if(!t||!cat||!exc){document.getElementById('nf-err').innerHTML='<div class="err-box" style="margin-top:14px">Заполните заголовок, категорию и описание.</div>';return;}
+  const bodyArr=body?body.split(/\n+/).filter(Boolean):[exc];
+  if(newsEditId){const n=DB.news.find(x=>x.id===newsEditId);Object.assign(n,{title:t,cat,date,excerpt:exc,body:bodyArr});newsEditId=null;}
+  else DB.news.unshift({id:'n'+Date.now(),title:t,cat,date,excerpt:exc,ph:Math.random()>.5?'ph-grad':'ph-mesh',body:bodyArr});
+  save();router();};
 }
 
 /* ===================== GLOBAL FX + BOOT ===================== */
-(function fx(){
- const fine=matchMedia('(pointer:fine)').matches;if(!fine)return;
- const cg=document.getElementById('cglow');
+(function fx(){if(!matchMedia('(pointer:fine)').matches)return;const cg=document.getElementById('cglow');
  addEventListener('pointermove',e=>{cg.style.opacity='1';cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';const card=e.target.closest&&e.target.closest('.spot');if(card){const r=card.getBoundingClientRect();card.style.setProperty('--mx',(e.clientX-r.left)+'px');card.style.setProperty('--my',(e.clientY-r.top)+'px');}});
- document.addEventListener('pointerleave',()=>cg.style.opacity='0');
-})();
+ document.addEventListener('pointerleave',()=>cg.style.opacity='0');})();
 addEventListener('scroll',()=>document.getElementById('hdr').classList.toggle('scrolled',scrollY>8));
 addEventListener('hashchange',router);
-renderShell();
-if(!location.hash)location.hash='#/';
-router();
+renderShell();if(!location.hash)location.hash='#/';router();
 </script>
 </body>
 </html>
